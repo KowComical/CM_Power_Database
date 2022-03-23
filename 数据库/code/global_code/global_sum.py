@@ -1,3 +1,5 @@
+import datetime
+
 import pandas as pd
 import numpy as np
 import re
@@ -75,7 +77,7 @@ for x in df_all.columns.tolist():
     except:
         pass
 af.time_info(df_all, 'date')
-df_all = df_all[(df_all['year'] >= 2019) & (df_all['year'] <= 2021)].reset_index(drop=True)
+
 df_all = df_all.set_index(
     ['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country']).stack().reset_index().rename(
     columns={'level_7': 'Type', 0: 'Value'})
@@ -84,10 +86,15 @@ df_all = df_all[df_all['Type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', '
 df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'UK')
 df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
 df_all['country'] = df_all['country'].str.replace('Us', 'United States')
-df_all.to_csv(file_path + 'global\\global.csv', index=False, encoding='utf_8_sig')
+
+col_list = ['date', 'country', 'Type', 'Value']
+yesterday = af.get_yesterday().strftime('%Y-%m-%d')
+df_all = df_all[df_all['date'] < yesterday].reset_index(drop=True)
+df_all[col_list].to_csv(file_path + 'global\\global.csv', index=False, encoding='utf_8_sig')
 df_pivot = pd.pivot_table(df_all, index=['month_date', 'country', 'Type'], values='Value', columns='year').reset_index()
 df_pivot.to_csv(file_path + 'global\\global_line_chart.csv', index=False, encoding='utf_8_sig')
 
+df_all = df_all[(df_all['year'] >= 2019) & (df_all['year'] <= 2021)].reset_index(drop=True)
 df_all['date'] = pd.to_datetime(df_all['date'])
 df_all = df_all.drop(columns=['weekday', 'month', 'unit'])
 index_list = ['month_date', 'country', 'Type']
@@ -101,4 +108,3 @@ df_relative['date'] = df_relative['year'].astype(str) + '-' + df_relative['month
 df_relative['date'] = pd.to_datetime(df_relative['date'])
 df_relative['month'] = df_relative['date'].dt.month
 df_relative.to_csv(file_path + 'global\\global_relative.csv', index=False, encoding='utf_8_sig')
-

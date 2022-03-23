@@ -7,6 +7,12 @@
 # df_simulated_daily 时间列 = ['date','year','month','month_date','weekday'] unit = ['Gwh']
 # df_simulated_monthly 时间列 = ['year','month'] unit = ['Gwh']
 # ###########################function#########################################
+def get_yesterday():
+    import datetime
+    yesterday = datetime.date.today() + datetime.timedelta(-1)
+    return yesterday
+
+
 def search_file(file_path):
     import os
     file_name = []
