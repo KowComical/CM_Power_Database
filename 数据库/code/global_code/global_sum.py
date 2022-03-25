@@ -87,14 +87,15 @@ df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'UK')
 df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
 df_all['country'] = df_all['country'].str.replace('Us', 'United States')
 
-col_list = ['date', 'country', 'Type', 'Value']
+col_list = ['date', 'year','country', 'Type', 'Value']
 yesterday = af.get_yesterday().strftime('%Y-%m-%d')
 df_all = df_all[df_all['date'] < yesterday].reset_index(drop=True)
+df_all['year'] = df_all['date'].dt.year
 df_all[col_list].to_csv(file_path + 'global\\global.csv', index=False, encoding='utf_8_sig')
 df_pivot = pd.pivot_table(df_all, index=['month_date', 'country', 'Type'], values='Value', columns='year').reset_index()
 df_pivot.to_csv(file_path + 'global\\global_line_chart.csv', index=False, encoding='utf_8_sig')
 
-df_all = df_all[(df_all['year'] >= 2019) & (df_all['year'] <= 2021)].reset_index(drop=True)
+df_all = df_all[(df_all['year'] >= 2019) & (df_all['year'] <= 2022)].reset_index(drop=True)
 df_all['date'] = pd.to_datetime(df_all['date'])
 df_all = df_all.drop(columns=['weekday', 'month', 'unit'])
 index_list = ['month_date', 'country', 'Type']
@@ -108,3 +109,25 @@ df_relative['date'] = df_relative['year'].astype(str) + '-' + df_relative['month
 df_relative['date'] = pd.to_datetime(df_relative['date'])
 df_relative['month'] = df_relative['date'].dt.month
 df_relative.to_csv(file_path + 'global\\global_relative.csv', index=False, encoding='utf_8_sig')
+
+df_relative = pd.pivot_table(
+    df_all, index=['month_date', 'country', 'Type'], values='Value', columns='year').reset_index()
+df_relative.to_csv(file_path + 'global\\global_relative_line_chart.csv', index=False, encoding='utf_8_sig')
+
+
+# ############################################################################
+# df_all = df_all[(df_all['year'] >= 2021) & (df_all['year'] <= 2022)].reset_index(drop=True)
+# df_all['date'] = pd.to_datetime(df_all['date'])
+# df_all = df_all.drop(columns=['weekday', 'month', 'unit'])
+# index_list = ['month_date', 'country', 'Type']
+# df_2021 = df_all[df_all['year'] == 2021].set_index(index_list)
+# df_rest = df_all[df_all['year'] != 2021].set_index(index_list)
+#
+# df_relative = (df_rest - df_2021).reset_index().dropna().drop(columns=['date'])
+# df_relative['year'] += 2021
+# df_relative['year'] = df_relative['year'].astype(int)
+# df_relative['date'] = df_relative['year'].astype(str) + '-' + df_relative['month_date'].astype(str)
+# df_relative['date'] = pd.to_datetime(df_relative['date'])
+# df_relative['month'] = df_relative['date'].dt.month
+# df_relative.to_csv(file_path + 'global\\global_relative_2022.csv', index=False, encoding='utf_8_sig')
+
