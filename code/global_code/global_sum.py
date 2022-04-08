@@ -1,18 +1,16 @@
 import pandas as pd
 import numpy as np
 import re
-import os
 import sys
+import time
+from datetime import datetime, timezone
 
 module_path_string = "K:\\Github\\GlobalPowerUpdate-Kow\\code\\global_code"
 sys.path.append(module_path_string)
 import global_function as af
 
 file_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\'
-file_name = []
-for parent, dirnames, filenames in os.walk(file_path):
-    for fn in filenames:
-        file_name.append(os.path.join(parent, fn))
+file_name = af.search_file(file_path)
 file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
 file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
 file_name_no = [file_name[i] for i, x in enumerate(file_name) if not x.find('eu27_uk') != -1]
@@ -62,13 +60,6 @@ df_eu_all = pd.DataFrame(np.concatenate(result_eu_all), columns=df_temp.columns)
 df_eu_all = df_eu_all.groupby(['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country']).sum().reset_index()
 df_all = pd.concat([df_all, df_eu_all]).reset_index(drop=True)
 
-# russia
-file_name_russia = [file_name_no[i] for i, x in enumerate(file_name_no) if x.find('russia') != -1]
-df_russia = pd.concat([pd.read_csv(f) for f in file_name_russia]).drop(
-    columns=['P_BS', 'renewables', 'P_BS.perc', 'renewables.perc'])
-df_russia['country'] = 'Russia'
-
-df_all = pd.concat([df_all, df_russia]).reset_index(drop=True)
 for x in df_all.columns.tolist():
     try:
         df_all[x] = df_all[x].astype(float)
@@ -81,7 +72,7 @@ df_all = df_all.set_index(
     columns={'level_7': 'Type', 0: 'Value'})
 df_all = df_all[df_all['Type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other'])].reset_index(
     drop=True)
-df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'UK')
+df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'United Kingdom')
 df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
 df_all['country'] = df_all['country'].str.replace('Us', 'United States')
 
@@ -89,8 +80,40 @@ col_list = ['date', 'year', 'country', 'Type', 'Value']
 yesterday = af.get_yesterday().strftime('%Y-%m-%d')
 df_all = df_all[df_all['date'] < yesterday].reset_index(drop=True)
 df_all['year'] = df_all['date'].dt.year
+df_all = pd.pivot_table(df_all, index=['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country'],
+                        values='Value', columns='Type').reset_index()
+# 只要6个国家
+country_list = ['India', 'United States', 'EU27&UK', 'United Kingdom', 'Brazil', 'China', 'Japan']
+df_all = df_all[
+    (df_all['year'] == 2021) & (df_all['month'] == 12) & (df_all['country'].isin(country_list))].reset_index(drop=True)
 
-df_all[df_all['year'] >= 2017].to_csv(file_path + 'global\\global.csv', index=False, encoding='utf_8_sig')
+df_all = df_all[['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']]
+df_all = df_all.set_index(['country', 'date']).stack().reset_index().rename(
+    columns={'Type': 'energy_source', 0: 'value', 'country': 'country/region'})
+
+time_stamp = []  # 将当地时间转换为时间戳
+for d in df_all['date'].tolist():
+    time_stamp.append(time.mktime(d.timetuple()))
+df_all['timestamp'] = time_stamp
+
+utc_time = []  # 将当地时间时间戳转换为utc时间
+for t in df_all['timestamp'].tolist():
+    utc_time.append(datetime.fromtimestamp(t, tz=timezone.utc))
+df_all['utc'] = utc_time
+
+time_stamp = []  # 将utc时间转换为utc时间戳
+for d in df_all['utc'].tolist():
+    time_stamp.append(time.mktime(d.timetuple()))
+df_all['timestamp'] = time_stamp
+df_all = df_all[['country/region', 'date', 'energy_source', 'value', 'timestamp']]
+df_all['date'] = df_all['date'].dt.strftime('%d/%m/%Y')
+df_t = df_all.groupby(['date', 'energy_source', 'timestamp']).sum().reset_index()
+df_t['country/region'] = 'Total'
+df_all = pd.concat([df_all, df_t])
+df_all.to_csv(
+    file_path + 'global\\Global_PM_corT_2021.12.csv', index=False,
+    encoding='utf_8_sig')
+
 # df_all[col_list].to_csv(file_path + 'global\\global.csv', index=False, encoding='utf_8_sig')
 # df_pivot = pd.pivot_table(df_all, index=['month_date', 'country', 'Type'], values='Value', columns='year').reset_index()
 # df_pivot.to_csv(file_path + 'global\\global_line_chart.csv', index=False, encoding='utf_8_sig')
@@ -130,6 +153,3 @@ df_all[df_all['year'] >= 2017].to_csv(file_path + 'global\\global.csv', index=Fa
 # # df_relative['date'] = pd.to_datetime(df_relative['date'])
 # # df_relative['month'] = df_relative['date'].dt.month
 # # df_relative.to_csv(file_path + 'global\\global_relative_2022.csv', index=False, encoding='utf_8_sig')
-#
-
-

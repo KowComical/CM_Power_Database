@@ -7,6 +7,105 @@
 # df_simulated_daily 时间列 = ['date','year','month','month_date','weekday'] unit = ['Gwh']
 # df_simulated_monthly 时间列 = ['year','month'] unit = ['Gwh']
 # ###########################function#########################################
+def japan_download_Csvformat(u, in_path, name, start_date):
+    from datetime import datetime
+    import urllib.request
+    import pandas as pd
+    import os
+    file_n = search_file(in_path)
+    file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
+    date = []
+    for file in file_n:
+        date.append(name.findall(file)[0])
+    if not date:
+        start_date = start_date
+    else:
+        start_date = int(max(date))
+    if len(str(start_date)) == 4:  # 如果是年份
+        end_date = datetime.now().strftime("%Y")
+        for i in range(start_date, int(end_date) + 1):
+            fileName = in_path + '/%s.csv' % i
+            print(u % i)
+            urllib.request.urlretrieve(u % i, fileName)
+    else:
+        end_date = datetime.now().strftime("%Y%m%d")
+        for month in pd.date_range(start_date, end_date, freq='D'):
+            dateRange = month.strftime('%Y%m%d')
+            fileName = in_path + '\\%s.csv' % dateRange
+            if os.path.exists(fileName):
+                continue
+            print(u % dateRange)
+            urllib.request.urlretrieve(u % dateRange, fileName)
+
+
+def japan_download_Zipformat(u, in_path, name):
+    import os
+    from datetime import datetime
+    from tqdm import tqdm
+    import pandas as pd
+    from dateutil.relativedelta import relativedelta
+    import urllib.request
+    import zipfile
+    file_n = search_file(in_path)
+    file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
+    date = []
+    for file in file_n:
+        date.append(name.findall(file)[0])
+    if not date:
+        start_date = '20190101'
+    else:
+        start_date = max(date)
+    end_date = datetime.now().strftime("%Y%m%d")
+
+    for month in tqdm(pd.date_range(start_date, end_date, freq='3MS')):
+        dateRange = month.strftime('%Y%m') + '-' + (month + relativedelta(months=+2)).strftime('%m')
+        fileName = in_path + '/%s_hokkaido_denkiyohou.zip' % dateRange
+        print(u % dateRange)
+        urllib.request.urlretrieve(u % dateRange, fileName)
+        zip_file = zipfile.ZipFile(fileName)
+        zip_file.extractall(path=in_path)
+    # delete unused zip
+    file_n = search_file(in_path)
+    file_zip = [file_n[i] for i, x in enumerate(file_n) if x.find('.zip') != -1]
+    for f in file_zip:
+        os.remove(f)
+
+
+def japan_extractData(in_path, out_path, name, directory, date, ty):
+    import pandas as pd
+    if ty == 'ez':
+        file_n = search_file(in_path)
+        file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
+        df = pd.concat(pd.read_csv(f, header=1, encoding='Shift_JIS') for f in file_n)
+        df.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
+    else:
+        result = pd.DataFrame()
+        file_n = search_file(in_path)
+        file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
+        for f in file_n:
+            if name.findall(f)[0] > date:
+                df = pd.read_csv(f, skiprows=13, nrows=24, encoding='Shift_JIS')
+            else:
+                df = pd.read_csv(f, skiprows=7, nrows=24, encoding='Shift_JIS')
+            result = pd.concat([result, df])
+        result = result.dropna(axis=1, how='all')
+        result.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
+
+
+def japan_path(company):
+    import os
+    # 输入路径
+    in_path = '../../../data/asia/japan/craw/%s' % company
+    if not os.path.exists(in_path):
+        os.mkdir(in_path)
+
+    # 输出路径
+    out_path = '../../../data/asia/japan/raw/company/'
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
+    return in_path, out_path
+
+
 def get_yesterday():
     import datetime
     yesterday = datetime.date.today() + datetime.timedelta(-1)
@@ -16,17 +115,17 @@ def get_yesterday():
 def search_file(file_path):
     import os
     file_name = []
-    for parent, dirnames, filenames in os.walk(file_path):
+    for parent, surnames, filenames in os.walk(file_path):
         for fn in filenames:
             file_name.append(os.path.join(parent, fn))
     return file_name
 
 
-def xunlei(url, downpath):
+def xunlei(url, down_path):
     from win32com.client import Dispatch
     filename = url.split('/')[-1]
     thunder = Dispatch('ThunderAgent.Agent64.1')
-    thunder.AddTask(url, filename, downpath)
+    thunder.AddTask(url, filename, down_path)
     thunder.CommitTasks()
 
 
@@ -58,7 +157,7 @@ def draw_pic(country):
 
     df_all = pd.concat(pd.read_csv(f) for f in file_name if country == name.findall(f)[0])
     df_all = df_all.set_index(['date', 'year', 'month', 'month_date', 'weekday', 'unit']).stack().reset_index().rename(
-        columns={'level_6': 'type', 0: 'value'})
+        columns={'level_6': 'ty', 0: 'value'})
     df_all = df_all.groupby(['date', 'year', 'month']).sum().reset_index()
     df_all = df_all[df_all['year'] >= 2019].reset_index(drop=True)
     df_all = df_all[:-1]  # 最后一天的数据一般都不准确
@@ -142,7 +241,6 @@ def write_pic(file_path, country):
                 y2 = iea[z]
                 plt.plot(x, y1, color='red', label='simulated')
                 plt.plot(x, y2, label='iea')
-                # plt.tick_params(labelsize=font_size)
                 plt.xlabel('Year', size=font_size)
                 plt.ylabel('Emissions', size=font_size)
                 plt.rcParams.update({'font.size': 15})
@@ -159,7 +257,8 @@ def create_folder(file_path, Type):  # 建立需要的文件夹
     return out_path
 
 
-def check_col(df, Type):  # 检查数据的现存列名是否一致 如果不一致就删掉多余的
+def check_col(df, Type):
+    r_col = []  # 检查数据的现存列名是否一致 如果不一致就删掉多余的
     if Type == 'hourly':  # 如果是simulated_hourly
         r_col = ['unit', 'datetime', 'date', 'year', 'month', 'month_date', 'weekday', 'hour', 'coal', 'oil', 'gas',
                  'nuclear', 'hydro', 'wind', 'solar', 'other', 'fossil', 'low.carbon', 'total.prod', 'coal.perc',
@@ -185,8 +284,8 @@ def time_b_a(x, which):  # 根据which 选择得到所选日期的前which天或
     import datetime
     myday = datetime.datetime.strptime(x, '%Y-%m-%d')
     delta = datetime.timedelta(days=which)
-    my_yestoday = myday + delta
-    my_yes_time = my_yestoday.strftime('%Y-%m-%d')
+    my_yesterday = myday + delta
+    my_yes_time = my_yesterday.strftime('%Y-%m-%d')
     return my_yes_time
 
 
@@ -271,7 +370,7 @@ def total_proc(df, unit=True):  # 处理数据
     df['fossil'] = df[fossil_list].astype(float).sum(axis=1)
     df['low.carbon'] = df[carbon_list].astype(float).sum(axis=1)
     df['total.prod'] = df[perc_list].astype(float).sum(axis=1)
-    if unit == True:
+    if unit:
         for z in df.columns.tolist():
             if df[z].dtype == float:
                 df[z] = df[z] / 1000
@@ -286,7 +385,7 @@ def agg(df, date_name, path, Type, name, folder, unit):  # 输出
     time_info(df, date_name)
     total_proc(df, unit)
     df = check_col(df, Type)
-    if folder == True:
+    if folder:
         out_path = create_folder(path, Type)
         out_file = out_path + name
     else:

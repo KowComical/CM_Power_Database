@@ -1,6 +1,5 @@
 import sys
 import eu_craw as c
-import eu_craw_raw as cr
 import uk_bmrs as u
 
 
@@ -14,8 +13,7 @@ import global_function as af
 c.main()
 # 爬取bmrs数据
 u.main()
-# 处理entose数据
-cr.main()
+
 # 处理数据
 g.eu()
 # 作图

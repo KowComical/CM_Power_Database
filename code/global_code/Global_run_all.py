@@ -15,14 +15,19 @@ module_path_string = 'K:\\Github\\GlobalPowerUpdate-Kow\\code\\asian\\india'
 sys.path.append(module_path_string)
 module_path_string = 'K:\\Github\\GlobalPowerUpdate-Kow\\code\\asian\\japan'
 sys.path.append(module_path_string)
+module_path_string = 'K:\\Github\\GlobalPowerUpdate-Kow\\code\\asian\\china'
+sys.path.append(module_path_string)
 
-import brazil
+# from n_america.us import us
+
+
 import us
-import russia
+import brazil
 import eu
+import russia
 import india
 import japan
+import china
 
 end = time.perf_counter()
 print("运行耗时", round(end))
-

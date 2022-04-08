@@ -34,10 +34,10 @@
 #         if 'UTC' in dic['name']:
 #             df_temp = pd.DataFrame(dic['data'])
 #             df_temp.columns = ['datetime', 'net_gen']
-#             df_temp['type'] = name.findall(dic['name'])[0]
+#             df_temp['ty'] = name.findall(dic['name'])[0]
 #             result.append(df_temp)
 # df_result = pd.DataFrame(np.concatenate(result), columns=df_temp.columns)
-# df_result = pd.pivot_table(df_result, index='datetime', values='net_gen', columns='type').reset_index()
+# df_result = pd.pivot_table(df_result, index='datetime', values='net_gen', columns='ty').reset_index()
 # df_result['datetime'] = pd.to_datetime(df_result['datetime'], format='%Y/%m/%d %H:%M:%S')
 #
 #
@@ -77,12 +77,12 @@
 #                 if j['series']:
 #                     df_temp = pd.DataFrame(j['series'][0]['data'])
 #                     df_temp.columns = ['datetime', 'net_gen']
-#                     df_temp['type'] = name.findall(j['series'][0]['name'])[0]
+#                     df_temp['ty'] = name.findall(j['series'][0]['name'])[0]
 #                     result_data.append(df_temp)
 #     df = pd.DataFrame(np.concatenate(result_data), columns=df_temp.columns)
 #     df['datetime'] = pd.to_datetime(df['datetime'], format='%Y/%m/%d %H:%M:%S')
-#     df = df.groupby(['datetime', 'type']).sum().reset_index()
-#     df = pd.pivot_table(df, index='datetime', values='net_gen', columns='type').reset_index()
+#     df = df.groupby(['datetime', 'ty']).sum().reset_index()
+#     df = pd.pivot_table(df, index='datetime', values='net_gen', columns='ty').reset_index()
 #     df.to_csv(file_path + 'raw.csv', index=False, encoding='utf_8_sig')
 #
 #

@@ -18,7 +18,7 @@ def main():
     path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\asia\\india\\craw\\'
     url = "https://posoco.in/reports/daily-reports/daily-reports-%s/"
     endYear = datetime.datetime.utcnow().year  # 获取当前年份
-    for year in range(endYear - 1, endYear):
+    for year in range(endYear - 1, endYear + 1):
         date_range = str(year) + '-' + str(year + 1)[2:]
         if not os.path.exists(os.path.join(path, '0_original_pdf_file', date_range)):
             os.mkdir(os.path.join(path, '0_original_pdf_file', date_range))

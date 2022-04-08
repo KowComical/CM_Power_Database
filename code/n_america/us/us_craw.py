@@ -16,8 +16,6 @@ def main():
     import datetime
     import dateutil
     from tqdm import tqdm
-    import ssl
-    ssl._create_default_https_context = ssl._create_unverified_context
     import sys
 
     module_path_string = "K:\\Github\\GlobalPowerUpdate-Kow\\code\\global_code"
@@ -26,7 +24,8 @@ def main():
     import global_function as af
 
     path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\n_america\\us\\craw\\'
-    startDate = datetime.datetime.now().strftime('%Y%m') + '01'  # 当月第一天 数据最起码要一个月间隔
+    startDate = (datetime.date.today().replace(day=1) -
+                 datetime.timedelta(days=1)).strftime("%Y%m") + '01'  # 上月第一天 间隔起码一个月
     endDate = datetime.datetime.now().strftime('%Y%m%d')
     interval = 'hourly'
     regions = pd.read_csv(os.path.join(path, 'EIA_Regions.csv'))
@@ -46,7 +45,7 @@ def main():
             outfile = os.path.join(outfile_path, 'US_EIA_Regional_%s.csv' % (interval + '_' + r))
             # NG for net generation; US48 for 48 states in US; no more than 365 days are chosen
             url = 'https://www.eia.gov/electricity/930-api/region_data_by_fuel_type/series_data?' \
-                  'type[0]=NG' \
+                  'ty[0]=NG' \
                   '&respondent[0]=' + r + \
                   '&start=' + sDate + ' 00:00:00' \
                                       '&end=' + eDate + ' 23:59:59' \

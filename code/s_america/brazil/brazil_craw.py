@@ -19,7 +19,7 @@
 # http://www.ons.org.br/Paginas/resultados-da-operacao/historico-da-operacao
 # The data could be only requested via tableau system
 # This script is used to stimulate a request to tableau online system
-# Key words: Tableau; Brazil; Electricity
+# Keywords: Tableau; Brazil; Electricity
 
 
 import pandas as pd
@@ -29,6 +29,9 @@ import jsonpath
 import datetime
 import os
 from requests_toolbelt import MultipartEncoder
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 types = ["Wind", "Hydro", "Nuclear", "Solar", "Thermal"]
 thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural',
@@ -38,7 +41,7 @@ path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\s_america\\brazil\\raw'
 if not os.path.exists(path):
     os.mkdir(path)
 # Set time period
-endDate = datetime.datetime.now().strftime('%m/%d/%Y')
+endDate = datetime.datetime.now().strftime('%d/%m/%Y')
 
 
 def main():
@@ -47,7 +50,7 @@ def main():
         filename = os.path.join(path, 'Brazil_ONS_%s.csv' % timeResolution)
         sessionID = initialSession()
 
-        startDate = '1/1/2016'
+        startDate = '01/01/2016'
         setPeriod(sessionID, startDate, endDate)
         setTimeResolution(sessionID, timeResolution)
 
@@ -68,6 +71,7 @@ def main():
             all = pd.merge(all, df, how='outer')
 
         # Export data to file
+        all['Date'] = pd.to_datetime(all['Date'], format="%d/%m/%Y %H:%M", errors='coerce')
         all.sort_values(by='Date', inplace=True)
         all.to_csv(filename, index=False)
         print('The result have been saved to %s' % filename)
@@ -76,13 +80,13 @@ def main():
 # initialize a new session to the tableau server
 def initialSession():
     url = 'https://tableau.ons.org.br/t/ONS_Publico/views/GeraodeEnergia/HistricoGeraodeEnergia?:embed=y' \
-          '&:showAppBanner=false&:showShareOptions=true&:display_count=no&:showVizHome=no '
+          '&:showAppBanner=false&:showShareOptions=true&:display_count=no&:showVizHome=no'
     res = requests.get(url, verify=False)
     sessionID = res.headers['X-Session-Id']
     print('Successfully created a new session [%s]...' % sessionID)
 
     # Setting the session UI
-    playload = {
+    play_load = {
         'sheet_id:': 'Hist%C3%B3rico%20Gera%C3%A7%C3%A3o%20de%20Energia',
         'worksheetPortSize': '{"w":843,"h":771}',
         'dashboardPortSize': '{"w":843,"h":771}',
@@ -109,10 +113,10 @@ def initialSession():
     }
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/bootstrapSession' \
           '/sessions/%s' % sessionID
-    res = requests.post(url, data=playload, verify=False)
+    res = requests.post(url, data=play_load, verify=False)
     print('Initialize Session...')
 
-    # Setting paramters
+    # Setting parameters
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/sessions/%s' \
           '/commands/tabdoc/set-parameter-value' % sessionID
 
@@ -130,10 +134,10 @@ def initialSession():
 
 # Command to the tableau UI
 def command(url, fields):
-    playload = MultipartEncoder(
+    play_load = MultipartEncoder(
         fields=fields
     )
-    res = requests.post(url, data=playload, headers={'Content-Type': playload.content_type})
+    res = requests.post(url, data=play_load, headers={'Content-Type': play_load.content_type})
     return res
 
 
@@ -142,7 +146,7 @@ def setPeriod(sessionID, startDate, endDate):
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/sessions/%s' \
           '/commands/tabdoc/set-parameter-value' % sessionID
 
-    # Set start date as startDate..
+    # Set start date as startDate
     fields = {
         'globalFieldName': '[Parameters].[Início Primeiro Período GE Comp 3 (cópia)]',
         'valueString': startDate,
@@ -176,7 +180,7 @@ def setTimeResolution(sessionID, timeResolution):
     print('Time Resolution %s...' % timeResolution)
 
 
-# Set production type
+# Set production ty
 def setProductionType(sessionID, t):
     # Setting production types
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/sessions/%s' \
@@ -224,7 +228,7 @@ def resolveData(sessionID, t):
     viewID = jsonpath.jsonpath(data, '$..Simples Geração de Energia Dia')[0]
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/vudcsv/sessions' \
           '/%s/views/%s?summary=true' % (
-        sessionID, viewID)
+              sessionID, viewID)
     df = pd.read_csv(url).dropna()
     result = df[['Data Dica', 'Selecione Tipo de GE Simp 4']]
     return result
@@ -236,7 +240,7 @@ def resolveThermalData(sessionID, t):
     viewID = jsonpath.jsonpath(data, '$..Simples Geração de Energia Dia')[0]
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/vudcsv/sessions' \
           '/%s/views/%s?summary=true' % (
-        sessionID, viewID)
+              sessionID, viewID)
     # print(url)
     df = pd.read_csv(url).dropna()
     result = df[['Data Dica', 'Selecione Tipo de GE Simp 4']]
