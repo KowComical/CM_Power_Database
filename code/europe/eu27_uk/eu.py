@@ -1,20 +1,17 @@
-import sys
-import eu_craw as c
-import uk_bmrs as u
+def main():
+    from europe.eu27_uk import eu_craw as c
+    from europe.eu27_uk import uk_bmrs as u
+    from global_code import global_all as g
+    from global_code import global_function as af
+
+    c.main()  # 爬取entose数据
+
+    u.main()  # 爬取bmrs数据
+
+    g.eu()  # 处理数据
+
+    af.draw_pic('eu27_uk')  # 作图
 
 
-module_path_string = "K:\\Github\\GlobalPowerUpdate-Kow\\code\\global_code"
-sys.path.append(module_path_string)
-
-import global_all as g
-import global_function as af
-
-# 爬取entose数据
-c.main()
-# 爬取bmrs数据
-u.main()
-
-# 处理数据
-g.eu()
-# 作图
-af.draw_pic('eu27_uk')
+if __name__ == '__main__':
+    main()

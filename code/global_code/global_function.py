@@ -20,10 +20,10 @@ def japan_download_Csvformat(u, in_path, name, start_date):
     if not date:
         start_date = start_date
     else:
-        start_date = int(max(date))
+        start_date = str(int(max(date)))
     if len(str(start_date)) == 4:  # 如果是年份
         end_date = datetime.now().strftime("%Y")
-        for i in range(start_date, int(end_date) + 1):
+        for i in range(int(start_date), int(end_date) + 1):
             fileName = in_path + '/%s.csv' % i
             print(u % i)
             urllib.request.urlretrieve(u % i, fileName)
@@ -38,7 +38,7 @@ def japan_download_Csvformat(u, in_path, name, start_date):
             urllib.request.urlretrieve(u % dateRange, fileName)
 
 
-def japan_download_Zipformat(u, in_path, name):
+def japan_download_Zipformat(u, in_path, name, start_date, freq):
     import os
     from datetime import datetime
     from tqdm import tqdm
@@ -49,21 +49,30 @@ def japan_download_Zipformat(u, in_path, name):
     file_n = search_file(in_path)
     file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
     date = []
+    # 这里有一个bug
+    # 比如 当数据更新到3月30日时 连着好几天没有更新数据 一直到4月17号才更新
+    # 那么以下的代码会忽略3月31日的数据 而是直接更新4月的
+    # 目前还未想到好的办法 因为目前的代码逻辑是start_date是遍历整个文件夹文件得到的日期最大值
+    # 只能保持每日更新 要不跨月必少一天数据
     for file in file_n:
         date.append(name.findall(file)[0])
     if not date:
-        start_date = '20190101'
+        start_date = start_date
     else:
-        start_date = max(date)
+        start_date = str(max(date))
     end_date = datetime.now().strftime("%Y%m%d")
-
-    for month in tqdm(pd.date_range(start_date, end_date, freq='3MS')):
-        dateRange = month.strftime('%Y%m') + '-' + (month + relativedelta(months=+2)).strftime('%m')
-        fileName = in_path + '/%s_hokkaido_denkiyohou.zip' % dateRange
+    for month in tqdm(pd.date_range(start_date, end_date, freq=freq)):
+        if freq == '3MS':
+            dateRange = month.strftime('%Y%m') + '-' + (month + relativedelta(months=+2)).strftime('%m')
+        if freq == 'MS':
+            dateRange = month.strftime('%Y%m')
+        fileName = in_path + '/%s.zip' % dateRange
         print(u % dateRange)
         urllib.request.urlretrieve(u % dateRange, fileName)
         zip_file = zipfile.ZipFile(fileName)
         zip_file.extractall(path=in_path)
+        zip_file.close()
+
     # delete unused zip
     file_n = search_file(in_path)
     file_zip = [file_n[i] for i, x in enumerate(file_n) if x.find('.zip') != -1]
@@ -71,12 +80,19 @@ def japan_download_Zipformat(u, in_path, name):
         os.remove(f)
 
 
-def japan_extractData(in_path, out_path, name, directory, date, ty):
+def japan_extractData(in_path, out_path, name, directory, date, ty, first, second):
     import pandas as pd
     if ty == 'ez':
         file_n = search_file(in_path)
         file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
         df = pd.concat(pd.read_csv(f, header=1, encoding='Shift_JIS') for f in file_n)
+        df.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
+    elif ty == 'so_ez':
+        file_n = search_file(in_path)
+        file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
+        df = pd.concat(pd.read_csv(f, skiprows=13, nrows=24, encoding='Shift_JIS') for f in file_n)
+        # df['供給力(万kW)'] = df[['供給力想定値(万kW)', '供給力(万kW)']].sum(axis=1)
+        # df = df.drop(columns=['供給力想定値(万kW)'])
         df.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
     else:
         result = pd.DataFrame()
@@ -84,9 +100,9 @@ def japan_extractData(in_path, out_path, name, directory, date, ty):
         file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
         for f in file_n:
             if name.findall(f)[0] > date:
-                df = pd.read_csv(f, skiprows=13, nrows=24, encoding='Shift_JIS')
+                df = pd.read_csv(f, skiprows=first, nrows=24, encoding='Shift_JIS')
             else:
-                df = pd.read_csv(f, skiprows=7, nrows=24, encoding='Shift_JIS')
+                df = pd.read_csv(f, skiprows=second, nrows=24, encoding='Shift_JIS')
             result = pd.concat([result, df])
         result = result.dropna(axis=1, how='all')
         result.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
@@ -148,21 +164,51 @@ def draw_pic(country):
     import re
 
     mpl.rcParams['font.sans-serif'] = ['SimHei']
-    name = re.compile(r'data.*?\\.*?\\(?P<name>.*?)\\simulated', re.S)  # 从路径找出国家
+    in_path = '../../data/'
+    global_path = '../../data/global/'
 
-    path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\'
-    file_name = search_file(path)
-    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
-    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
+    if country == 'eu27_uk':
+        name = re.compile(r'daily\\(?P<name>.*?).csv', re.S)  # 从路径找出国家
+        file_name = search_file(in_path)
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('per_country') != -1]
+        file_name = [file_name[i] for i, x in enumerate(file_name) if not x.find('United Kingdom.csv') != -1]
 
-    df_all = pd.concat(pd.read_csv(f) for f in file_name if country == name.findall(f)[0])
-    df_all = df_all.set_index(['date', 'year', 'month', 'month_date', 'weekday', 'unit']).stack().reset_index().rename(
-        columns={'level_6': 'ty', 0: 'value'})
+        df_all = pd.DataFrame()
+        for f in file_name:
+            c = name.findall(f)[0]
+            if c == 'United_Kingdom_BMRS':
+                c = 'United kingdom'
+            df_temp = pd.read_csv(f)
+            df_temp['country'] = c.capitalize()
+            df_all = pd.concat([df_temp, df_all])
+
+        df_c = pd.read_csv(global_path + 'EU_country_list.csv')
+        eu27_list = df_c['country'].tolist() + ['United kingdom']
+        df_all = df_all[df_all['country'].isin(eu27_list)].reset_index(drop=True)
+        df_all = df_all.set_index(
+            ['country', 'date', 'year', 'month', 'month_date', 'weekday', 'unit']).stack().reset_index().rename(
+            columns={'level_7': 'ty', 0: 'value'}).drop(columns=['month_date', 'weekday', 'unit'])
+    else:
+        file_name = search_file(in_path)
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
+        if country == 'us':  # russia 和 us名字有冲突
+            file_name = [file_name[i] for i, x in enumerate(file_name) if not x.find('russia') != -1]
+        df_all = pd.concat(pd.read_csv(f) for f in file_name)
+        df_all = df_all.set_index(
+            ['date', 'year', 'month', 'month_date', 'weekday', 'unit']).stack().reset_index().rename(
+            columns={'level_6': 'ty', 0: 'value'}).drop(columns=['month_date', 'weekday', 'unit'])
+
+    df_all['value'] = df_all['value'].astype(float)
+    df_all = df_all[df_all['ty'] == 'total.prod'].reset_index(drop=True)
     df_all = df_all.groupby(['date', 'year', 'month']).sum().reset_index()
     df_all = df_all[df_all['year'] >= 2019].reset_index(drop=True)
     df_all = df_all[:-1]  # 最后一天的数据一般都不准确
 
-    file_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\image\\'
+    file_path = '../../image/'
     out_path = create_folder(file_path, country)
 
     year_list = df_all['year'].drop_duplicates().tolist()
@@ -324,7 +370,7 @@ def insert_date(df, date_name, z):
 
 def iea_data(j):
     import pandas as pd
-    iea_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\#global_rf\\iea\\iea_all.csv'
+    iea_path = '../../data/#global_rf/iea/iea_cleaned.csv'
     df_iea = pd.read_csv(iea_path)
     df_iea = df_iea[df_iea['country'] == j.capitalize()].reset_index(drop=True)
     return df_iea

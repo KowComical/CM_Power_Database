@@ -1,13 +1,11 @@
-import sys
-module_path_string = "K:\\Github\\GlobalPowerUpdate-Kow\\code\\global_code"
-sys.path.append(module_path_string)
+def main():
+    from global_code import global_all as g
+    from global_code import global_function as af
 
-import global_all as g
-import global_function as af
+    g.china()  # 处理数据
+
+    af.draw_pic('china')  # 画图
 
 
-# 处理数据
-g.china()
-# 画图
-af.draw_pic('china')
-
+if __name__ == '__main__':
+    main()

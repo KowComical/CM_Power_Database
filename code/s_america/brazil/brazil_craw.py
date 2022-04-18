@@ -33,21 +33,21 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+in_path = '../../data/s_america/brazil/raw/'
+if not os.path.exists(in_path):
+    os.mkdir(in_path)
+# Set time period
+endDate = datetime.datetime.now().strftime('%d/%m/%Y')
+
 types = ["Wind", "Hydro", "Nuclear", "Solar", "Thermal"]
 thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural',
                  'Gás Natural', 'Óleo Combustível', 'Óleo Diesel', 'Petróleo', 'Resíduos Industriais']
-
-path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\s_america\\brazil\\raw'
-if not os.path.exists(path):
-    os.mkdir(path)
-# Set time period
-endDate = datetime.datetime.now().strftime('%d/%m/%Y')
 
 
 def main():
     for timeResolution in ['Hourly']:
         # Initial Session
-        filename = os.path.join(path, 'Brazil_ONS_%s.csv' % timeResolution)
+        filename = os.path.join(in_path, 'Brazil_ONS_%s.csv' % timeResolution)
         sessionID = initialSession()
 
         startDate = '01/01/2016'

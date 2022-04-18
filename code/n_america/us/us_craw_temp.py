@@ -11,7 +11,7 @@
 # import zipfile
 #
 # module_path_string = "K:\\Github\\GlobalPowerUpdate-Kow\\code\\global_code"
-# sys.path.append(module_path_string)
+# sys.in_path.append(module_path_string)
 # import global_function as af
 #
 # # 迅雷下载

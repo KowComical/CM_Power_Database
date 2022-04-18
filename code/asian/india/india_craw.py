@@ -9,19 +9,30 @@
 # @File    : India_POSOCO.py
 # @Software: PyCharm
 
+import datetime
+import requests
+from bs4 import BeautifulSoup
+from tqdm import tqdm
+import os
+import re
+import pdfplumber
+import time
+import pandas as pd
+
+
+in_path = '../../data/asia/india/craw/'
+out_path = '../../data/asia/india/raw/'
+output_1 = os.path.join(out_path, 'India_POSOCO_Daily.csv')
+output_2 = os.path.join(out_path, 'India_POSOCO_Daily_Thermal.csv')
+
+
 def main():
-    import datetime
-    import os
-    import requests
-    from bs4 import BeautifulSoup
-    from tqdm import tqdm
-    path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\asia\\india\\craw\\'
     url = "https://posoco.in/reports/daily-reports/daily-reports-%s/"
     endYear = datetime.datetime.utcnow().year  # 获取当前年份
     for year in range(endYear - 1, endYear + 1):
         date_range = str(year) + '-' + str(year + 1)[2:]
-        if not os.path.exists(os.path.join(path, '0_original_pdf_file', date_range)):
-            os.mkdir(os.path.join(path, '0_original_pdf_file', date_range))
+        if not os.path.exists(os.path.join(in_path, '0_original_pdf_file', date_range)):
+            os.mkdir(os.path.join(in_path, '0_original_pdf_file', date_range))
         print(url % date_range)
         r = requests.get(url % date_range)
         if r.status_code == 200:  # successfully responses
@@ -33,12 +44,8 @@ def main():
 
 
 def download_pdf_file(link, date_range):
-    import os
-    import time
-    import requests
-    path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\asia\\india\\craw\\'
     raw_link = link['href']
-    filename = os.path.join(path, '0_original_pdf_file', date_range, raw_link.strip().split('/')[-2] + '.pdf')
+    filename = os.path.join(in_path, '0_original_pdf_file', date_range, raw_link.strip().split('/')[-2] + '.pdf')
     if not os.path.exists(filename):
         try:
             download = requests.get(raw_link, allow_redirects=True)
@@ -49,13 +56,7 @@ def download_pdf_file(link, date_range):
 
 
 def parse_pdf_file(filename):
-    import os
-    import re
-    import pdfplumber
-    import time
-    import pandas as pd
-    path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\asia\\india\\craw\\'
-    errors = os.path.join(path, 'error.txt')
+    errors = os.path.join(in_path, 'error.txt')
     pattern1 = re.compile('\d+\.\d+\.\d+')
     try:
         pdf = pdfplumber.open(filename)
@@ -88,11 +89,6 @@ def parse_pdf_file(filename):
 
 
 def extract_table(df, date):
-    import os
-    import pandas as pd
-    out_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\asia\\india\\raw\\'
-    output_1 = os.path.join(out_path, 'India_POSOCO_Daily.csv')
-    output_2 = os.path.join(out_path, 'India_POSOCO_Daily_Thermal.csv')
     if len(df) >= 7:
         temp = pd.DataFrame(df.iloc[0:7, 6]).T
         temp.columns = ['Coal', 'Lignite', 'Hydro', 'Nuclear', 'Gas, Naptha & Diesel',

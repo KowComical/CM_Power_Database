@@ -8,11 +8,10 @@ import numpy as np
 import os
 from datetime import datetime
 import requests
-
 import global_function as af  # 所有的function
 
 # ###########################################################################################################################################
-global_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\'
+global_path = '../../data/'
 
 
 # ################################################################US#########################################################################
@@ -330,7 +329,7 @@ def eu():
                folder=True, unit=True)
     # ########################################entose-raw-cleaned-simulated#############################################
     for x in file_name:
-        df_cleaned = pd.read_csv(in_path_entsoe + '\\' + x).rename(columns={'MTU': 'datetime'})
+        df_cleaned = pd.read_csv(os.path.join(in_path_entsoe, x)).rename(columns={'MTU': 'datetime'})
         af.time_info(df_cleaned, 'datetime')
         df_cleaned = df_cleaned[df_cleaned['date'] < now].reset_index(drop=True)
         for y in df_cleaned['year'].drop_duplicates().tolist():
@@ -542,7 +541,7 @@ def china():
 
     # 获取daily数据
     url = 'http://emres.cn/api/carbonmonitor/getChinaCoalConsumption.php'
-    df_daily = pd.DataFrame(requests.get(url).json()['data']).reset_index(drop = True)
+    df_daily = pd.DataFrame(requests.get(url).json()['data']).reset_index(drop=True)
     df_daily['Date'] = pd.to_datetime(df_daily['Date'])
     df_daily['year'] = df_daily['Date'].dt.year
     df_daily['month'] = df_daily['Date'].dt.month

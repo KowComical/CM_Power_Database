@@ -13,15 +13,18 @@ import requests
 import os
 import datetime
 
-sourcePath = 'K:\\Github\\GlobalPowerUpdate-Kow\\code\\europe\\eu27_uk\\entsoe'  # 国家参数存放的地方
-dataPath = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\europe\\eu27_uk\\craw\\entsoe'  # 数据将要保存的地方
+in_path = '../../code/europe/eu27_uk/entsoe'  # 国家参数存放的地方
+out_path = '../../data/europe/eu27_uk/craw/entsoe'  # 爬虫数据将要保存的地方
+raw_path = '../../data/europe/eu27_uk/'  # raw数据保存的地方
 
 endYear = datetime.datetime.utcnow().year  # 数据截至年
+now = datetime.date.today().strftime("%Y-%m-%d")  # 获取当前年月日
 
 
 def main():
     session = login()
     downloadOriginalData(session)
+    pre()
 
 
 def login(u='https://transparency.entsoe.eu/sso/login'):
@@ -33,7 +36,7 @@ def login(u='https://transparency.entsoe.eu/sso/login'):
                       "Safari/537.36 Edg/84.0.522.61",
     }
     res = requests.get(u, headers=headers)
-    soup = BeautifulSoup(res.text)
+    soup = BeautifulSoup(res.text, 'html.parser')
     url = soup.find('form')['action']
 
     # Obtain Cookies
@@ -49,17 +52,14 @@ def login(u='https://transparency.entsoe.eu/sso/login'):
 
 
 def downloadOriginalData(s):
-    area = pd.read_csv(os.path.join(sourcePath, 'entsoe_areaCode.csv'))
-    """
-    Skip inactive data
-    """
+    area = pd.read_csv(os.path.join(in_path, 'entsoe_areaCode.csv'))
     area = area[area['hasData'].map(lambda x: x != 'inactive')]
 
     for i in tqdm(area.index):
         code = area['code'][i]
         name = area['countryName'][i]
         codeType = 'CTY'
-        cnyPath = os.path.join(dataPath, name)
+        cnyPath = os.path.join(out_path, name)
         if not os.path.exists(cnyPath):
             os.mkdir(cnyPath)
 
@@ -87,12 +87,12 @@ def downloadOriginalData(s):
                 '&dataItem=ALL' \
                 '&timeRange=YEAR' \
                 '&exportType=CSV'
-            fileName = os.path.join(dataPath, name, "%s_ENTSOE_%s.csv" % (name, year))
+            fileName = os.path.join(out_path, name, "%s_ENTSOE_%s.csv" % (name, year))
             if os.path.exists(fileName) and (year < endYear):
                 continue
             while True:
                 try:
-                    print('Starting download %s...' % fileName)
+                    print('Starting download %s_%s' % (name, year))
                     r = s.get(u)
                     break
                 except:
@@ -104,26 +104,15 @@ def downloadOriginalData(s):
             f.close()
 
 
-if __name__ == '__main__':
-    main()
-
-sourcePath = 'K:\\Github\\GlobalPowerUpdate-Kow\\code\\europe\\eu27_uk\\entsoe'
-dataPath = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\europe\\eu27_uk'
-now = datetime.date.today().strftime("%Y-%m-%d")  # 获取当前年月日
-
-
-def main():
-    area = pd.read_csv(os.path.join(sourcePath, 'entsoe_areaCode.csv'))
-    """
-    Skip inactive data
-    """
+def pre():
+    area = pd.read_csv(os.path.join(in_path, 'entsoe_areaCode.csv'))
     area = area[area['hasData'].map(lambda x: x != 'inactive')]
 
     for i in tqdm(area.index):
         name = area['countryName'][i]
         timeDiff = area['timeDiff'][i]
         try:
-            data_preprocess(dataPath, name, timeDiff)
+            data_preprocess(raw_path, name, timeDiff)
         except:
             pass
 
@@ -139,14 +128,11 @@ def data_preprocess(dataPath, name, time_diff):
     country_data['MTU'] = pd.to_datetime(country_data['MTU'].str[19:35], format='%d.%m.%Y %H:%M')
     # UTC时间转换为本地时间
     country_data['MTU'] = [(i + datetime.timedelta(hours=int(time_diff))) for i in country_data['MTU']]
-    country_data.set_index('MTU', drop=True, inplace=True)
-
-    del country_data['Area']
+    # country_data.set_index('MTU', drop=True, inplace=True)
+    country_data = country_data.drop(columns=['Area']).set_index('MTU')
 
     # 删除所有列中包含'-'的行（'-'表示数据未发布）
-    country_data = country_data.replace('-', np.nan)
-    country_data = country_data.dropna(how='all')
-
+    country_data = country_data.replace('-', np.nan).dropna(how='all')
     # 将'n/e'设置为空值
     country_data = country_data.replace('n/e', np.nan)
 

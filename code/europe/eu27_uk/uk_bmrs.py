@@ -26,7 +26,7 @@ parameter = {
 }
 base_url = 'https://www.bmreports.com/bmrs/?q=tabledemand&parameter='
 
-path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\europe\\eu27_uk\\raw\\uk-BMRS\\'
+path = '../../data/europe/eu27_uk/raw/uk-BMRS/'
 if not os.path.exists(path):
     os.mkdir(path)
 
@@ -51,12 +51,12 @@ def main():
         url = base_url + str(parameter).replace('\'', '\"')
         res = requests.get(url)
         js = json.loads(res.text)['responseBody']['responseList']['item']
-        df = pd.DataFrame(js)
+        df_temp = pd.DataFrame(js)
         if flag:
-            df.to_csv(output_file, index=False)
+            df_temp.to_csv(output_file, index=False)
             flag = 0
         else:
-            df.to_csv(output_file, index=False, header=False, mode='a')
+            df_temp.to_csv(output_file, index=False, header=False, mode='a')
 
 
 if __name__ == '__main__':

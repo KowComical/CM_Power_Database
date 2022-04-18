@@ -14,11 +14,11 @@
 # import os
 # import time
 #
-# path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\europe\\russia\\raw\\'
-# if not os.path.exists(path):
-#     os.mkdir(path)
-# outfile = os.path.join(path, 'Russia_SOUPS_Hourly.csv')
-# outfile_correct = os.path.join(path, 'Russia_SOUPS_Hourly (Corrected).csv')
+# in_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\europe\\russia\\raw\\'
+# if not os.in_path.exists(in_path):
+#     os.mkdir(in_path)
+# outfile = os.in_path.join(in_path, 'Russia_SOUPS_Hourly.csv')
+# outfile_correct = os.in_path.join(in_path, 'Russia_SOUPS_Hourly (Corrected).csv')
 # cols = ['P_AES', 'P_GES', 'P_TES', 'P_BS', 'P_REN']
 #
 #
@@ -42,7 +42,7 @@
 #         while True:
 #             try:
 #                 df = pd.read_csv(url % (sd, ed), sep=';', encoding='windows-1251', decimal=',')
-#                 if os.path.exists(outfile):
+#                 if os.in_path.exists(outfile):
 #                     df.to_csv(outfile, header=False, mode='a', index=False)
 #                 else:
 #                     df.to_csv(outfile, index=False)
