@@ -33,7 +33,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-in_path = '../../data/s_america/brazil/raw/'
+in_path = './data/s_america/brazil/raw/'
 if not os.path.exists(in_path):
     os.mkdir(in_path)
 # Set time period

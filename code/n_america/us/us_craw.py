@@ -79,7 +79,7 @@ def main():
     df = df.groupby(['datetime']).sum().reset_index()
     col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
     df.columns = col_list
-    df.to_csv(out_path + '/raw.csv', index=False)
+    df.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
 
 
 if __name__ == '__main__':
