@@ -16,6 +16,8 @@ jobs:
       - name: 'install requirements'
         run: |
           pip install pandas
+          pip install requests
+          pip install tqdm
       - name: 'download us daily data'
         run: python ./code/n_america/us/test.py
       - name: 'commit and push if it changed'
