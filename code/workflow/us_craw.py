@@ -27,7 +27,7 @@ def main():
 
     def create_folder(file_path, Type):  # 建立需要的文件夹
         import os
-        out_path = os.path.join(file_path, Type)
+        out_path = os.path.join(file_path, Type+'/')
         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
             os.mkdir(out_path)
         return out_path
@@ -47,7 +47,7 @@ def main():
             sDate = s.strftime('%m%d%Y')
             eDate = (datetime.strptime(sDate, "%m%d%Y") +
                      relativedelta(months=1) + timedelta(days=-1)).strftime('%m%d%Y')
-            outfile_path = create_folder(in_path + 'time_line\\', sDate + '_' + eDate)
+            outfile_path = create_folder(in_path + 'time_line/', sDate + '_' + eDate)
             outfile = os.path.join(outfile_path, 'US_EIA_Regional_%s.csv' % (interval + '_' + r))
             # NG for net generation; US48 for 48 states in US; no more than 365 days are chosen
             url = 'https://www.eia.gov/electricity/930-api/region_data_by_fuel_type/series_data?' \
