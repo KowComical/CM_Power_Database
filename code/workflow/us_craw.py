@@ -27,7 +27,7 @@ def main():
 
     def create_folder(file_path, Type):  # 建立需要的文件夹
         import os
-        out_path = os.path.join(file_path, Type + '\\')
+        out_path = os.path.join(file_path, Type)
         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
             os.mkdir(out_path)
         return out_path
