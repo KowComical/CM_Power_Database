@@ -16,21 +16,24 @@ def main():
     from datetime import datetime, timedelta
     from dateutil.relativedelta import relativedelta
     from tqdm import tqdm
+    import sys
+    sys.path.append('./code/global_code/')
+    import global_function as af
 
-    def search_file(file_path):
-        import os
-        file_name = []
-        for parent, surnames, filenames in os.walk(file_path):
-            for fn in filenames:
-                file_name.append(os.path.join(parent, fn))
-        return file_name
+#     def search_file(file_path):
+#         import os
+#         file_name = []
+#         for parent, surnames, filenames in os.walk(file_path):
+#             for fn in filenames:
+#                 file_name.append(os.path.join(parent, fn))
+#         return file_name
 
-    def create_folder(file_path, Type):  # 建立需要的文件夹
-        import os
-        out_path = os.path.join(file_path, Type+'/')
-        if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
-            os.mkdir(out_path)
-        return out_path
+#     def create_folder(file_path, Type):  # 建立需要的文件夹
+#         import os
+#         out_path = os.path.join(file_path, Type+'/')
+#         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
+#             os.mkdir(out_path)
+#         return out_path
 
     in_path = './data/n_america/us/craw/'
     out_path = './data/n_america/us/raw/'
@@ -47,7 +50,7 @@ def main():
             sDate = s.strftime('%m%d%Y')
             eDate = (datetime.strptime(sDate, "%m%d%Y") +
                      relativedelta(months=1) + timedelta(days=-1)).strftime('%m%d%Y')
-            outfile_path = create_folder(in_path + 'time_line/', sDate + '_' + eDate)
+            outfile_path = af.create_folder(in_path + 'time_line/', sDate + '_' + eDate)
             outfile = os.path.join(outfile_path, 'US_EIA_Regional_%s.csv' % (interval + '_' + r))
             # NG for net generation; US48 for 48 states in US; no more than 365 days are chosen
             url = 'https://www.eia.gov/electricity/930-api/region_data_by_fuel_type/series_data?' \
@@ -86,7 +89,7 @@ def main():
                 df.to_csv(outfile, encoding='utf_8_sig')
 
     # data_process
-    file_name = search_file(os.path.join(in_path, 'time_line'))
+    file_name = af.search_file(os.path.join(in_path, 'time_line'))
     df = pd.concat(pd.read_csv(f) for f in file_name).sort_values(by='datetime')
     df = df.groupby(['datetime']).sum().reset_index()
     col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
