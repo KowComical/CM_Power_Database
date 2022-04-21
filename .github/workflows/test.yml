@@ -2,7 +2,7 @@ name: us_craw
 
 on: 
   schedule: # UTC时间每天凌晨2点运行一次
-    - cron: "20 12 * * *"
+    - cron: "22 12 * * *"
 jobs:
   us_bot:
     runs-on: ubuntu-latest
