@@ -9,13 +9,13 @@ from asian.china import china
 
 start = time.perf_counter()
 
-us.main()
+# us.main()
 # brazil.main()
 # eu.main()
 # russia.main()
 # india.main()
 # japan.main()
-# china.main()
+china.main()
 
 end = time.perf_counter()
 print("运行耗时", round(end))
