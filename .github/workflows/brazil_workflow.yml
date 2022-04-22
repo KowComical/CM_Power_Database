@@ -15,8 +15,8 @@ jobs:
         run: |
           pip install pandas
           pip install requests
-          pip install tqdm
           pip install matplotlib
+          pip install jsonpath
       - name: process us data
         run: python ./code/s_america/brazil/brazil_workflow.py
       - name: commit and push if it changed
