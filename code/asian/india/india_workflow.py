@@ -18,6 +18,11 @@ import re
 import pdfplumber
 import time
 import pandas as pd
+import sys
+
+sys.path.append('./code/global_code/')
+import global_function as af
+import global_all as g
 
 in_path = './data/asia/india/craw/'
 out_path = './data/asia/india/raw/'
@@ -40,6 +45,10 @@ def main():
             for link in tqdm(table.find_all('a')):
                 if 'NLDC' in link.text:
                     download_pdf_file(link, date_range)
+    # 整理数据
+    g.india()
+    # 作图
+    af.draw_pic('india')
 
 
 def download_pdf_file(link, date_range):
