@@ -1,7 +1,6 @@
 name: india_workflow
-'on': [push]
-  #schedule:
-    #- cron: 0 22 * * *
+'on':
+  - push
 jobs:
   india_bot:
     runs-on: ubuntu-latest
@@ -30,4 +29,5 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git push -f origin master
+          git pull origin master
+          git push -u origin master
