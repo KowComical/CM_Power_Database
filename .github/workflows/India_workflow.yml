@@ -19,6 +19,7 @@ jobs:
           pip install matplotlib
           pip install pdfplumber
           pip install bs4
+          pip install lxml
       - name: process us data
         run: python ./code/asian/india/india_workflow.py
       - name: commit and push if it changed
