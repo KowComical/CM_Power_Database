@@ -13,6 +13,7 @@ def japan_download_Csvformat(u, in_path, name, start_date):
     import pandas as pd
     import os
     file_n = search_file(in_path)
+    print(file_n)
     file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
     date = []
     for file in file_n:
