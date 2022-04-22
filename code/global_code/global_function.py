@@ -24,14 +24,14 @@ def japan_download_Csvformat(u, in_path, name, start_date):
     if len(str(start_date)) == 4:  # 如果是年份
         end_date = datetime.now().strftime("%Y")
         for i in range(int(start_date), int(end_date) + 1):
-            fileName = in_path + '/%s.csv' % i
+            fileName = os.path.join(in_path, '%s.csv' % i)
             print(u % i)
             urllib.request.urlretrieve(u % i, fileName)
     else:
         end_date = datetime.now().strftime("%Y%m%d")
         for month in pd.date_range(start_date, end_date, freq='D'):
             dateRange = month.strftime('%Y%m%d')
-            fileName = in_path + '\\%s.csv' % dateRange
+            fileName = os.path.join(in_path, '%s.csv' % dateRange)
             if os.path.exists(fileName):
                 continue
             print(u % dateRange)
@@ -66,7 +66,8 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
             dateRange = month.strftime('%Y%m') + '-' + (month + relativedelta(months=+2)).strftime('%m')
         if freq == 'MS':
             dateRange = month.strftime('%Y%m')
-        fileName = in_path + '/%s.zip' % dateRange
+
+        fileName = os.path.join(in_path, '%s.zip' % dateRange)
         print(u % dateRange)
         urllib.request.urlretrieve(u % dateRange, fileName)
         zip_file = zipfile.ZipFile(fileName)
@@ -82,18 +83,20 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
 
 def japan_extractData(in_path, out_path, name, directory, date, ty, first, second):
     import pandas as pd
+    import os
     if ty == 'ez':
         file_n = search_file(in_path)
         file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
         df = pd.concat(pd.read_csv(f, header=1, encoding='Shift_JIS') for f in file_n)
-        df.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
+        df.to_csv(os.path.join(out_path, '%s.csv' % directory), index=False, encoding='utf_8_sig')
+
     elif ty == 'so_ez':
         file_n = search_file(in_path)
         file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
         df = pd.concat(pd.read_csv(f, skiprows=13, nrows=24, encoding='Shift_JIS') for f in file_n)
         # df['供給力(万kW)'] = df[['供給力想定値(万kW)', '供給力(万kW)']].sum(axis=1)
         # df = df.drop(columns=['供給力想定値(万kW)'])
-        df.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
+        df.to_csv(os.path.join(out_path, '%s.csv' % directory), index=False, encoding='utf_8_sig')
     else:
         result = pd.DataFrame()
         file_n = search_file(in_path)
@@ -105,18 +108,18 @@ def japan_extractData(in_path, out_path, name, directory, date, ty, first, secon
                 df = pd.read_csv(f, skiprows=second, nrows=24, encoding='Shift_JIS')
             result = pd.concat([result, df])
         result = result.dropna(axis=1, how='all')
-        result.to_csv(out_path + '%s.csv' % directory, index=False, encoding='utf_8_sig')
+        result.to_csv(os.path.join(out_path, '%s.csv' % directory), index=False, encoding='utf_8_sig')
 
 
 def japan_path(company):
     import os
     # 输入路径
-    in_path = '../../../data/asia/japan/craw/%s' % company
+    in_path = './data/asia/japan/craw/%s' % company
     if not os.path.exists(in_path):
         os.mkdir(in_path)
 
     # 输出路径
-    out_path = '../../../data/asia/japan/raw/company/'
+    out_path = './data/asia/japan/raw/company/'
     if not os.path.exists(out_path):
         os.mkdir(out_path)
     return in_path, out_path

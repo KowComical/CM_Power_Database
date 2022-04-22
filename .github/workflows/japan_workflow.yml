@@ -1,9 +1,8 @@
-name: eu_workflow
+name: japan_workflow
 'on':
-  schedule:
-    - cron: 0 2 * * *
+  - push
 jobs:
-  eu_bot:
+  japan_bot:
     runs-on: ubuntu-latest
     steps:
       - name: check_code
@@ -20,7 +19,7 @@ jobs:
           pip install matplotlib
           pip install bs4
       - name: process us data
-        run: python ./code/europe/eu27_uk/eu_workflow.py
+        run: python ./code/asian/japan/japan_workflow.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
