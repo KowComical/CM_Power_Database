@@ -9,6 +9,8 @@ import os
 from datetime import datetime
 import requests
 import global_function as af  # 所有的function
+import sys
+sys.dont_write_bytecode = True
 
 # ###########################################################################################################################################
 global_path = './data/'

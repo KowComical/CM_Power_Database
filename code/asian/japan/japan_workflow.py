@@ -1,6 +1,7 @@
 import re
 import urllib.request
 import sys
+sys.dont_write_bytecode = True
 
 sys.path.append('./code/global_code/')
 import global_function as af

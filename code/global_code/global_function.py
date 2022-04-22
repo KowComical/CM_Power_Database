@@ -7,6 +7,9 @@
 # df_simulated_daily 时间列 = ['date','year','month','month_date','weekday'] unit = ['Gwh']
 # df_simulated_monthly 时间列 = ['year','month'] unit = ['Gwh']
 # ###########################function#########################################
+import sys
+sys.dont_write_bytecode = True
+
 def japan_download_Csvformat(u, in_path, name, start_date):
     from datetime import datetime
     import urllib.request
