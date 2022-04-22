@@ -22,7 +22,7 @@ def okiden():
     directory = '0_okiden'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Csvformat(u, in_path, name, start_date='20190101')
     af.japan_extractData(in_path, out_path, name, directory, date='20190831', ty='None', first=13, second=7)
@@ -34,7 +34,7 @@ def hepco():
     directory = '1_hepco'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\.*?_.*?_(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/.*?_.*?_(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Zipformat(u, in_path, name, start_date='20190101', freq='3MS')
     af.japan_extractData(in_path, out_path, name, directory, date='20190922', ty=None, first=13, second=7)
@@ -46,7 +46,7 @@ def tohoku():
     directory = '2_tohokuepco'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Csvformat(u, in_path, name, start_date=2019)
     af.japan_extractData(in_path, out_path, name, directory, date=None, ty='ez', first=None, second=None)
@@ -58,7 +58,7 @@ def tepco():
     directory = '3_hepco'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Csvformat(u, in_path, name, start_date=2019)
     af.japan_extractData(in_path, out_path, name, directory, date=None, ty='ez', first=None, second=None)
@@ -70,7 +70,7 @@ def chuden():
     directory = '4_chuden'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\.*?\\(?P<name>.*?)_' % directory, re.S)
+    name = re.compile(r'%s/.*?/(?P<name>.*?)_' % directory, re.S)
     # Download and extract all data
     af.japan_download_Zipformat(u, in_path, name, start_date='20190401', freq='MS')
     af.japan_extractData(in_path, out_path, name, directory, date=None, ty='so_ez', first=None, second=None)
@@ -82,7 +82,7 @@ def rikuden():
     directory = '5_rikuden'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Csvformat(u, in_path, name, start_date='20190101')
     af.japan_extractData(in_path, out_path, name, directory, date='20190929', ty='None', first=13, second=7)
@@ -99,7 +99,7 @@ def kansai():
     directory = '6_kansai'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?)_' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?)_' % directory, re.S)
     # Download and extract all data
     af.japan_download_Zipformat(u, in_path, name, start_date='20190101', freq='MS')
     af.japan_extractData(in_path, out_path, name, directory, date='20190911', ty=None, first=16, second=10)
@@ -111,7 +111,7 @@ def energia():
     directory = '7_energia'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Csvformat(u, in_path, name, start_date=2018)
     af.japan_extractData(in_path, out_path, name, directory, date=None, ty='ez', first=None, second=None)
@@ -123,7 +123,7 @@ def yonden():
     directory = '8_yonden'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Csvformat(u, in_path, name, start_date=2019)
     af.japan_extractData(in_path, out_path, name, directory, date=None, ty='ez', first=None, second=None)
@@ -135,7 +135,7 @@ def kyuden():
     directory = '9_kyuden'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
-    name = re.compile(r'%s\\(?P<name>.*?).csv' % directory, re.S)
+    name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
     # Download and extract all data
     af.japan_download_Csvformat(u, in_path, name, start_date='20190101')
     af.japan_extractData(in_path, out_path, name, directory, date='20190904', ty='None', first=13, second=7)
