@@ -15,11 +15,11 @@ jobs:
           python-version: '3.8'
       - name: 'install requirements'
         run: |
-          pip install pandas
-          pip install requests
-          pip install tqdm
-	pip install matplotlib
-      - name: 'download us daily data'
+            pip install pandas
+            pip install requests
+            pip install tqdm
+            pip install matplotlib
+      - name: 'process us data'
         run: python ./code/n_america/us/us_workflow.py
       - name: 'commit and push if it changed'
         run: |
