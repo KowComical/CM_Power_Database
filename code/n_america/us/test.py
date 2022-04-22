@@ -19,6 +19,7 @@ import sys
 
 sys.path.append('./code/global_code/')
 import global_function as af
+import global_all as g
 
 in_path = './data/n_america/us/craw/'
 out_path = './data/n_america/us/raw/'
@@ -80,3 +81,6 @@ df = df.groupby(['datetime']).sum().reset_index()
 col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
 df.columns = col_list
 df.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
+
+g.us()
+

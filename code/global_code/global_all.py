@@ -11,7 +11,7 @@ import requests
 import global_function as af  # 所有的function
 
 # ###########################################################################################################################################
-global_path = '../../data/'
+global_path = './data/'
 
 
 # ################################################################US#########################################################################
@@ -32,8 +32,9 @@ def us():
     # cleaned-simulated 准备工作
     for y in df['year'].drop_duplicates().tolist():
         df_cleaned = df[df['year'] == y].reset_index(drop=True)
-        df_cleaned.to_csv(out_path_cleaned + 'us-generation-' + str(y) + '-cleaned.csv', index=False,
+        df_cleaned.to_csv(os.path.join(out_path_cleaned, 'us-generation-%s-cleaned.csv' % y), index=False,
                           encoding='utf_8_sig')
+
         # ##########################cleaned-simulated#################################
         # hourly
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
