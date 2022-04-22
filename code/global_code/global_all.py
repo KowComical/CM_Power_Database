@@ -408,7 +408,7 @@ def japan():
     # 输出
     year_list = df['year'].drop_duplicates().tolist()
     for x in year_list:
-        df[df['year'] == x].to_csv(os.path.join(out_path_cleaned, 'japan-generation-%-cleaned.csv' % x), index=False,
+        df[df['year'] == x].to_csv(os.path.join(out_path_cleaned, 'japan-generation-%s-cleaned.csv' % x), index=False,
                                    encoding='utf_8_sig')
 
     # ##################################cleaned-simulated######################################################
@@ -518,7 +518,7 @@ def russia():
     df = df.drop(columns=['hour'])
     for x in df['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(x))
-        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_daily_generation-%.csv' % x),
+        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_daily_generation-%s.csv' % x),
                                    index=False, encoding='utf_8_sig')
 
     # monthly
@@ -534,7 +534,7 @@ def russia():
     df = df.drop(columns=['date'])
     for x in df['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(x))
-        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_monthly_generation-%.csv' % x),
+        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_monthly_generation-%s.csv' % x),
                                    index=False, encoding='utf_8_sig')
 
 
