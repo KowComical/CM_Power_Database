@@ -158,13 +158,11 @@ def lighten_color(color, amount=0.5):  # 改颜色深浅
 
 def draw_pic(country):
     from matplotlib.dates import MonthLocator, DateFormatter
-    from pylab import mpl
     import pandas as pd
     import matplotlib.pyplot as plt
     import re
     import os
 
-    mpl.rcParams['font.sans-serif'] = ['SimHei']
     in_path = './data/'
     global_path = './data/global/'
 
@@ -242,7 +240,7 @@ def draw_pic(country):
         ax.xaxis.set_major_locator(MonthLocator())
         ax.xaxis.set_major_formatter(DateFormatter('%b'))
         plt.legend(loc='best', prop={'size': size_num})
-    plt.savefig(os.path.join(out_path, country, '_line_chart.png'), dpi=500)
+    plt.savefig(os.path.join(out_path, '%s_line_chart.png' % country), dpi=500)
 
 
 def write_pic(file_path, country):
