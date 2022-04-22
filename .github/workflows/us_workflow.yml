@@ -18,6 +18,7 @@ jobs:
           pip install pandas
           pip install requests
           pip install tqdm
+	pip install matplotlib
       - name: 'download us daily data'
         run: python ./code/n_america/us/us_workflow.py
       - name: 'commit and push if it changed'
