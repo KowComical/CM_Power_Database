@@ -372,7 +372,7 @@ def insert_date(df, date_name, z):
 
 def iea_data(j):
     import pandas as pd
-    iea_path = '../../data/#global_rf/iea/iea_cleaned.csv'
+    iea_path = './data/#global_rf/iea/iea_cleaned.csv'
     df_iea = pd.read_csv(iea_path)
     df_iea = df_iea[df_iea['country'] == j.capitalize()].reset_index(drop=True)
     return df_iea
