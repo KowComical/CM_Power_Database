@@ -1,6 +1,9 @@
-﻿data,sector,source,title
-2.46亿千瓦,水电,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
-8.66亿千瓦,火电,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
-1569万千瓦,核电,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
-7929万千瓦,风电,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
-35万千瓦,太阳能发电,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+﻿data,sector,hour_data,source,title
+2.46亿千瓦,水电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+8.66亿千瓦,火电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+,燃煤发电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+,燃气发电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+,生物质发电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+1569万千瓦,核电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+7929万千瓦,风电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况
+35万千瓦,太阳能发电,,https://cec.org.cn/detail/index.html?3-126637,2014年1-3月份电力工业运行简况

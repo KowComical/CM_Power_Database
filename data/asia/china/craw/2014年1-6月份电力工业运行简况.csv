@@ -1,6 +1,9 @@
-﻿data,sector,source,title
-2.54亿千瓦,水电,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
-8.79亿千瓦,火电,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
-1778万千瓦,核电,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
-8275万千瓦,风电,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
-1814万千瓦,太阳能发电,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+﻿data,sector,hour_data,source,title
+2.54亿千瓦,水电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+8.79亿千瓦,火电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+,燃煤发电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+,燃气发电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+,生物质发电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+1778万千瓦,核电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+8275万千瓦,风电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况
+1814万千瓦,太阳能发电,,https://cec.org.cn/detail/index.html?3-126640,2014年1-6月份电力工业运行简况

@@ -1,0 +1,169 @@
+name: us_workflow
+'on':
+  - push
+jobs:
+  us_bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check_code
+        uses: actions/checkout@master
+      - name: set up Python 3.8
+        uses: actions/setup-Python@v2
+        with:
+          python-version: '3.8'
+      - name: install requirements
+        run: |
+          pip install pandas
+          pip install requests
+          pip install tqdm
+          pip install matplotlib
+      - name: process us data
+        run: python ./code/n_america/us/us_workflow.py
+      - name: commit and push if it changed
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Latest data: ${timestamp}" || exit 0
+          git pull origin master
+          git push
+  brazil_bot:
+    needs: us_bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: check_code
+        uses: actions/checkout@master
+      - name: set up Python 3.8
+        uses: actions/setup-Python@v2
+        with:
+          python-version: '3.8'
+      - name: install requirements
+        run: |
+          pip install pandas
+          pip install requests
+          pip install matplotlib
+          pip install jsonpath
+          pip install requests_toolbelt
+      - name: process us data
+        run: python ./code/s_america/brazil/brazil_workflow.py
+      - name: commit and push if it changed
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Latest data: ${timestamp}" || exit 0
+          git push
+  eu_bot:
+    needs: brazil_bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: check_code
+        uses: actions/checkout@master
+      - name: set up Python 3.8
+        uses: actions/setup-Python@v2
+        with:
+          python-version: '3.8'
+      - name: install requirements
+        run: |
+          pip install pandas
+          pip install requests
+          pip install tqdm
+          pip install matplotlib
+          pip install bs4
+      - name: process us data
+        run: python ./code/europe/eu27_uk/eu_workflow.py
+      - name: commit and push if it changed
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Latest data: ${timestamp}" || exit 0
+          git pull origin master
+          git push
+  india_bot:
+    needs: eu_bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: check_code
+        uses: actions/checkout@master
+      - name: set up Python 3.8
+        uses: actions/setup-Python@v2
+        with:
+          python-version: '3.8'
+      - name: install requirements
+        run: |
+          pip install pandas
+          pip install requests
+          pip install tqdm
+          pip install matplotlib
+          pip install pdfplumber
+          pip install bs4
+          pip install lxml
+      - name: process us data
+        run: python ./code/asia/india/india_workflow.py
+      - name: commit and push if it changed
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Latest data: ${timestamp}" || exit 0
+          git pull origin master
+          git push
+    japan_bot:
+      needs: india_bot
+      runs-on: ubuntu-latest
+      steps:
+        - name: check_code
+          uses: actions/checkout@master
+        - name: set up Python 3.8
+          uses: actions/setup-Python@v2
+          with:
+            python-version: '3.8'
+        - name: install requirements
+          run: |
+            pip install pandas
+            pip install requests
+            pip install tqdm
+            pip install matplotlib
+            pip install bs4
+        - name: process us data
+          run: python ./code/asia/japan/japan_workflow.py
+        - name: commit and push if it changed
+          run: |
+            git config user.name "${GITHUB_ACTOR}"
+            git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+            git add -A
+            timestamp=$(date -u)
+            git commit -m "Latest data: ${timestamp}" || exit 0
+            git pull origin master
+            git push
+    russia_bot:
+      needs: japan_bot
+      runs-on: ubuntu-latest
+      steps:
+        - name: check_code
+          uses: actions/checkout@master
+        - name: set up Python 3.8
+          uses: actions/setup-Python@v2
+          with:
+            python-version: '3.8'
+        - name: install requirements
+          run: |
+            pip install pandas
+            pip install matplotlib
+            pip install requests
+        - name: process us data
+          run: python ./code/europe/russia/russia_workflow.py
+        - name: commit and push if it changed
+          run: |
+            git config user.name "${GITHUB_ACTOR}"
+            git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+            git add -A
+            timestamp=$(date -u)
+            git commit -m "Latest data: ${timestamp}" || exit 0
+            git pull origin master
+            git push          

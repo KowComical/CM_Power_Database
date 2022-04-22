@@ -1,4 +1,9 @@
-﻿data,sector,source,title
-3.0亿千瓦,水电,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
-3582万千瓦,核电,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
-1.6亿千瓦,风电,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+﻿data,sector,hour_data,source,title
+3.0亿千瓦,水电,为3024,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+,火电,为3431,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+,燃煤发电,,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+,燃气发电,,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+,生物质发电,,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+3582万千瓦,核电,,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+1.6亿千瓦,风电,,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)
+,太阳能发电,,https://cec.org.cn/detail/index.html?3-257903,中电联公布2017年1-10月份电力工业运行简况(图表)

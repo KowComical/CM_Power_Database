@@ -1,5 +1,9 @@
-﻿data,sector,source,title
-2.8亿千瓦,水电,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
-10.3亿千瓦,火电,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
-3135万千瓦,核电,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
-1.4亿千瓦,风电,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+﻿data,sector,hour_data,source,title
+2.8亿千瓦,水电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+10.3亿千瓦,火电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+,燃煤发电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+,燃气发电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+,生物质发电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+3135万千瓦,核电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+1.4亿千瓦,风电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
+,太阳能发电,,https://cec.org.cn/detail/index.html?3-257337,2016年1-9月份电力工业运行简况
