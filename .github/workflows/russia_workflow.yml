@@ -1,9 +1,8 @@
-name: brazil_workflow
+name: russia_workflow
 'on':
-  schedule:
-    - cron: 0 2 * * *
+  - push
 jobs:
-  brazil_bot:
+  russia_bot:
     runs-on: ubuntu-latest
     steps:
       - name: check_code
@@ -15,12 +14,9 @@ jobs:
       - name: install requirements
         run: |
           pip install pandas
-          pip install requests
           pip install matplotlib
-          pip install jsonpath
-          pip install requests_toolbelt
       - name: process us data
-        run: python ./code/s_america/brazil/brazil_workflow.py
+        run: python ./code/europe/russia/russia_workflow.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"

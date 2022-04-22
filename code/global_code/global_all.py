@@ -121,15 +121,16 @@ def india():
     # 输出没填充缺失值的
     year_list = df_all['year'].drop_duplicates().tolist()
     for x in year_list:
-        df_all[df_all['year'] == x].to_csv(out_path_cleaned + 'india-generation-' + str(x) + '-cleaned.csv',
+        df_all[df_all['year'] == x].to_csv(os.path.join(out_path_cleaned, 'india-generation-%s-cleaned.csv' % x),
                                            index=False, encoding='utf_8_sig')
+
     # 处理缺失值并输出
     for x in df_all.columns.tolist():
         if df_all[x].dtype == float:
             df_all[x] = df_all[x].fillna(df_all[x].interpolate())
     for x in year_list:
         df_temp = df_all[df_all['year'] == x].reset_index(drop=True)
-        df_temp.to_csv(out_path_cleaned + 'india-generation-' + str(x) + '-cleaned-filled.csv', index=False,
+        df_temp.to_csv(os.path.join(out_path_cleaned, 'india-generation-%s-cleaned-filed.csv' % x), index=False,
                        encoding='utf_8_sig')
 
     ####################################################################
@@ -213,7 +214,8 @@ def brazil():
     # cleaned 输出
     for y in df['year'].drop_duplicates().tolist():
         df_cleaned = df[df['year'] == y]
-        df_cleaned.to_csv(out_path_cleaned + 'brazil-generation-' + str(y) + '-cleaned.csv', index=False)
+        df_cleaned.to_csv(os.path.join(out_path_cleaned, 'brazil-generation-%s-cleaned.csv' % y), index=False)
+
         # #######################################################cleaned-simulated######################################
         df_hourly = df[df['year'] == y].reset_index(drop=True).fillna(0)
         df_hourly['Thermal.Gás.natural'] = df_hourly['Thermal:Gás natural'].astype(float) + df_hourly[
@@ -297,7 +299,7 @@ def eu():
     for y in df_bmrs['year'].drop_duplicates().tolist():
         df_bmrs_cleaned_yearly = df_bmrs[df_bmrs['year'] == y].reset_index(drop=True)
         out_path_cleaned_yearly = af.create_folder(out_path_cleaned, str(y))
-        df_bmrs_cleaned_yearly.to_csv(out_path_cleaned_yearly + 'United_Kingdom_BMRS.csv', index=False,
+        df_bmrs_cleaned_yearly.to_csv(os.path.join(out_path_cleaned_yearly, 'United_Kingdom_BMRS.csv'), index=False,
                                       encoding='utf_8_sig')
 
     df_bmrs['gas'] = df_bmrs['ccgt'] + df_bmrs['ocgt']
@@ -337,7 +339,8 @@ def eu():
             df_cleaned_yearly = df_cleaned[df_cleaned['year'] == y].reset_index(drop=True)
             df_hourly = df_cleaned_yearly.copy()
             out_path_cleaned_yearly = af.create_folder(out_path_cleaned, str(y))
-            df_cleaned_yearly.to_csv(out_path_cleaned_yearly + x, index=False, encoding='utf_8_sig')
+            df_cleaned_yearly.to_csv(os.path.join(out_path_cleaned_yearly, x), index=False, encoding='utf_8_sig')
+
             # ######simulated 准备工作
             df_hourly['coal'] = df_hourly[coal_list].astype(float).sum(axis=1)
             df_hourly['oil'] = df_hourly[oil_list].astype(float).sum(axis=1)
@@ -405,8 +408,9 @@ def japan():
     # 输出
     year_list = df['year'].drop_duplicates().tolist()
     for x in year_list:
-        df[df['year'] == x].to_csv(out_path_cleaned + 'japan-generation-' + str(x) + '-cleaned.csv', index=False,
+        df[df['year'] == x].to_csv(os.path.join(out_path_cleaned, 'japan-generation-%-cleaned.csv' % x), index=False,
                                    encoding='utf_8_sig')
+
     # ##################################cleaned-simulated######################################################
     # iea数据
     df_iea = af.iea_data('japan')
@@ -514,7 +518,7 @@ def russia():
     df = df.drop(columns=['hour'])
     for x in df['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(x))
-        df[df['year'] == x].to_csv(out_path_simulated_yearly + 'Russia_daily_generation-' + str(x) + '.csv',
+        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_daily_generation-%.csv' % x),
                                    index=False, encoding='utf_8_sig')
 
     # monthly
@@ -530,7 +534,7 @@ def russia():
     df = df.drop(columns=['date'])
     for x in df['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(x))
-        df[df['year'] == x].to_csv(out_path_simulated_yearly + 'Russia_monthly_generation-' + str(x) + '.csv',
+        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_monthly_generation-%.csv' % x),
                                    index=False, encoding='utf_8_sig')
 
 
