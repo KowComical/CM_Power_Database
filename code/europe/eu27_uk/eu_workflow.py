@@ -33,12 +33,13 @@ def main():
     downloadOriginalData(session)
     pre()
     # 爬取bmrs数据
-
+    sys.path.append('./code/europe/')
+    import uk_bmrs as uk
+    uk.main()
     # 处理数据
     g.eu()
-
-    af.draw_pic('eu27_uk')  # 作图
-
+    # 作图
+    af.draw_pic('eu27_uk')
 
 
 def login(u='https://transparency.entsoe.eu/sso/login'):
