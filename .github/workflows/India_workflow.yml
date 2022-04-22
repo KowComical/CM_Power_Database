@@ -18,6 +18,7 @@ jobs:
           pip install tqdm
           pip install matplotlib
           pip install pdfplumber
+          pip install bs4
       - name: process us data
         run: python ./code/asian/india/india_workflow.py
       - name: commit and push if it changed
