@@ -7,10 +7,10 @@
 # df_simulated_daily 时间列 = ['date','year','month','month_date','weekday'] unit = ['Gwh']
 # df_simulated_monthly 时间列 = ['year','month'] unit = ['Gwh']
 # ###########################function#########################################
-import sys
-sys.dont_write_bytecode = True
 
 def japan_download_Csvformat(u, in_path, name, start_date):
+    import sys
+    sys.dont_write_bytecode = True
     from datetime import datetime
     import urllib.request
     import pandas as pd
@@ -49,6 +49,8 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
     from dateutil.relativedelta import relativedelta
     import urllib.request
     import zipfile
+    import sys
+    sys.dont_write_bytecode = True
     file_n = search_file(in_path)
     file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
     date = []
@@ -87,6 +89,8 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
 def japan_extractData(in_path, out_path, name, directory, date, ty, first, second):
     import pandas as pd
     import os
+    import sys
+    sys.dont_write_bytecode = True
     if ty == 'ez':
         file_n = search_file(in_path)
         file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
@@ -116,6 +120,8 @@ def japan_extractData(in_path, out_path, name, directory, date, ty, first, secon
 
 def japan_path(company):
     import os
+    import sys
+    sys.dont_write_bytecode = True
     # 输入路径
     in_path = './data/asia/japan/craw/%s' % company
     if not os.path.exists(in_path):
@@ -130,6 +136,8 @@ def japan_path(company):
 
 def get_yesterday():
     import datetime
+    import sys
+    sys.dont_write_bytecode = True
     yesterday = datetime.date.today() + datetime.timedelta(-1)
     return yesterday
 
@@ -145,6 +153,8 @@ def search_file(file_path):
 
 def xunlei(url, down_path):
     from win32com.client import Dispatch
+    import sys
+    sys.dont_write_bytecode = True
     filename = url.split('/')[-1]
     thunder = Dispatch('ThunderAgent.Agent64.1')
     thunder.AddTask(url, filename, down_path)
@@ -154,6 +164,8 @@ def xunlei(url, down_path):
 def lighten_color(color, amount=0.5):  # 改颜色深浅
     import matplotlib.colors as mc
     import colorsys
+    import sys
+    sys.dont_write_bytecode = True
     try:
         c = mc.cnames[color]
     except:
@@ -168,6 +180,8 @@ def draw_pic(country):
     import matplotlib.pyplot as plt
     import re
     import os
+    import sys
+    sys.dont_write_bytecode = True
 
     in_path = './data/'
     global_path = './data/global/'
@@ -254,6 +268,8 @@ def write_pic(file_path, country):
     import os
     import pandas as pd
     import numpy as np
+    import sys
+    sys.dont_write_bytecode = True
     iea = iea_data(country)
     result = []
     folder = os.listdir(file_path)
@@ -302,6 +318,8 @@ def write_pic(file_path, country):
 
 def create_folder(file_path, Type):  # 建立需要的文件夹
     import os
+    import sys
+    sys.dont_write_bytecode = True
     out_path = os.path.join(file_path, Type + '/')
     if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
         os.mkdir(out_path)
@@ -309,6 +327,8 @@ def create_folder(file_path, Type):  # 建立需要的文件夹
 
 
 def check_col(df, Type):
+    import sys
+    sys.dont_write_bytecode = True
     r_col = []  # 检查数据的现存列名是否一致 如果不一致就删掉多余的
     if Type == 'hourly':  # 如果是simulated_hourly
         r_col = ['unit', 'datetime', 'date', 'year', 'month', 'month_date', 'weekday', 'hour', 'coal', 'oil', 'gas',
@@ -332,6 +352,8 @@ def check_col(df, Type):
 
 
 def time_b_a(x, which):  # 根据which 选择得到所选日期的前which天或者后which天
+    import sys
+    sys.dont_write_bytecode = True
     import datetime
     myday = datetime.datetime.strptime(x, '%Y-%m-%d')
     delta = datetime.timedelta(days=which)
@@ -342,6 +364,8 @@ def time_b_a(x, which):  # 根据which 选择得到所选日期的前which天或
 
 def time_info(df, date_name):  # 添加各种时间列
     import pandas as pd
+    import sys
+    sys.dont_write_bytecode = True
     df[date_name] = pd.to_datetime(df[date_name])
     df['year'] = df[date_name].dt.year
     df['month'] = df[date_name].dt.month
@@ -353,6 +377,8 @@ def time_info(df, date_name):  # 添加各种时间列
 
 
 def check_date(df, date_name, f):  # 检查现存时间缺失值并填充
+    import sys
+    sys.dont_write_bytecode = True
     import pandas as pd
     df[date_name] = pd.to_datetime(df[date_name])
     real_date = pd.date_range(start=min(df[date_name]), end=max(df[date_name]), freq=f).tolist()
@@ -366,6 +392,8 @@ def check_date(df, date_name, f):  # 检查现存时间缺失值并填充
 
 
 def insert_date(df, date_name, z):
+    import sys
+    sys.dont_write_bytecode = True
     import pandas as pd
     df[date_name] = pd.to_datetime(df[date_name])
     df = df.append([{date_name: z}], ignore_index=True)
@@ -374,6 +402,8 @@ def insert_date(df, date_name, z):
 
 
 def iea_data(j):
+    import sys
+    sys.dont_write_bytecode = True
     import pandas as pd
     iea_path = './data/#global_rf/iea/iea_cleaned.csv'
     df_iea = pd.read_csv(iea_path)
@@ -383,6 +413,8 @@ def iea_data(j):
 
 # 填充缺失值
 def fill_null(df, j, date_name, Type):
+    import sys
+    sys.dont_write_bytecode = True
     import calendar
     import pandas as pd
     import numpy as np
@@ -413,6 +445,8 @@ def fill_null(df, j, date_name, Type):
 
 
 def total_proc(df, unit=True):  # 处理数据
+    import sys
+    sys.dont_write_bytecode = True
     fossil_list = ['coal', 'gas', 'oil']
     carbon_list = ['nuclear', 'hydro', 'wind', 'solar', 'other']
     perc_list = ['fossil', 'low.carbon']
@@ -433,6 +467,8 @@ def total_proc(df, unit=True):  # 处理数据
 
 
 def agg(df, date_name, path, Type, name, folder, unit):  # 输出
+    import sys
+    sys.dont_write_bytecode = True
     time_info(df, date_name)
     total_proc(df, unit)
     df = check_col(df, Type)
