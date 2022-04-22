@@ -5,6 +5,13 @@
 # @Site    : https://github.com/zhudeng94
 # @File    : Europe_ENTSOE.py
 # @Software: PyCharm
+
+import sys
+
+sys.path.append('./code/global_code/')
+import global_function as af
+import global_all as g
+
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -25,6 +32,13 @@ def main():
     session = login()
     downloadOriginalData(session)
     pre()
+    # 爬取bmrs数据
+
+    # 处理数据
+    g.eu()
+
+    af.draw_pic('eu27_uk')  # 作图
+
 
 
 def login(u='https://transparency.entsoe.eu/sso/login'):

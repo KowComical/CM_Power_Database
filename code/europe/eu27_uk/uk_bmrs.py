@@ -26,7 +26,7 @@ parameter = {
 }
 base_url = 'https://www.bmreports.com/bmrs/?q=tabledemand&parameter='
 
-path = '../../data/europe/eu27_uk/raw/uk-BMRS/'
+path = './data/europe/eu27_uk/raw/uk-BMRS/'
 if not os.path.exists(path):
     os.mkdir(path)
 
