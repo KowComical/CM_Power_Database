@@ -20,7 +20,7 @@ jobs:
           pip install matplotlib
           pip install bs4
       - name: process us data
-        run: python ./code/asian/japan/japan_workflow.py
+        run: python ./code/asia/japan/japan_workflow.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
