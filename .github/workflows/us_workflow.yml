@@ -1,6 +1,7 @@
 name: us_workflow
 'on':
-  - push
+  schedule:
+    - cron: 0 2 * * *
 jobs:
   us_bot:
     runs-on: ubuntu-latest

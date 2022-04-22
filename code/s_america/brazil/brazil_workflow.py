@@ -30,6 +30,10 @@ import datetime
 import os
 from requests_toolbelt import MultipartEncoder
 import urllib3
+import sys
+sys.path.append('./code/global_code/')
+import global_function as af
+import global_all as g
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -74,7 +78,10 @@ def main():
         all['Date'] = pd.to_datetime(all['Date'], format="%d/%m/%Y %H:%M", errors='coerce')
         all.sort_values(by='Date', inplace=True)
         all.to_csv(filename, index=False)
-
+        # 整理数据
+        g.brazil()
+        # 可视化数据
+        af.draw_pic('brazil')
 
 
 # initialize a new session to the tableau server
