@@ -26,7 +26,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
           git push
   brazil_bot:
     needs: us_bot
@@ -81,7 +80,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
           git push
   india_bot:
     needs: eu_bot
@@ -111,7 +109,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
           git push
   japan_bot:
     needs: india_bot
@@ -139,7 +136,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
           git push
   russia_bot:
     needs: japan_bot
@@ -165,5 +161,4 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
           git push          
