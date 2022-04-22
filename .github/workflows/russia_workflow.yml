@@ -1,6 +1,7 @@
 name: russia_workflow
 'on':
-  - push
+  schedule:
+    - cron: 0 2 * * *
 jobs:
   russia_bot:
     runs-on: ubuntu-latest
