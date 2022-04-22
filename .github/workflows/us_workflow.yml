@@ -1,8 +1,8 @@
-name: us_craw
+name: us_workflow
 
-on: # [push]
-  schedule: # UTC时间每天凌晨2点运行一次
-    - cron: "0 2 * * *"
+on: [push]
+  # schedule: # UTC时间每天凌晨2点运行一次
+  # - cron: "0 2 * * *"
 jobs:
   us_bot:
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
           pip install requests
           pip install tqdm
       - name: 'download us daily data'
-        run: python ./code/n_america/us/us_craw.py
+        run: python ./code/n_america/us/us_workflow.py
       - name: 'commit and push if it changed'
         run: |
           git config user.name "${GITHUB_ACTOR}"

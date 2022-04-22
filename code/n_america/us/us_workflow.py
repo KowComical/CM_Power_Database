@@ -82,5 +82,7 @@ col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nucle
 df.columns = col_list
 df.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
 
+# 数据整理
 g.us()
-
+# 数据可视化
+af.draw_pic('us')

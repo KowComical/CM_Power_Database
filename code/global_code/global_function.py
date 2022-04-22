@@ -162,13 +162,14 @@ def draw_pic(country):
     import pandas as pd
     import matplotlib.pyplot as plt
     import re
+    import os
 
     mpl.rcParams['font.sans-serif'] = ['SimHei']
-    in_path = '../../data/'
-    global_path = '../../data/global/'
+    in_path = './data/'
+    global_path = './data/global/'
 
     if country == 'eu27_uk':
-        name = re.compile(r'daily\\(?P<name>.*?).csv', re.S)  # 从路径找出国家
+        name = re.compile(r'daily/(?P<name>.*?).csv', re.S)  # 从路径找出国家
         file_name = search_file(in_path)
         file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
         file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
@@ -184,7 +185,7 @@ def draw_pic(country):
             df_temp['country'] = c.capitalize()
             df_all = pd.concat([df_temp, df_all])
 
-        df_c = pd.read_csv(global_path + 'EU_country_list.csv')
+        df_c = pd.read_csv(os.path.join(global_path, 'EU_country_list.csv'))
         eu27_list = df_c['country'].tolist() + ['United kingdom']
         df_all = df_all[df_all['country'].isin(eu27_list)].reset_index(drop=True)
         df_all = df_all.set_index(
@@ -208,7 +209,7 @@ def draw_pic(country):
     df_all = df_all[df_all['year'] >= 2019].reset_index(drop=True)
     df_all = df_all[:-1]  # 最后一天的数据一般都不准确
 
-    file_path = '../../image/'
+    file_path = './image/'
     out_path = create_folder(file_path, country)
 
     year_list = df_all['year'].drop_duplicates().tolist()
@@ -241,7 +242,7 @@ def draw_pic(country):
         ax.xaxis.set_major_locator(MonthLocator())
         ax.xaxis.set_major_formatter(DateFormatter('%b'))
         plt.legend(loc='best', prop={'size': size_num})
-    plt.savefig(out_path + country + '_line_chart.png', dpi=500)
+    plt.savefig(os.path.join(out_path, country, '_line_chart.png'), dpi=500)
 
 
 def write_pic(file_path, country):
@@ -297,7 +298,7 @@ def write_pic(file_path, country):
 
 def create_folder(file_path, Type):  # 建立需要的文件夹
     import os
-    out_path = os.path.join(file_path, Type+'/')
+    out_path = os.path.join(file_path, Type + '/')
     if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
         os.mkdir(out_path)
     return out_path
