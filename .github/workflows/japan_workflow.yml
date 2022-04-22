@@ -1,7 +1,7 @@
 name: russia_workflow
-'on':
-  schedule:
-    - cron: 0 2 * * *
+'on': [push]
+  #schedule:
+    #- cron: 0 22 * * *
 jobs:
   japan_bot:
     runs-on: ubuntu-latest

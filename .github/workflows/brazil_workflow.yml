@@ -1,7 +1,7 @@
 name: brazil_workflow
-'on':
-  schedule:
-    - cron: 0 2 * * *
+'on': [push]
+  #schedule:
+    #- cron: 0 22 * * *
 jobs:
   brazil_bot:
     runs-on: ubuntu-latest

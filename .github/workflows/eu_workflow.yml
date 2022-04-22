@@ -1,7 +1,7 @@
 name: eu_workflow
-'on':
-  schedule:
-    - cron: 0 2 * * *
+'on': [push]
+  #schedule:
+    #- cron: 0 22 * * *
 jobs:
   eu_bot:
     runs-on: ubuntu-latest

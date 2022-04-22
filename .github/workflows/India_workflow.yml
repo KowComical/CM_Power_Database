@@ -1,6 +1,7 @@
 name: india_workflow
-'on':
-  - push
+'on': [push]
+  #schedule:
+    #- cron: 0 22 * * *
 jobs:
   india_bot:
     runs-on: ubuntu-latest
