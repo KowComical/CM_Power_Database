@@ -1,5 +1,4 @@
 import re
-from global_code import global_function as af
 import urllib.request
 import sys
 
