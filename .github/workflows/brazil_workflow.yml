@@ -17,6 +17,7 @@ jobs:
           pip install requests
           pip install matplotlib
           pip install jsonpath
+          pip install requests_toolbelt
       - name: process us data
         run: python ./code/s_america/brazil/brazil_workflow.py
       - name: commit and push if it changed
