@@ -110,7 +110,7 @@ jobs:
           pip install bs4
           pip install lxml
       - name: process data
-        run: python ./code/asia/india/india_workflow.py
+        run: python ./code/asian/india/india_workflow.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
@@ -140,7 +140,7 @@ jobs:
           pip install matplotlib
           pip install bs4
       - name: process data
-        run: python ./code/asia/japan/japan_workflow.py
+        run: python ./code/asian/japan/japan_workflow.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
