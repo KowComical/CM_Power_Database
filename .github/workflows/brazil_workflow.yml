@@ -1,6 +1,7 @@
 name: brazil_workflow
 'on':
-  - push
+  schedule:
+    - cron: 0 22 * * *
 jobs:
   brazil_bot:
     runs-on: ubuntu-latest
@@ -27,5 +28,4 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
-          git push -u origin master
+          git push

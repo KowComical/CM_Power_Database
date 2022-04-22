@@ -1,6 +1,7 @@
 name: russia_workflow
 'on':
-  - push
+  schedule:
+    - cron: 0 22 * * *
 jobs:
   russia_bot:
     runs-on: ubuntu-latest
@@ -26,4 +27,4 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull origin master
-          git push -u origin master
+          git push
