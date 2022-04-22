@@ -26,6 +26,8 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
+          git config pull.rebase false
+          git pull
           git push
   brazil_bot:
     needs: us_bot
@@ -53,6 +55,7 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
+          git config pull.rebase false
           git pull
           git push
   eu_bot:
@@ -81,6 +84,7 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
+          git config pull.rebase false
           git pull
           git push
   india_bot:
@@ -111,6 +115,7 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
+          git config pull.rebase false
           git pull
           git push
   japan_bot:
@@ -139,6 +144,7 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
+          git config pull.rebase false
           git pull
           git push
   russia_bot:
@@ -165,5 +171,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
+          git config pull.rebase false
           git pull
           git push          
