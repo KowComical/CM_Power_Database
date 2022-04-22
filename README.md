@@ -1,7 +1,7 @@
 # GlobalPowerUpdate-Kow
 
 ![](./image/brazil/brazil_line_chart.png)
-![](./data/s_america)
+![Brazil](./data/s_america/brazil)
 
 **iea数据貌似是每月更新15号更新3个月前的数据**
 https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics
