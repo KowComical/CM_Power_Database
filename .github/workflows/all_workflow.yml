@@ -1,5 +1,5 @@
 name: all_workflow
-'on':
+on:
   schedule:
       - cron: 0 22 * * *
 jobs:
