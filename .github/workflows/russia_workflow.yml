@@ -26,5 +26,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
-          git push
+          git config pull.rebase false
+          git pull
+          git push          

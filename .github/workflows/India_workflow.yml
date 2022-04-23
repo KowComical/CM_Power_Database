@@ -22,7 +22,7 @@ jobs:
           pip install bs4
           pip install lxml
       - name: process us data
-        run: python ./code/asia/india/india_workflow.py
+        run: python ./code/asian/india/india_workflow.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
@@ -30,5 +30,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git pull origin master
-          git push
+          git config pull.rebase false
+          git pull
+          git push          
