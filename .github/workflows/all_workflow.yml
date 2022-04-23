@@ -1,4 +1,4 @@
-name: us_workflow
+name: all_workflow
 'on':
   - push
 jobs:
