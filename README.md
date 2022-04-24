@@ -1,30 +1,30 @@
 # GlobalPowerUpdate-Kow
 
-![](./image/brazil/brazil_line_chart.png)
+# ![](./image/brazil/brazil_line_chart.png)
+
+**iea数据每月更新15号更新3个月前的数据**
 [Brazil](./data/s_america/brazil)
 
-**iea数据貌似是每月更新15号更新3个月前的数据**
-https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics
-
-**India #必须翻墙**
+**[India](./data/asia/india)**
 完全更新完 数据会保持在每日更新 2天延迟
 
-**Brazil**
+**[Brazil](./data/s_america/brazil)**
 完全更新完 数据会保持在每日更新 2天延迟
 
-**US #必须翻墙**
+
+**[United States](./data/n_america/us)**
 完全更新完 数据会保持在每日更新 2天延迟
 
-**EU #半小时运行一次 太慢**
+**[EU27&UK](./data/europe/eu27_uk)**
 完全更新完 数据会保持在每日更新 1天延迟
 
-**Japan**
-等爬虫 自己尝试过 失败了 每月月初10号左右更新2个月前的数据
-现在更新到2021年1月31
-日本公司 新代码
+**[Japan](./data/asia/japan)**
+每月月初10号左右更新2个月前的数据 需手动
+日本公司新数据可实现daily更新 但未分燃料类型
 
-**Russia**
-爬虫一直retry
+**[Russia](./data/europe/russia)**
+TBD
 
-**China**
-火电没分开
+**[China](./data/asia/china)**
+爬虫还在设计
+现在可以手动计算
