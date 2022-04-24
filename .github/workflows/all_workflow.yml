@@ -27,6 +27,7 @@ jobs:
           find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
+          git config pull.rebase false
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull
           git push
@@ -55,6 +56,7 @@ jobs:
           find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
+          git config pull.rebase false
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull
           git push
@@ -83,6 +85,7 @@ jobs:
           find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
+          git config pull.rebase false
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull
           git push
@@ -113,6 +116,7 @@ jobs:
           find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
+          git config pull.rebase false
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull
           git push
@@ -141,6 +145,7 @@ jobs:
           find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
+          git config pull.rebase false
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull
           git push
@@ -167,6 +172,7 @@ jobs:
           find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
+          git config pull.rebase false
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull
           git push          
