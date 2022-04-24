@@ -1,7 +1,7 @@
 name: all_workflow
-on:
-  schedule:
-      - cron: 0 22 * * *
+on: [push]
+  # schedule:
+      # - cron: 0 22 * * *
 jobs:
   us_bot:
     runs-on: ubuntu-latest
@@ -28,7 +28,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git config pull.rebase false
           git pull
           git push
   brazil_bot:
@@ -57,7 +56,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git config pull.rebase false
           git pull
           git push
   eu_bot:
@@ -86,7 +84,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git config pull.rebase false
           git pull
           git push
   india_bot:
@@ -117,7 +114,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git config pull.rebase false
           git pull
           git push
   japan_bot:
@@ -146,7 +142,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git config pull.rebase false
           git pull
           git push
   russia_bot:
@@ -173,6 +168,5 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Latest data: ${timestamp}" || exit 0
-          git config pull.rebase false
           git pull
           git push          
