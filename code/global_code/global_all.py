@@ -4,7 +4,6 @@
 # us, india, brazil, eu, japan, russia
 
 import pandas as pd
-import numpy as np
 import os
 from datetime import datetime
 import requests
@@ -117,7 +116,7 @@ def india():
     df_all['date'] = pd.to_datetime(df_all['date'], format='%Y-%m-%d')
     af.time_info(df_all, 'date')  # 添加各种日期数据和单位
     df_all['unit'] = 'MU'
-    df_all.columns = df_all.columns.map(lambda x: x.lower())  # 全小写
+    df_all.columns = df_all.columns.map(lambda k: k.lower())  # 全小写
     df_all = df_all.rename(
         columns={'gas, naptha & diesel': 'gas_naptha_diesel', 'res (wind, solar, biomass & others)': 'res'}).drop(
         columns=['hour'])  # 修改列名细节
@@ -445,7 +444,7 @@ def japan():
             df_temp_monthly['solar'] = df_temp_monthly['photovoltaic'] + df_temp_monthly['photovoltaic_regulated']
             df_temp_monthly['wind'] = df_temp_monthly['wind'] + df_temp_monthly['wind_regulated']
             df_temp_monthly['other'] = df_temp_monthly['biomass'] + df_temp_monthly['geothermal']
-            df_new_result = pd.concat([df_new_result,df_temp_monthly]).reset_index(drop=True)
+            df_new_result = pd.concat([df_new_result, df_temp_monthly]).reset_index(drop=True)
     df_all = df_new_result.copy()
 
     for x in df_all.columns:
@@ -508,49 +507,50 @@ def japan():
     next_month_end = pd.date_range(start=df_old['date'].max(), periods=2, freq='M')[1]
     # 生成下一个月的日期范围
     month_range = pd.date_range(start=next_month_first, end=next_month_end, freq='h')
+    # 只有当下个月有完整月份数据时 才会处理下方代码
+    if len(month_range) == len(df_new[df_new['date'].isin(month_range)]):
+        df_insert = df_new[df_new['date'].isin(month_range)].reset_index(drop=True)
+        df_insert['date'] = pd.to_datetime(df_insert['date'])
+        df_insert['year'] = df_insert['date'].dt.year - 1  # 去年
+        df_insert['month'] = df_insert['date'].dt.month
+        df_insert['day'] = df_insert['date'].dt.day
+        df_insert['hour'] = df_insert['date'].dt.hour
+        month_list = pd.to_datetime(df_insert[['year', 'month', 'day', 'hour']].assign(), errors='coerce')
+        df_insert['datetime'] = month_list
+        df_old['datetime'] = pd.to_datetime(df_old['datetime'])
+        df_insert = df_insert[['datetime', 'gwh']]
 
-    df_insert = df_new[df_new['date'].isin(month_range)].reset_index(drop=True)
-    df_insert['date'] = pd.to_datetime(df_insert['date'])
-    df_insert['year'] = df_insert['date'].dt.year - 1  # 去年
-    df_insert['month'] = df_insert['date'].dt.month
-    df_insert['day'] = df_insert['date'].dt.day
-    df_insert['hour'] = df_insert['date'].dt.hour
-    month_list = pd.to_datetime(df_insert[['year', 'month', 'day', 'hour']].assign(), errors='coerce')
-    df_insert['datetime'] = month_list
-    df_old['datetime'] = pd.to_datetime(df_old['datetime'])
-    df_insert = df_insert[['datetime', 'gwh']]
+        df_insert = pd.merge(df_insert, df_old)
 
-    df_insert = pd.merge(df_insert, df_old)
+        perc_list = df_insert.loc[:, df_insert.columns.str.contains('perc', case=False)].columns
 
-    perc_list = df_insert.loc[:, df_insert.columns.str.contains('perc', case=False)].columns
+        for p in perc_list:
+            df_insert[p[:-5]] = df_insert['gwh'] * df_insert[p]
 
-    for p in perc_list:
-        df_insert[p[:-5]] = df_insert['gwh'] * df_insert[p]
+        df_insert['datetime'] = month_range
 
-    df_insert['datetime'] = month_range
+        # 整理新的数据
+        af.time_info(df_insert, 'datetime')
+        af.total_proc(df_insert, unit=False)
+        df_insert = af.check_col(df_insert, 'hourly')
 
-    # 整理新的数据
-    af.time_info(df_insert, 'datetime')
-    af.total_proc(df_insert, unit=False)
-    df_insert = af.check_col(df_insert, 'hourly')
-
-    df_result = pd.concat([df_old, df_insert]).reset_index(drop=True)
-    for y in df_result['year'].drop_duplicates().tolist():
-        df_hourly = df_result[df_result['year'] == y].reset_index(drop=True)
-        df_daily = df_hourly.copy()
-        df_monthly = df_hourly.copy()
-        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
-        # hourly
-        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
-               name='Japan_hourly_generation-' + str(y) + '.csv', folder=False, unit=True)
-        # daily
-        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
-        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
-               name='Japan_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
-        # monthly
-        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
-        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
-               name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
+        df_result = pd.concat([df_old, df_insert]).reset_index(drop=True)
+        for y in df_result['year'].drop_duplicates().tolist():
+            df_hourly = df_result[df_result['year'] == y].reset_index(drop=True)
+            df_daily = df_hourly.copy()
+            df_monthly = df_hourly.copy()
+            out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+            # hourly
+            af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+                   name='Japan_hourly_generation-' + str(y) + '.csv', folder=False, unit=True)
+            # daily
+            df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+            af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+                   name='Japan_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
+            # monthly
+            df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+            af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+                   name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
 
 
 # #################################################################Russia#############################################################################
