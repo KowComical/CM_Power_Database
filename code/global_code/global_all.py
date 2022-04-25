@@ -558,8 +558,6 @@ def china():
     file_name = af.search_file(in_path)
     df = pd.concat([pd.read_csv(f) for f in file_name])
 
-    df['year'] = df['date'].dt.year
-    df['month'] = df['date'].dt.month
     df['fossil_other'] = df[['fossil', 'other']].sum(axis=1)
     df['renewable'] = df[['nuclear', 'hydro', 'wind', 'solar']].sum(axis=1)
 
@@ -581,7 +579,7 @@ def china():
     df_new['solar'] = df_new['lc'] * df_new['solar'] / df_new['renewable']
     df_new['wind'] = df_new['lc'] * df_new['wind'] / df_new['renewable']
 
-    df_new = df_new.sort_values(by='Date').reset_index(drop=True).drop(columns='date').rename(columns={'Date': 'date'})
+    df_new = df_new.sort_values(by='Date').reset_index(drop=True).rename(columns={'Date': 'date'})
 
     for y in df_new['year'].drop_duplicates().tolist():
         df_temp = df_new[df_new['year'] == y]
