@@ -139,7 +139,7 @@ def india():
     ####################################################################
     # 处理monthly数据做后续备用
     df_iea = af.iea_data('india')
-    result = []
+    df_new_result = pd.DataFrame()
     # #########################################cleaned-simulated###################################################
     for y in df_all['year'].drop_duplicates().tolist():
         df_iea_temp = df_iea[df_iea['year'] == y].reset_index(drop=True)
@@ -163,11 +163,11 @@ def india():
             df_temp_monthly['solar'] = df_temp_monthly['res'] * (solar_value / (solar_value + wind_value + other_value))
             df_temp_monthly['wind'] = df_temp_monthly['res'] * (wind_value / (solar_value + wind_value + other_value))
             df_temp_monthly['other'] = df_temp_monthly['res'] * (other_value / (solar_value + wind_value + other_value))
-            result.append(df_temp_monthly)
-    df_all = pd.DataFrame(np.concatenate(result), columns=df_temp_monthly.columns)
+            df_new_result = pd.concat([df_new_result, df_temp_monthly]).reset_index(drop=True)
+    df_all = df_new_result.copy()
 
     for t in df_all.index.tolist():
-        if pd.isna(df_all['coal'].iloc[t]) == True and pd.isna(df_all['lignite'].iloc[t]) == False:
+        if pd.isna(df_all['coal'].iloc[t]) is True and pd.isna(df_all['lignite'].iloc[t]) is False:
             df_all.loc[t, 'coal'] = df_all.loc[t, 'lignite']
 
     # 生成缺失的日期
@@ -417,7 +417,7 @@ def japan():
     # ##################################cleaned-simulated######################################################
     # iea数据
     df_iea = af.iea_data('japan')
-    result = []
+    df_new_result = pd.DataFrame()
     for y in df['year'].drop_duplicates().tolist():
         df_iea_temp = df_iea[df_iea['year'] == y].reset_index(drop=True)
         df_temp = df[df['year'] == y].reset_index(drop=True)
@@ -445,8 +445,8 @@ def japan():
             df_temp_monthly['solar'] = df_temp_monthly['photovoltaic'] + df_temp_monthly['photovoltaic_regulated']
             df_temp_monthly['wind'] = df_temp_monthly['wind'] + df_temp_monthly['wind_regulated']
             df_temp_monthly['other'] = df_temp_monthly['biomass'] + df_temp_monthly['geothermal']
-            result.append(df_temp_monthly)
-    df_all = pd.DataFrame(np.concatenate(result), columns=df_temp_monthly.columns)
+            df_new_result = pd.concat([df_new_result,df_temp_monthly]).reset_index(drop=True)
+    df_all = df_new_result.copy()
 
     for x in df_all.columns:
         try:

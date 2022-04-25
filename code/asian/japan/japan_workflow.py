@@ -30,7 +30,7 @@ def main():
     df['gwh'] = (df['当日実績(万kW)'] + df['実績(万kW)']) / 100  # 万千瓦 to Mwh
     df['date'] = df['DATE'].astype(str) + ' ' + df['TIME'].astype(str)
     df['date'] = pd.to_datetime(df['date'])
-    df = df[['date', '当日実績(万kW)']].reset_index(drop=True)
+    df = df[['date', 'gwh']].reset_index(drop=True)
     df = df.groupby(['date']).sum().reset_index()
     df.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'))
 
