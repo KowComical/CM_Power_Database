@@ -390,7 +390,7 @@ df_gwh['year'] = df_gwh['date'].dt.year
 year_list = df_gwh['year'].drop_duplicates().tolist()
 for y in year_list:
     df_temp = df_gwh[df_gwh['year'] == y].reset_index(drop=True)
-    af.agg(df_temp, 'date', raw_path, 'monthly', name='%s.csv' % y, folder=False, unit=False)
+    af.agg(df_temp, 'date', raw_path, 'monthly', name='/%s.csv' % y, folder=False, unit=False)
 
 # ###################################################### raw to simulated #########################################
 # 处理数据
