@@ -16,6 +16,8 @@ def main():
     kyuden()
 
 
+
+
 def okiden():
     # 0_okiden
     u = 'http://www.okiden.co.jp/denki2/juyo_10_%s.csv'

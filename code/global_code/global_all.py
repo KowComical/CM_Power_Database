@@ -10,6 +10,7 @@ from datetime import datetime
 import requests
 import global_function as af  # 所有的function
 import sys
+
 sys.dont_write_bytecode = True
 
 # ###########################################################################################################################################
@@ -453,6 +454,7 @@ def japan():
         except:
             pass
     af.time_info(df_all, 'datetime')
+
     for y in df_all['year'].drop_duplicates().tolist():
         df_hourly = df_all[df_all['year'] == y].reset_index(drop=True)
         df_daily = df_hourly.copy()
@@ -492,6 +494,62 @@ def japan():
         df_monthly = df_monthly.set_index('date').resample('m').sum().reset_index()
         af.agg(df_monthly, 'date', out_path_simulated_yearly, 'monthly',
                name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
+
+    # 预测一个月的数据
+    # 读取old 数据
+    file_name = af.search_file(file_path)
+    old_name = [file_name[i] for i, x in enumerate(file_name) if x.find('hourly') != -1]
+    df_old = pd.concat([pd.read_csv(f) for f in old_name]).reset_index(drop=True)
+    df_new = pd.read_csv(os.path.join(in_path, 'craw_data.csv'))
+
+    # 用去年同月的百分比估算今年下一个月的值 # 2022年3月的值用2021年3月的百分比
+    # 添加一个新的月
+    next_month_first = pd.date_range(start=df_old['date'].max(), periods=2, freq='d')[1]
+    next_month_end = pd.date_range(start=df_old['date'].max(), periods=2, freq='M')[1]
+    # 生成下一个月的日期范围
+    month_range = pd.date_range(start=next_month_first, end=next_month_end, freq='h')
+
+    df_insert = df_new[df_new['date'].isin(month_range)].reset_index(drop=True)
+    df_insert['year'] = df_insert['date'].dt.year - 1  # 去年
+    df_insert['month'] = df_insert['date'].dt.month
+    df_insert['day'] = df_insert['date'].dt.day
+    df_insert['hour'] = df_insert['date'].dt.hour
+    month_list = pd.to_datetime(df_insert[['year', 'month', 'day', 'hour']].assign(), errors='coerce')
+    df_insert['datetime'] = month_list
+    df_old['datetime'] = pd.to_datetime(df_old['datetime'])
+    df_insert = df_insert[['datetime', 'gwh']]
+
+    df_insert = pd.merge(df_insert, df_old)
+
+    perc_list = df_insert.loc[:, df_insert.columns.str.contains('perc', case=False)].columns
+
+    for p in perc_list:
+        df_insert[p[:-5]] = df_insert['gwh'] * df_insert[p]
+
+    df_insert['datetime'] = month_range
+
+    # 整理新的数据
+    af.time_info(df_insert, 'datetime')
+    af.total_proc(df_insert, unit=False)
+    df_insert = af.check_col(df_insert, 'hourly')
+
+    df_result = pd.concat([df_old, df_insert]).reset_index(drop=True)
+    for y in df_result['year'].drop_duplicates().tolist():
+        df_hourly = df_result[df_result['year'] == y].reset_index(drop=True)
+        df_daily = df_hourly.copy()
+        df_monthly = df_hourly.copy()
+        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+        # hourly
+        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+               name='Japan_hourly_generation-' + str(y) + '.csv', folder=False, unit=True)
+        # daily
+        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+               name='Japan_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
+        # monthly
+        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+               name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
 
 
 # #################################################################Russia#############################################################################

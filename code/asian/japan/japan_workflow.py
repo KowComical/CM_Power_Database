@@ -1,6 +1,9 @@
 import re
 import urllib.request
+import pandas as pd
+import os
 import sys
+
 sys.dont_write_bytecode = True
 
 sys.path.append('./code/global_code/')
@@ -19,6 +22,18 @@ def main():
     energia()
     yonden()
     kyuden()
+    # 汇总craw数据
+    file_path = './data/asia/japan/'
+    file_name = af.search_file(file_path)
+    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('company') != -1]
+    df = pd.concat([pd.read_csv(f) for f in file_name]).reset_index(drop=True).fillna(0)
+    df['gwh'] = (df['当日実績(万kW)'] + df['実績(万kW)']) / 100  # 万千瓦 to Mwh
+    df['date'] = df['DATE'].astype(str) + ' ' + df['TIME'].astype(str)
+    df['date'] = pd.to_datetime(df['date'])
+    df = df[['date', '当日実績(万kW)']].reset_index(drop=True)
+    df = df.groupby(['date']).sum().reset_index()
+    df.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'))
+
     # 整理数据
     g.japan()
     # 作图
