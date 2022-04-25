@@ -1,4 +1,4 @@
-﻿unit,datetime,date,year,month,month_date,weekday,hour,coal,oil,gas,nuclear,hydro,wind,solar,other,fossil,low.carbon,total.prod,coal.perc,oil.perc,gas.perc,nuclear.perc,hydro.perc,wind.perc,solar.perc,other.perc,fossil.perc,low.carbon.perc
+﻿unit,datetime,date,year,month,month_date,weekday,hour,coal,gas,oil,nuclear,hydro,wind,solar,other,fossil,low.carbon,total.prod,coal.perc,gas.perc,oil.perc,nuclear.perc,hydro.perc,wind.perc,solar.perc,other.perc,fossil.perc,low.carbon.perc
 Mwh,2020-01-01 00:00:00,2020-01-01,2020,1,01-01,Wednesday,0,1159.0,0.0,0.0,,1087.967,47.0,,0.0,1159.0,1134.967,2293.967,0.5052383055205241,0.0,0.0,,0.4742731695791614,0.02048852490031461,,0.0,0.5052383055205241,0.494761694479476
 Mwh,2020-01-01 01:00:00,2020-01-01,2020,1,01-01,Wednesday,1,1126.0,0.0,0.0,,755.952,32.0,,0.0,1126.0,787.952,1913.952,0.588311514604337,0.0,0.0,,0.394969152831419,0.016719332564244037,,0.0,0.588311514604337,0.411688485395663
 Mwh,2020-01-01 02:00:00,2020-01-01,2020,1,01-01,Wednesday,2,1129.0,0.0,0.0,,668.937,51.0,,0.0,1129.0,719.937,1848.937,0.6106211298708394,0.0,0.0,,0.36179545327937085,0.027583416849789908,,0.0,0.6106211298708394,0.3893788701291607
