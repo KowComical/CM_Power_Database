@@ -14,6 +14,7 @@ import global_all as g
 
 # ##################################################### craw 部分 ######################################################################
 out_path = './data/asia/china/craw/'
+out_file = os.path.join(out_path, 'manually.csv')
 url = 'https://cec.org.cn/ms-mcms/mcms/content/search'
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) ''AppleWebKit/605.1.15 (KHTML, like Gecko) ''Version/12.0 Safari/605.1.15'}
@@ -66,6 +67,12 @@ url_list = result['url'].tolist()
 source_list = result['source'].tolist()
 
 sector_list = ['水电', '火电', '燃煤发电', '燃气发电', '核电', '风电', '太阳能发电']
+
+# 建立两个储存数据的df
+df_power_all = pd.DataFrame()
+df_hour_all = pd.DataFrame()
+
+# 开始爬取
 for t, u, s in zip(title_list, url_list, source_list):
     r = requests.get(u, headers=headers, verify=False)
     text = r.json()['data']['articleContent']
@@ -91,7 +98,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     df_power['source'] = s
     df_power['date'] = t
     df_power.to_csv(os.path.join(out_path, 'power', '%s.csv' % t), encoding='utf_8_sig', index=False)
-
+    df_power_all = pd.concat([df_power_all, df_power]).reset_index(drop=True)
     # 利用小时
     data = []
     sector = []
@@ -109,6 +116,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     df_hour['source'] = s
     df_hour['date'] = t
     df_hour.to_csv(os.path.join(out_path, 'hour', '%s.csv' % t), encoding='utf_8_sig', index=False)
+    df_hour_all = pd.concat([df_hour_all, df_hour]).reset_index(drop=True)
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) ''AppleWebKit/605.1.15 (KHTML, like Gecko) ''Version/12.0 Safari/605.1.15'}
@@ -176,7 +184,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     df_power['date'] = t
     df_power['sector'] = df_power['sector'].str.replace('煤电', '燃煤发电')
     df_power.to_csv(os.path.join(out_path, 'power', '%s.csv' % t), encoding='utf_8_sig', index=False)
-
+    df_power_all = pd.concat([df_power_all, df_power]).reset_index(drop=True)
     # 利用小时
     data = []
     sector = []
@@ -196,53 +204,45 @@ for t, u, s in zip(title_list, url_list, source_list):
     df_hour['date'] = t
     df_hour['sector'] = df_hour['sector'].str.replace('煤电', '燃煤发电').str.replace('气电', '燃气发电')
     df_hour.to_csv(os.path.join(out_path, 'hour', '%s.csv' % t), encoding='utf_8_sig', index=False)
+    df_hour_all = pd.concat([df_hour_all, df_hour]).reset_index(drop=True)
+# 如果没有更新的数据 则处理现有的
+if not df_hour_all.empty:  # 如果数据更新了
+    # 添加单位
+    unit = []
+    df_power_all['power'] = df_power_all['power'].astype(str)
+    for p in df_power_all['power'].tolist():
+        if '亿' in p:
+            unit.append('亿千瓦')
+        elif '万' in p:
+            unit.append('万千瓦')
+        else:
+            unit.append(p)
+    df_power_all['unit'] = unit
+    df_power_all['power'] = df_power_all['power'].astype(str).str.extract('(-?\d+\.?\d*e?-?\d*?)', expand=False).astype(
+        float)  # 将数据行只保留数据
+    df_hour_all['hour'] = df_hour_all['hour'].astype(str).str.extract('(-?\d+\.?\d*e?-?\d*?)', expand=False).astype(
+        float)  # 将数据行只保留数据
+    # 将单位统一为亿万瓦
+    power = []
+    power_list = df_power_all['power'].tolist()
+    unit_list = df_power_all['unit'].tolist()
+    for p, u in zip(power_list, unit_list):
+        if u == '亿千瓦':
+            power.append(p)
+        elif u == '万千瓦':
+            power.append(p / 10000)
+        else:
+            power.append(np.nan)
+    df_power_all['power'] = power
 
-file_name = af.search_file(out_path)
-file_hour = [file_name[i] for i, x in enumerate(file_name) if x.find('hour') != -1]
-file_power = [file_name[i] for i, x in enumerate(file_name) if x.find('power') != -1]
-df_power = pd.concat([pd.read_csv(f) for f in file_power]).reset_index(drop=True)
-df_hour = pd.concat([pd.read_csv(f) for f in file_hour]).reset_index(drop=True)
+    df_all = pd.merge(df_power_all, df_hour_all, how='left')
 
-# 数据预处理
-# 添加单位
-unit = []
-df_power['power'] = df_power['power'].astype(str)
-for p in df_power['power'].tolist():
-    if '亿' in p:
-        unit.append('亿千瓦')
-    elif '万' in p:
-        unit.append('万千瓦')
+    # 将手动版输出
+    df_man = pd.pivot_table(df_all, index=['date', 'source'], values=['power', 'hour'], columns='sector').reset_index()
+    if os.path.exists(out_file):
+        df_man.to_csv(out_file, mode='a', header=False, index=False, encoding='utf_8_sig')
     else:
-        unit.append(p)
-df_power['unit'] = unit
-
-df_power['power'] = df_power['power'].astype(str).str.extract('(-?\d+\.?\d*e?-?\d*?)', expand=False).astype(
-    float)  # 将数据行只保留数据
-df_hour['hour'] = df_hour['hour'].astype(str).str.extract('(-?\d+\.?\d*e?-?\d*?)', expand=False).astype(
-    float)  # 将数据行只保留数据
-
-# 将单位统一为亿万瓦
-power = []
-power_list = df_power['power'].tolist()
-unit_list = df_power['unit'].tolist()
-for p, u in zip(power_list, unit_list):
-    if u == '亿千瓦':
-        power.append(p)
-    elif u == '万千瓦':
-        power.append(p / 10000)
-    else:
-        power.append(np.nan)
-df_power['power'] = power
-
-df_all = pd.merge(df_power, df_hour, how='left')
-
-# 将手动版输出
-df_man = pd.pivot_table(df_all, index=['date', 'source'], values=['power', 'hour'], columns='sector').reset_index()
-out_file = os.path.join(out_path, 'manually.csv')
-if os.path.exists(out_file):
-    df_man.to_csv(out_file, mode='a', header=False, index=False, encoding='utf_8_sig')
-else:
-    df_man.to_csv(out_file, index=False, encoding='utf_8_sig')
+        df_man.to_csv(out_file, index=False, encoding='utf_8_sig')
 
 # #################################################### craw to raw 部分 ######################################################################
 # 路径
