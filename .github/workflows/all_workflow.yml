@@ -1,7 +1,6 @@
 name: all_workflow
-on:
-   schedule:
-       - cron: 0 22 * * *
+'on':
+  - push
 jobs:
   us_bot:
     runs-on: ubuntu-latest
@@ -175,4 +174,31 @@ jobs:
           git config pull.rebase false
           git commit -m "Latest data: ${timestamp}" || exit 0
           git pull
-          git push          
+          git push       
+  china_bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check_code
+        uses: actions/checkout@master
+      - name: set up Python 3.8
+        uses: actions/setup-Python@v2
+        with:
+          python-version: '3.8'
+      - name: install requirements
+        run: |
+          pip install pandas
+          pip install matplotlib
+          pip install requests
+      - name: process data
+        run: python ./code/asian/china/china_workflow.py
+      - name: commit and push if it changed
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          find ./ -name ".pyc"　|xargs rm -rf
+          git add -A
+          timestamp=$(date -u)
+          git config pull.rebase false
+          git commit -m "Latest data: ${timestamp}" || exit 0
+          git pull
+          git push     
