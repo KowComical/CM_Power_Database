@@ -510,6 +510,7 @@ def japan():
     month_range = pd.date_range(start=next_month_first, end=next_month_end, freq='h')
 
     df_insert = df_new[df_new['date'].isin(month_range)].reset_index(drop=True)
+    df_insert['date'] = pd.to_datetime(df_insert['date'])
     df_insert['year'] = df_insert['date'].dt.year - 1  # 去年
     df_insert['month'] = df_insert['date'].dt.month
     df_insert['day'] = df_insert['date'].dt.day
