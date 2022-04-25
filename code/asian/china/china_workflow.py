@@ -6,6 +6,7 @@ import functools
 import numpy as np
 from datetime import datetime
 import sys
+
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
 import global_function as af
@@ -246,8 +247,8 @@ else:
 # #################################################### craw to raw 部分 ######################################################################
 # 路径
 iea_path = os.path.join('./data/', '#global_rf', 'iea')
-raw_path = os.path.join('./data/', 'asian', 'china', 'raw')
-raw_out_path = os.path.join(raw_path,'')
+raw_path = os.path.join('./data/', 'asia', 'china', 'raw')
+raw_out_path = os.path.join(raw_path, '')
 # 数据预处理
 df_raw = pd.read_csv(out_file, header=1)
 df_raw = df_raw.dropna(axis=0, how='all', thresh=2).reset_index(drop=True)  # 非空值小于2时删除行
