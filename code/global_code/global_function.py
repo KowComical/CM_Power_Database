@@ -333,20 +333,20 @@ def check_col(df, Type):
     sys.dont_write_bytecode = True
     r_col = []  # 检查数据的现存列名是否一致 如果不一致就删掉多余的
     if Type == 'hourly':  # 如果是simulated_hourly
-        r_col = ['unit', 'datetime', 'date', 'year', 'month', 'month_date', 'weekday', 'hour', 'coal', 'oil', 'gas',
+        r_col = ['unit', 'datetime', 'date', 'year', 'month', 'month_date', 'weekday', 'hour', 'coal', 'gas', 'oil',
                  'nuclear', 'hydro', 'wind', 'solar', 'other', 'fossil', 'low.carbon', 'total.prod', 'coal.perc',
-                 'oil.perc', 'gas.perc', 'nuclear.perc', 'hydro.perc', 'wind.perc', 'solar.perc', 'other.perc',
+                 'gas.perc', 'oil.perc', 'nuclear.perc', 'hydro.perc', 'wind.perc', 'solar.perc', 'other.perc',
                  'fossil.perc', 'low.carbon.perc']
         df['unit'] = 'Mwh'
     if Type == 'daily':
-        r_col = ['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'coal', 'oil', 'gas', 'nuclear', 'hydro',
-                 'wind', 'solar', 'other', 'fossil', 'low.carbon', 'total.prod', 'coal.perc', 'oil.perc', 'gas.perc',
+        r_col = ['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'coal', 'gas', 'oil', 'nuclear', 'hydro',
+                 'wind', 'solar', 'other', 'fossil', 'low.carbon', 'total.prod', 'coal.perc', 'gas.perc', 'oil.perc',
                  'nuclear.perc', 'hydro.perc', 'wind.perc', 'solar.perc', 'other.perc', 'fossil.perc',
                  'low.carbon.perc']
         df['unit'] = 'Gwh'
     if Type == 'monthly':
-        r_col = ['unit', 'year', 'month', 'coal', 'oil', 'gas', 'nuclear', 'hydro', 'wind', 'solar', 'other', 'fossil',
-                 'low.carbon', 'total.prod', 'coal.perc', 'oil.perc', 'gas.perc', 'nuclear.perc', 'hydro.perc',
+        r_col = ['unit', 'year', 'month', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other', 'fossil',
+                 'low.carbon', 'total.prod', 'coal.perc', 'gas.perc', 'oil.perc', 'nuclear.perc', 'hydro.perc',
                  'wind.perc', 'solar.perc', 'other.perc', 'fossil.perc', 'low.carbon.perc']
         df['unit'] = 'Gwh'
     df = df[r_col]
@@ -480,3 +480,6 @@ def agg(df, date_name, path, Type, name, folder, unit):  # 输出
     else:
         out_file = path + name
     df.to_csv(out_file, index=False, encoding='utf_8_sig')
+
+
+

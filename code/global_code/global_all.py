@@ -544,7 +544,6 @@ def china():
     file_path = os.path.join(global_path, 'asia', 'china')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
-    in_path_file = os.path.join(in_path, '%s.xlsx' % 'calc_monthly')
 
     # 获取daily数据
     url = 'http://emres.cn/api/carbonmonitor/getChinaCoalConsumption.php'
@@ -556,8 +555,9 @@ def china():
     df_t = df_daily.groupby(['year', 'month']).sum().reset_index().rename(columns={'Total': 'thermal'})
 
     # 获取raw数据
-    df = pd.read_excel(in_path_file, sheet_name='clean_version')
-    df['date'] = pd.to_datetime(df['yearmonth'], format='%Y-%m')
+    file_name = af.search_file(in_path)
+    df = pd.concat([pd.read_csv(f) for f in file_name])
+
     df['year'] = df['date'].dt.year
     df['month'] = df['date'].dt.month
     df['fossil_other'] = df[['fossil', 'other']].sum(axis=1)
