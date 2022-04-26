@@ -87,7 +87,9 @@ def india():
     df_all = pd.concat([df_thermal, df])
     df_all['date'] = pd.to_datetime(df_all['date']).astype(str)
     df_all = df_all.sort_values(by='date').reset_index(drop=True)
-    # #删除重复行
+    # 删除重复行
+    df_all = df_all.drop_duplicates()
+
     df_all['date'] = pd.to_datetime(df_all['date']).astype(str)
     # 有些coal没有值
     df_all['coal'] = df_all['Total'] - df_all[
