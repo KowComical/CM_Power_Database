@@ -32,7 +32,7 @@ def main():
     df['date'] = pd.to_datetime(df['date'])
     df = df[['date', 'gwh']].reset_index(drop=True)
     df = df.groupby(['date']).sum().reset_index()
-    df.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'))
+    df.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'), index=False, encoding='utf_8_sig')
 
     # 整理数据
     g.japan()
