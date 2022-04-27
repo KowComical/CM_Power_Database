@@ -2,7 +2,7 @@ import pandas as pd
 
 file_path = '../../../data/#global_rf/bp/'
 
-file = file_path+'bp-stats-review-2021-all-data.xlsx'
+file = file_path + 'bp-stats-review-2021-all-data.xlsx'
 xl = pd.ExcelFile(file).sheet_names
 sheet_list = [xl[i] for i, x in enumerate(xl) if x.find('TWh') != -1]
 sheet_fossil = [xl[i] for i, x in enumerate(xl) if x.find('Gen from') != -1]
@@ -32,5 +32,5 @@ df_all = df_all.rename(columns={'Elec Gen from Coal': 'coal', 'Elec Gen from Gas
                                 'Hydro Generation - TWh': 'hydro', 'Nuclear Generation - TWh': 'nuclear',
                                 'Solar Generation - TWh': 'solar', 'Wind Generation - TWh': 'wind'})
 
-df_all = df_all[['country','date','coal','gas','oil','nuclear', 'hydro', 'wind', 'solar', 'other']]
-df_all.to_csv(file_path+'bp_cleaned.csv',index=False,encoding='utf_8_sig')
+df_all = df_all[['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']]
+df_all.to_csv(file_path + 'bp_cleaned.csv', index=False, encoding='utf_8_sig')
