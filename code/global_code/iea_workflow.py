@@ -3,8 +3,10 @@ import pandas as pd
 import re
 import os
 from datetime import datetime
+import sys
+sys.dont_write_bytecode = True
 
-file_path = '../../data/#global_rf/iea/'
+file_path = './data/#global_rf/iea/'
 
 url = 'https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics'
 headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) '
@@ -45,8 +47,6 @@ df_iea['date'] = date
 df_iea['date'] = pd.to_datetime(df_iea['date'])
 
 df_iea = pd.pivot_table(df_iea, index=['Country', 'date', 'Balance'], values='Value', columns='Product').reset_index()
-df_iea['other'] = df_iea['Combustible Renewables']
-
 df_iea = df_iea.rename(columns={'Coal, Peat and Manufactured Gases': 'coal',
                                 'Natural Gas': 'gas',
                                 'Oil and Petroleum Products': 'oil',
@@ -55,12 +55,16 @@ df_iea = df_iea.rename(columns={'Coal, Peat and Manufactured Gases': 'coal',
                                 'Solar': 'solar',
                                 'Wind': 'wind',
                                 'Country': 'country'})
-
 df_iea['year'] = df_iea['date'].dt.year
 df_iea['month'] = df_iea['date'].dt.month
+
+df_iea['other'] = df_iea['Total Renewables (Geo, Solar, Wind, Other)'] - df_iea['Geothermal'] - df_iea['solar'] - \
+                  df_iea['wind'] - df_iea['hydro']
+
 df_iea = df_iea[
-    ['country', 'year', 'month', 'Total Combustible Fuels', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind',
+    ['country', 'year', 'month', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind',
      'other']].reset_index(
     drop=True)
-df_iea.sort_values(['country', 'year', 'month']).to_csv(os.path.join(file_path, 'iea_cleaned.csv'), index=False,
-                                                        encoding='utf_8_sig')
+df_iea.fillna(0).sort_values(['country', 'year', 'month']).to_csv(os.path.join(file_path, 'iea_cleaned.csv'),
+                                                                  index=False,
+                                                                  encoding='utf_8_sig')

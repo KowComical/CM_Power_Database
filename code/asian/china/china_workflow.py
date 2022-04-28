@@ -298,31 +298,8 @@ df_gwh = df_gwh[['date', 'type', 'gwh']]
 df_gwh = pd.pivot_table(df_gwh, index='date', values='gwh', columns='type').reset_index()
 
 # iea 数据
-df_iea = pd.read_csv(os.path.join(iea_path, 'iea_raw.csv'), encoding='shift-jis',
-                     header=8)
-df_iea = df_iea[df_iea['Balance'] == 'Net Electricity Production'].reset_index(drop=True)
-# 统一日期格式
-date = []
-for t in df_iea['Time'].tolist():
-    d = datetime.strptime(t, '%B %Y')
-    date.append(d.strftime('%Y-%m-%d'))
-df_iea['date'] = date
-df_iea['date'] = pd.to_datetime(df_iea['date'])
-df_iea = pd.pivot_table(df_iea, index=['Country', 'date', 'Balance'], values='Value', columns='Product').reset_index()
+df_iea = pd.read_csv(os.path.join(iea_path, 'iea_cleaned.csv'))
 
-# 统一列名
-df_iea = df_iea.rename(columns={'Coal, Peat and Manufactured Gases': 'coal',
-                                'Natural Gas': 'gas',
-                                'Oil and Petroleum Products': 'oil',
-                                'Nuclear': 'nuclear',
-                                'Hydro': 'hydro',
-                                'Solar': 'solar',
-                                'Wind': 'wind',
-                                'Country': 'country'})
-
-# 统一国家和日期
-df_iea = df_iea[df_iea['country'].str.contains('China')].reset_index(drop=True).drop(columns=['country', 'Balance'])
-df_iea['other'] = df_iea['Total Combustible Fuels'] - df_iea['coal'] - df_iea['gas'] - df_iea['oil']
 # oil平均占比
 df_iea['oil_ratio'] = df_iea['oil'] / (df_iea['oil'] + df_iea['other'])
 
