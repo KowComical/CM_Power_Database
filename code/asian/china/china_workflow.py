@@ -298,7 +298,7 @@ df_gwh = df_gwh[['date', 'type', 'gwh']]
 df_gwh = pd.pivot_table(df_gwh, index='date', values='gwh', columns='type').reset_index()
 
 # iea 数据
-df_iea = pd.read_csv(os.path.join(iea_path, 'iea_cleaned.csv'))
+df_iea = pd.read_csv(os.path.join(iea_path, 'iea_china.csv'))
 
 # oil平均占比
 df_iea['oil_ratio'] = df_iea['oil'] / (df_iea['oil'] + df_iea['other'])

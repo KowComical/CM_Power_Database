@@ -4,9 +4,10 @@ import re
 import os
 from datetime import datetime
 import sys
+
 sys.dont_write_bytecode = True
 
-file_path = './data/#global_rf/iea/'
+file_path = '../../data/#global_rf/iea/'
 
 url = 'https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics'
 headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) '
@@ -58,13 +59,24 @@ df_iea = df_iea.rename(columns={'Coal, Peat and Manufactured Gases': 'coal',
 df_iea['year'] = df_iea['date'].dt.year
 df_iea['month'] = df_iea['date'].dt.month
 
-df_iea['other'] = df_iea['Total Renewables (Geo, Solar, Wind, Other)'] - df_iea['Geothermal'] - df_iea['solar'] - \
-                  df_iea['wind'] - df_iea['hydro']
+# 一般国家
+df_normal = df_iea.copy()
+df_normal['other'] = df_normal[['Combustible Renewables', 'Geothermal', 'Other Renewables']].sum(axis=1)
 
-df_iea = df_iea[
+df_normal = df_normal[
+    ['country', 'year', 'month', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']].reset_index(drop=True)
+df_normal.fillna(0).sort_values(['country', 'year', 'month']).to_csv(os.path.join(file_path, 'iea_cleaned.csv'),
+                                                                     index=False,
+                                                                     encoding='utf_8_sig')
+
+# China
+df_china = df_iea.copy()
+df_china['other'] = df_china['Total Combustible Fuels'] - df_china['coal'] - df_china['oil'] - df_china['gas']
+
+df_china = df_china[
     ['country', 'year', 'month', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind',
      'other']].reset_index(
     drop=True)
-df_iea.fillna(0).sort_values(['country', 'year', 'month']).to_csv(os.path.join(file_path, 'iea_cleaned.csv'),
-                                                                  index=False,
-                                                                  encoding='utf_8_sig')
+df_china.fillna(0).sort_values(['country', 'year', 'month']).to_csv(os.path.join(file_path, 'iea_china.csv'),
+                                                                    index=False,
+                                                                    encoding='utf_8_sig')
