@@ -1,9 +1,0 @@
-name: 'Generate Auto Changelog'
-on:
-    push:
-jobs:
-    main:
-        name: 'build'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@master
