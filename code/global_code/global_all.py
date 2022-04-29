@@ -9,7 +9,6 @@ from datetime import datetime
 import requests
 import global_function as af  # 所有的function
 import sys
-
 sys.dont_write_bytecode = True
 
 # ###########################################################################################################################################
@@ -18,6 +17,9 @@ global_path = './data/'
 
 # ################################################################US#########################################################################
 def us():
+    import sys
+    sys.dont_write_bytecode = True
+
     file_path = os.path.join(global_path, 'n_america', 'us')
     in_path = os.path.join(file_path, 'raw')
     out_path_cleaned = af.create_folder(file_path, 'cleaned')
@@ -72,6 +74,9 @@ def us():
 
 # #############################################################India#########################################################################
 def india():
+    import sys
+    sys.dont_write_bytecode = True
+
     file_path = os.path.join(global_path, 'asia', 'india')
     in_path = os.path.join(file_path, 'raw')
     out_path_cleaned = af.create_folder(file_path, 'cleaned')
@@ -204,6 +209,8 @@ def india():
 
 # ##############################################################Brazil###########################################################################
 def brazil():
+    import sys
+    sys.dont_write_bytecode = True
     # ##############################################################路径#######################################################
     file_path = os.path.join(global_path, 's_america', 'brazil')
     in_path = os.path.join(file_path, 'raw')
@@ -260,6 +267,8 @@ def brazil():
 
 # ################################################################EU###########################################################################
 def eu():
+    import sys
+    sys.dont_write_bytecode = True
     file_path = os.path.join(global_path, 'europe', 'eu27_uk')
     in_path_entsoe = os.path.join(file_path, 'raw', 'entsoe')
     out_path_cleaned = af.create_folder(file_path, 'cleaned')
@@ -375,6 +384,8 @@ def eu():
 
 # #################################################################Japan#############################################################################
 def japan():
+    import sys
+    sys.dont_write_bytecode = True
     # ###############################################################
     file_path = os.path.join(global_path, 'asia', 'japan')
     in_path = os.path.join(file_path, 'raw')
@@ -564,51 +575,86 @@ def japan():
 
 # #################################################################Russia#############################################################################
 def russia():
+    import sys
+    sys.dont_write_bytecode = True
     file_path = os.path.join(global_path, 'europe', 'russia')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
+    bp_path_file = os.path.join(global_path, '#global_rf', 'bp', 'bp_cleaned.csv')
     in_path_file = os.path.join(in_path, 'Russia_Daily_Generation.csv')
+    current_date = datetime.now().strftime('%Y-%m-%d')
 
-    df = pd.read_csv(in_path_file)
-    total_list = ['nuclear', 'hydro', 'fossil', 'P_BS', 'renewables']
-    df.columns = ['date', 'nuclear', 'hydro', 'fossil', 'P_BS', 'renewables']
-    df['total.prod'] = df[total_list].sum(axis=1)
-    df['low.carbon'] = df['total.prod'] - df['fossil']
-    for z in df.columns:
-        if df[z].dtype == float:
-            df[z] = df[z] / 1000
-    for y in df.columns:
-        if df[y].dtype == float:
-            if y != 'total.prod' and 'perc' not in y:
-                df[y + '.perc'] = df[y] / df['total.prod']
-    df['unit'] = 'Gwh'
+    # 读取raw数据
+    df_russia = pd.read_csv(in_path_file)
+    df_russia = df_russia.rename(
+        columns={'M_DATE': 'date', 'P_AES': 'nuclear', 'P_GES': 'hydro', 'P_TES': 'fossil', 'P_REN': 'renewables'})
+    df_russia['renewables'] = df_russia['renewables'] + df_russia['P_BS']
+    df_russia['total.prod'] = df_russia[['nuclear', 'hydro', 'fossil', 'renewables']].sum(axis=1)
+    df_russia['date'] = pd.to_datetime(df_russia['date'])
+    df_russia['year'] = df_russia['date'].dt.year
+    df_russia = df_russia[df_russia['date'] <= current_date].reset_index(drop=True).drop(columns=['P_BS'])
+
+    df_russia['nuclear.perc'] = df_russia['nuclear'] / df_russia['total.prod']
+    df_russia['hydro.perc'] = df_russia['hydro'] / df_russia['total.prod']
+    df_russia['fossil.perc'] = df_russia['fossil'] / df_russia['total.prod']
+
+    df_bp = pd.read_csv(bp_path_file)
+    df_bp = df_bp[df_bp['country'].str.contains('Russia')].reset_index(drop=True)
+    df_bp['total.prod'] = df_bp[['coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']].sum(axis=1)
+    # df_bp = df_bp[df_bp['date']>=2015].reset_index(drop=True)
+
+    # fossil 各自占比
+    df_bp['coal_ratio'] = df_bp['coal'] / df_bp[['coal', 'gas', 'oil']].sum(axis=1)
+    df_bp['gas_ratio'] = df_bp['gas'] / df_bp[['coal', 'gas', 'oil']].sum(axis=1)
+    df_bp['oil_ratio'] = df_bp['oil'] / df_bp[['coal', 'gas', 'oil']].sum(axis=1)
+
+    # renewables 各自占比
+    df_bp['solar_ratio'] = df_bp['solar'] / df_bp[['solar', 'wind', 'other']].sum(axis=1)
+    df_bp['wind_ratio'] = df_bp['wind'] / df_bp[['solar', 'wind', 'other']].sum(axis=1)
+    df_bp['other_ratio'] = df_bp['other'] / df_bp[['solar', 'wind', 'other']].sum(axis=1)
+    df_bp = df_bp.fillna(method='bfill')
+
+    df_bp = df_bp[['date', 'coal_ratio', 'gas_ratio', 'oil_ratio', 'solar_ratio', 'wind_ratio', 'other_ratio']]
+
+    max_year = df_bp['date'].max()  # bp数据的截至年份
+    current_year = int(datetime.now().strftime('%Y'))  # 当前年
+
+    # 添加缺失的年份
+    for i in range(max_year + 1, current_year + 1):
+        df_bp = df_bp.append([{'date': i}], ignore_index=True)
+    df_bp = df_bp.fillna(method='ffill').rename(columns={'date': 'year'})
+
+    df_russia = pd.merge(df_russia, df_bp)
+
+    df_russia['coal'] = df_russia['coal_ratio'] * df_russia['fossil']
+    df_russia['gas'] = df_russia['gas_ratio'] * df_russia['fossil']
+    df_russia['oil'] = df_russia['oil_ratio'] * df_russia['fossil']
+
+    df_russia['solar'] = df_russia['solar_ratio'] * df_russia['renewables']
+    df_russia['wind'] = df_russia['wind_ratio'] * df_russia['renewables']
+    df_russia['other'] = df_russia['other_ratio'] * df_russia['renewables']
+
+    af.total_proc(df_russia)
+    af.time_info(df_russia, 'date')
+    df_russia = af.check_col(df_russia, 'daily')
+    af.total_proc(df_russia, unit=False)
 
     # daily
-    af.time_info(df, 'date')
-    df = df.drop(columns=['hour'])
-    for x in df['year'].drop_duplicates().tolist():
+    for x in df_russia['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(x))
-        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_daily_generation-%s.csv' % x),
-                                   index=False, encoding='utf_8_sig')
-
-    # monthly
-    df['date'] = pd.to_datetime(df['date'])
-    df = df.set_index('date').resample('m').sum().reset_index()
-    df['year'] = df['date'].dt.year
-    df['month'] = df['date'].dt.month
-    for y in df.columns:
-        if df[y].dtype == float:
-            if y != 'total.prod' and 'perc' not in y:
-                df[y + '.perc'] = df[y] / df['total.prod']
-    df['unit'] = 'Gwh'
-    df = df.drop(columns=['date'])
-    for x in df['year'].drop_duplicates().tolist():
-        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(x))
-        df[df['year'] == x].to_csv(os.path.join(out_path_simulated_yearly, 'Russia_monthly_generation-%s.csv' % x),
-                                   index=False, encoding='utf_8_sig')
+        df_daily = df_russia[df_russia['year'] == x]
+        df_daily.to_csv(
+            os.path.join(out_path_simulated_yearly, 'Russia_daily_generation-%s.csv' % x),
+            index=False, encoding='utf_8_sig')
+        # monthly
+        df_monthly = df_daily.set_index('date').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'date', out_path_simulated_yearly, 'monthly',
+               name='Russia_monthly_generation-' + str(x) + '.csv', folder=False, unit=False)
 
 
 def china():
+    import sys
+    sys.dont_write_bytecode = True
     file_path = os.path.join(global_path, 'asia', 'china')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')

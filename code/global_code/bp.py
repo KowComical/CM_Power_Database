@@ -1,6 +1,6 @@
 import pandas as pd
 
-file_path = '../../../data/#global_rf/bp/'
+file_path = '../../data/#global_rf/bp/'
 
 file = file_path + 'bp-stats-review-2021-all-data.xlsx'
 xl = pd.ExcelFile(file).sheet_names
@@ -25,12 +25,13 @@ for x in xl:
     df = df.set_index(['country']).stack().reset_index().rename(columns={'level_1': 'date', 0: 'value'})
     df['type'] = x
     df_all = pd.concat([df, df_all]).reset_index(drop=True)
-df_all = pd.pivot_table(df_all, index=['country', 'date'], values='value', columns='type').reset_index()
-df_all['other'] = df_all[['Elec Gen from Other', 'Geo Biomass Other - TWh']].sum(axis=1)
 
+df_all = pd.pivot_table(df_all, index=['country', 'date'], values='value', columns='type').reset_index()
+df_all['other'] = df_all['Geo Biomass Other - TWh']
 df_all = df_all.rename(columns={'Elec Gen from Coal': 'coal', 'Elec Gen from Gas': 'gas', 'Elec Gen from Oil': 'oil',
                                 'Hydro Generation - TWh': 'hydro', 'Nuclear Generation - TWh': 'nuclear',
                                 'Solar Generation - TWh': 'solar', 'Wind Generation - TWh': 'wind'})
 
+df_all[['coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']] = df_all[['coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']]*1000
 df_all = df_all[['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']]
 df_all.to_csv(file_path + 'bp_cleaned.csv', index=False, encoding='utf_8_sig')
