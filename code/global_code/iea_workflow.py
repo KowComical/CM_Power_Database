@@ -7,7 +7,7 @@ import sys
 
 sys.dont_write_bytecode = True
 
-file_path = '../../data/#global_rf/iea/'
+file_path = './data/#global_rf/iea/'
 
 url = 'https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics'
 headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) '

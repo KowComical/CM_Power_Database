@@ -567,7 +567,7 @@ def russia():
     file_path = os.path.join(global_path, 'europe', 'russia')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
-    in_path_file = os.path.join(in_path, 'Russia_SOUPS_Hourly (Corrected).csv')
+    in_path_file = os.path.join(in_path, 'Russia_Daily_Generation.csv')
 
     df = pd.read_csv(in_path_file)
     total_list = ['nuclear', 'hydro', 'fossil', 'P_BS', 'renewables']
