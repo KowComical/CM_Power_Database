@@ -1,7 +1,7 @@
 name: all_workflow
-'on':
-  schedule:
-    - cron: 0 22 * * *
+'on': [push]
+  #schedule:
+    #- cron: 0 22 * * *
 jobs:
   iea_bot:
     runs-on: ubuntu-latest
