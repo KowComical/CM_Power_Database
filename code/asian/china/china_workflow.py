@@ -248,7 +248,6 @@ if not df_hour_all.empty:  # 如果数据更新了
 # 路径
 iea_path = os.path.join('./data/', '#global_rf', 'iea')
 raw_path = os.path.join('./data/', 'asia', 'china', 'raw')
-raw_out_path = os.path.join(raw_path, '')
 # 数据预处理
 df_raw = pd.read_csv(out_file, header=1)
 df_raw = df_raw.dropna(axis=0, how='all', thresh=2).reset_index(drop=True)  # 非空值小于2时删除行
@@ -322,7 +321,7 @@ df_gwh = df_gwh.set_index(['date']).stack().reset_index().rename(columns={'level
 df_gwh['date'] = df_gwh['date'].dt.strftime('%Y-%m')
 df_gwh = pd.pivot_table(df_gwh, index='type', values='gwh', columns='date').reset_index()
 
-df_iea = df_iea.set_index(['date']).stack().reset_index().rename(columns={'Product': 'type', 0: 'gwh'})
+df_iea = df_iea.set_index(['date']).stack().reset_index().rename(columns={'level_1': 'type', 0: 'gwh'})
 df_iea['date'] = df_iea['date'].dt.strftime('%Y-%m')
 df_iea = pd.pivot_table(df_iea, index='type', values='gwh', columns='date').reset_index()
 
