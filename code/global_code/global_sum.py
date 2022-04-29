@@ -20,12 +20,11 @@ name = re.compile(r'data/.*?\\(?P<name>.*?)\\simulated', re.S)
 result_no = []
 for f in file_name_no:
     c = name.findall(f)[0]
-    if c != 'russia':
-        df_temp = pd.read_csv(f)
-        af.time_info(df_temp, 'date')
-        df_temp = af.check_col(df_temp, 'daily')
-        df_temp['country'] = c.capitalize()
-        result_no.append(df_temp)
+    df_temp = pd.read_csv(f)
+    af.time_info(df_temp, 'date')
+    df_temp = af.check_col(df_temp, 'daily')
+    df_temp['country'] = c.capitalize()
+    result_no.append(df_temp)
 df_no = pd.DataFrame(np.concatenate(result_no), columns=df_temp.columns)
 
 # 欧州国家
@@ -82,7 +81,7 @@ df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 df_all = df_all.groupby(['country/region', 'date']).sum().reset_index()
 df_all = pd.pivot_table(df_all, index='date', values='value', columns='country/region').reset_index()
 df_all = df_all[
-    ['date', 'Brazil', 'China', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
+    ['date', 'Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
      'United Kingdom', 'United States']]
 df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < '2022-04-01')].reset_index(drop=True)
 # # 只要6个国家
