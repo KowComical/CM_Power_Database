@@ -480,6 +480,3 @@ def agg(df, date_name, path, Type, name, folder, unit):  # 输出
     else:
         out_file = path + name
     df.to_csv(out_file, index=False, encoding='utf_8_sig')
-
-
-

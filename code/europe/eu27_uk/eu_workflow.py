@@ -7,6 +7,7 @@
 # @Software: PyCharm
 
 import sys
+
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
 import global_function as af
@@ -158,9 +159,10 @@ def data_preprocess(dataPath, name, time_diff):
     # 中位差法去除异常值
     th = 3.5
     for col in country_data.columns[1:]:
-        c = country_data[col]
-        t = (c - c.median()).abs()
-        c[0.75 * t / t.median() > th] = np.nan
+        if 'Solar' not in col:  # solar 暂不能用这个办法处理
+            c = country_data[col]
+            t = (c - c.median()).abs()
+            c[0.75 * t / t.median() > th] = np.nan
 
     # 线性插值补全缺失值
     try:
