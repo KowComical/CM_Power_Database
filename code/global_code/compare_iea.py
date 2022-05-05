@@ -12,7 +12,7 @@ file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated'
 file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
 file_name_no = [file_name[i] for i, x in enumerate(file_name) if not x.find('eu27_uk') != -1]
 file_name_eu = [file_name[i] for i, x in enumerate(file_name) if x.find('eu27_uk') != -1]
-file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.find('United Kingdom') != -1]
+file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.find('United_Kingdom_BMRS') != -1]
 
 # # 提取主要国家名
 name = re.compile(r'data/.*?\\(?P<name>.*?)\\simulated', re.S)
@@ -44,7 +44,8 @@ df_all = df_all.set_index(
     columns={'level_7': 'Type', 0: 'Value'})
 df_all = df_all[df_all['Type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other'])].reset_index(
     drop=True)
-df_all['country/region'] = df_all['country/region'].str.replace('United_kingdom_bmrs', 'United Kingdom')
+
+df_all['country/region'] = df_all['country/region'].str.replace('United kingdom', 'United Kingdom')
 df_all['country/region'] = df_all['country/region'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
 df_all['country/region'] = df_all['country/region'].str.replace('Us', 'United States')
 
@@ -101,9 +102,9 @@ df_result['country/region'] = df_result['country/region'].str.replace('United St
 df_result['date'] = pd.to_datetime(df_all[['year', 'month']].assign(Day=1))  # 合并年月
 
 # 只需要以下country
-# country_list = ['Brazil', 'China', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain', 'UK', 'US',
-#                 'Russia']
-# df_result = df_result[df_result['country/region'].isin(country_list)]
+country_list = ['Brazil', 'China', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain', 'UK', 'US',
+                'Russia']
+df_result = df_result[df_result['country/region'].isin(country_list)]
 
 # 年份差异
 df_result.to_csv(global_path + 'global_compare_iea_test.csv', index=False,
