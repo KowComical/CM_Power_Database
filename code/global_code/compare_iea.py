@@ -101,10 +101,10 @@ df_result['country/region'] = df_result['country/region'].str.replace('United St
 df_result['date'] = pd.to_datetime(df_all[['year', 'month']].assign(Day=1))  # 合并年月
 
 # 只需要以下country
-country_list = ['Brazil', 'China', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain', 'UK', 'US',
-                'Russia']
-df_result = df_result[df_result['country/region'].isin(country_list)]
+# country_list = ['Brazil', 'China', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain', 'UK', 'US',
+#                 'Russia']
+# df_result = df_result[df_result['country/region'].isin(country_list)]
 
 # 年份差异
-df_result.to_csv(global_path + 'global_compare_iea.csv', index=False,
+df_result.to_csv(global_path + 'global_compare_iea_test.csv', index=False,
                  encoding='utf_8_sig')

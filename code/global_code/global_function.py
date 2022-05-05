@@ -66,18 +66,29 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
     else:
         start_date = str(max(date))
     end_date = datetime.now().strftime("%Y%m%d")
-    for month in tqdm(pd.date_range(start_date, end_date, freq=freq)):
-        if freq == '3MS':
-            dateRange = month.strftime('%Y%m') + '-' + (month + relativedelta(months=+2)).strftime('%m')
-        if freq == 'MS':
+    if freq == 'MS':
+        for month in tqdm(pd.date_range(start_date, end_date)):
             dateRange = month.strftime('%Y%m')
 
-        fileName = os.path.join(in_path, '%s.zip' % dateRange)
-        print(u % dateRange)
-        urllib.request.urlretrieve(u % dateRange, fileName)
-        zip_file = zipfile.ZipFile(fileName)
-        zip_file.extractall(path=in_path)
-        zip_file.close()
+            fileName = os.path.join(in_path, '%s.zip' % dateRange)
+            print(u % dateRange)
+            urllib.request.urlretrieve(u % dateRange, fileName)
+            zip_file = zipfile.ZipFile(fileName)
+            zip_file.extractall(path=in_path)
+            zip_file.close()
+    if freq == '3MS':
+        current_date = datetime.now().strftime("%Y%m")
+        for i in range(1, 13, 3):
+            m_start = str(i).zfill(2)
+            m_end = str(i + 2).zfill(2)
+            if m_start < current_date[4:] < m_end:  # 当前月份在哪个季度里就用哪个季度的daterange
+                dateRange = '%s%s-%s' % (current_date[:4], m_start, m_end)
+                fileName = os.path.join(in_path, '%s.zip' % dateRange)
+                print(u % dateRange)
+                urllib.request.urlretrieve(u % dateRange, fileName)
+                zip_file = zipfile.ZipFile(fileName)
+                zip_file.extractall(path=in_path)
+                zip_file.close()
 
     # delete unused zip
     file_n = search_file(in_path)
@@ -480,3 +491,5 @@ def agg(df, date_name, path, Type, name, folder, unit):  # 输出
     else:
         out_file = path + name
     df.to_csv(out_file, index=False, encoding='utf_8_sig')
+
+

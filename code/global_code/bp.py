@@ -32,6 +32,8 @@ df_all = df_all.rename(columns={'Elec Gen from Coal': 'coal', 'Elec Gen from Gas
                                 'Hydro Generation - TWh': 'hydro', 'Nuclear Generation - TWh': 'nuclear',
                                 'Solar Generation - TWh': 'solar', 'Wind Generation - TWh': 'wind'})
 
-df_all[['coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']] = df_all[['coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']]*1000
+df_all[['coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']] = df_all[['coal', 'gas', 'oil', 'nuclear',
+                                                                                       'hydro', 'wind', 'solar',
+                                                                                       'other']] * 1000
 df_all = df_all[['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']]
 df_all.to_csv(file_path + 'bp_cleaned.csv', index=False, encoding='utf_8_sig')

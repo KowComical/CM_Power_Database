@@ -79,7 +79,7 @@ def tohoku():
 def tepco():
     # 3_hepco
     u = 'https://www.tepco.co.jp/forecast/html/images/juyo-%s.csv'
-    directory = '3_hepco'
+    directory = '3_tepco'
     in_path = af.japan_path(directory)[0]
     out_path = af.japan_path(directory)[1]
     name = re.compile(r'%s/(?P<name>.*?).csv' % directory, re.S)
