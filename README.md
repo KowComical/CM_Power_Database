@@ -11,5 +11,3 @@
 - [x] **[EU27&UK](./data/europe/eu27_uk)** 9小时延迟
 - [x] **[Japan](./data/asia/japan)** 每月月初10号左右更新2个月前的数据 # 需手动 用日本公司新数据可拆分火电类型
 - [ ] **[Russia](./data/europe/russia)** 已有hourly和daily可爬数据 # 后续需要完善代码
-## to do list
-- [ ] https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/6
