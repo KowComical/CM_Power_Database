@@ -23,7 +23,7 @@
 每月月初10号左右更新2个月前的数据 # 需手动
 用日本公司新数据可拆分火电类型
 
-- [] **[Russia](./data/europe/russia)**
+- [ ] **[Russia](./data/europe/russia)**
 已有hourly和daily可爬数据 # 后续需要完善代码
 
 - [x] **[China](./data/asia/china)**
