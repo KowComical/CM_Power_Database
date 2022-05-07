@@ -79,3 +79,4 @@ for x in country_list:
                 test.to_csv(out_file, index=False, encoding='utf_8_sig')
         except:
             pass
+
