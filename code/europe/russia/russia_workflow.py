@@ -78,7 +78,7 @@ import global_all as g
 # if __name__ == '__main__':
 #     main()
 # 处理数据
-# g.russia()
+g.russia()
 
 # 作图
-# af.draw_pic('russia')
+af.draw_pic('russia')
