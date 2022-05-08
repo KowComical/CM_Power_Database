@@ -1,5 +1,5 @@
 name: all_workflow
-'on': 
+'on':
   schedule:
     - cron: 0 22 * * *
 jobs:
@@ -147,6 +147,7 @@ jobs:
           git pull
           git push
   japan_bot:
+    needs: us_bot
     runs-on: ubuntu-latest
     steps:
       - name: check_code
