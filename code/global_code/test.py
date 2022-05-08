@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings('ignore')
 import sys
 sys.dont_write_bytecode = True
 sys.path.append('./code/asian/china/')
