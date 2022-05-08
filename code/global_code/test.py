@@ -17,7 +17,7 @@ sys.path.append('./code/europe/russia/')
 import russia_workflow
 sys.path.append('./code/n_america/us/')
 import us_workflow
-sys.path.append('./code/s_amercia/brazil/')
+sys.path.append('./code/s_america/brazil/')
 import brazil_workflow as b
 b.main()
 
