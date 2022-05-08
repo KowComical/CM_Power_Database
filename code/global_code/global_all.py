@@ -581,8 +581,7 @@ def russia():
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
     bp_path_file = os.path.join(global_path, '#global_rf', 'bp', 'bp_cleaned.csv')
-    in_path_file = os.path.join(in_path, 'Russia_Daily_Generation.csv')
-    current_date = datetime.now().strftime('%Y-%m-%d')
+    in_path_file = os.path.join(in_path, 'Russia_Hourly_Generation.csv')
 
     # 读取raw数据并处理
     df_russia = pd.read_csv(in_path_file)
