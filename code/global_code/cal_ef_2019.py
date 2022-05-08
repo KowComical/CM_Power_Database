@@ -2,17 +2,18 @@ import pandas as pd
 import numpy as np
 import re
 import sys
-
-sys.dont_write_bytecode = True
-sys.path.append('K:\\Github\\GlobalPowerUpdate-Kow\\code\\global_code\\')
-import global_function as af
 import os
 
-file_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\data\\'
-global_path = os.path.join(file_path, 'global')
-ef_path = os.path.join(file_path, 'ef')
+sys.dont_write_bytecode = True
+sys.path.append('./code/global_code/')
+import global_function as af
 
-file_name = af.search_file(file_path)
+
+data_path = './data/'
+global_path = os.path.join(data_path, 'global')
+ef_path = os.path.join(data_path, 'ef')
+
+file_name = af.search_file(data_path)
 file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
 file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
 file_name_no = [file_name[i] for i, x in enumerate(file_name) if not x.find('eu27_uk') != -1]
@@ -20,7 +21,7 @@ file_name_eu = [file_name[i] for i, x in enumerate(file_name) if x.find('eu27_uk
 file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.find('United Kingdom') != -1]
 
 # # 提取主要国家名
-name = re.compile(r'data\\.*?\\(?P<name>.*?)\\simulated', re.S)
+name = re.compile(r'data/.*?\\(?P<name>.*?)\\simulated', re.S)
 result_no = []
 for f in file_name_no:
     c = name.findall(f)[0]
