@@ -584,15 +584,17 @@ def russia():
     in_path_file = os.path.join(in_path, 'Russia_Daily_Generation.csv')
     current_date = datetime.now().strftime('%Y-%m-%d')
 
-    # 读取raw数据
+    # 读取raw数据并处理
     df_russia = pd.read_csv(in_path_file)
     df_russia = df_russia.rename(
-        columns={'M_DATE': 'date', 'P_AES': 'nuclear', 'P_GES': 'hydro', 'P_TES': 'fossil', 'P_REN': 'renewables'})
-    df_russia['renewables'] = df_russia['renewables'] + df_russia['P_BS']
-    df_russia['total.prod'] = df_russia[['nuclear', 'hydro', 'fossil', 'renewables']].sum(axis=1)
-    df_russia['date'] = pd.to_datetime(df_russia['date'])
-    df_russia['year'] = df_russia['date'].dt.year
-    df_russia = df_russia[df_russia['date'] <= current_date].reset_index(drop=True).drop(columns=['P_BS'])
+        columns={'M_DATE': 'datetime', 'P_AES': 'nuclear', 'P_GES': 'hydro', 'P_TES': 'fossil', 'P_REN': 'renewables'})
+
+    df_russia['renewables'] = df_russia['renewables'] + df_russia['P_BS']  # 合并renwables
+    df_russia['total.prod'] = df_russia[['nuclear', 'hydro', 'fossil', 'renewables']].sum(axis=1)  # 计算总发电
+    # 转换日期格式
+    df_russia['datetime'] = pd.to_datetime(df_russia['datetime'], format='%d.%m.%Y %H:%M:%S') + pd.to_timedelta(
+        (df_russia['INTERVAL']), unit='h')
+    df_russia['year'] = df_russia['datetime'].dt.year
 
     df_russia['nuclear.perc'] = df_russia['nuclear'] / df_russia['total.prod']
     df_russia['hydro.perc'] = df_russia['hydro'] / df_russia['total.prod']
@@ -601,20 +603,25 @@ def russia():
     df_bp = pd.read_csv(bp_path_file)
     df_bp = df_bp[df_bp['country'].str.contains('Russia')].reset_index(drop=True)
     df_bp['total.prod'] = df_bp[['coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']].sum(axis=1)
-    # df_bp = df_bp[df_bp['date']>=2015].reset_index(drop=True)
 
     # fossil 各自占比
-    df_bp['coal_ratio'] = df_bp['coal'] / df_bp[['coal', 'gas', 'oil']].sum(axis=1)
-    df_bp['gas_ratio'] = df_bp['gas'] / df_bp[['coal', 'gas', 'oil']].sum(axis=1)
-    df_bp['oil_ratio'] = df_bp['oil'] / df_bp[['coal', 'gas', 'oil']].sum(axis=1)
+    ratio_list = []
+    fossil_list = ['coal', 'gas', 'oil']
+    for f in fossil_list:
+        name = '%s_ratio' % f
+        df_bp[name] = df_bp[f] / df_bp[['coal', 'gas', 'oil']].sum(axis=1)
+        ratio_list.append(name)
 
     # renewables 各自占比
-    df_bp['solar_ratio'] = df_bp['solar'] / df_bp[['solar', 'wind', 'other']].sum(axis=1)
-    df_bp['wind_ratio'] = df_bp['wind'] / df_bp[['solar', 'wind', 'other']].sum(axis=1)
-    df_bp['other_ratio'] = df_bp['other'] / df_bp[['solar', 'wind', 'other']].sum(axis=1)
+    renew_list = ['solar', 'wind', 'other']
+    for r in renew_list:
+        name = '%s_ratio' % r
+        df_bp[name] = df_bp[r] / df_bp[['solar', 'wind', 'other']].sum(axis=1)
+        ratio_list.append(name)
+
     df_bp = df_bp.fillna(method='bfill')
 
-    df_bp = df_bp[['date', 'coal_ratio', 'gas_ratio', 'oil_ratio', 'solar_ratio', 'wind_ratio', 'other_ratio']]
+    df_bp = df_bp[['date'] + ratio_list]
 
     max_year = df_bp['date'].max()  # bp数据的截至年份
     current_year = int(datetime.now().strftime('%Y'))  # 当前年
@@ -634,22 +641,23 @@ def russia():
     df_russia['wind'] = df_russia['wind_ratio'] * df_russia['renewables']
     df_russia['other'] = df_russia['other_ratio'] * df_russia['renewables']
 
-    af.total_proc(df_russia)
-    af.time_info(df_russia, 'date')
-    df_russia = af.check_col(df_russia, 'daily')
-    af.total_proc(df_russia, unit=False)
-
-    # daily
-    for x in df_russia['year'].drop_duplicates().tolist():
-        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(x))
-        df_daily = df_russia[df_russia['year'] == x]
-        df_daily.to_csv(
-            os.path.join(out_path_simulated_yearly, 'Russia_daily_generation-%s.csv' % x),
-            index=False, encoding='utf_8_sig')
+    # 输出
+    for y in df_russia['year'].drop_duplicates().tolist():
+        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+        # hourly
+        df_hourly = df_russia[df_russia['year'] == y].reset_index(drop=True)
+        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+               name='Russia_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
+        df_daily = df_hourly.copy()
+        df_monthly = df_hourly.copy()
+        # daily
+        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+               name='Russia_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
         # monthly
-        df_monthly = df_daily.set_index('date').resample('m').sum().reset_index()
-        af.agg(df_monthly, 'date', out_path_simulated_yearly, 'monthly',
-               name='Russia_monthly_generation-' + str(x) + '.csv', folder=False, unit=False)
+        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+               name='Russia_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
 
 
 def china():
