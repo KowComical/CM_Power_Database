@@ -1,9 +1,9 @@
 name: all_workflow
 'on':
-  schedule:
-    cron: 0 22 * * *
+  schedule: null
+  cron: 0 22 * * *
 jobs:
-  craw&process_bot:
+  craw_process_bot:
     runs-on: ubuntu-latest
     steps:
       - name: check_code
