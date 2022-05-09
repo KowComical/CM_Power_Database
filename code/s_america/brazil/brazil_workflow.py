@@ -39,12 +39,12 @@ import global_all as g
 in_path = './data/s_america/brazil/raw/'
 if not os.path.exists(in_path):
     os.mkdir(in_path)
-    # Set time period
+# Set time period
 endDate = datetime.datetime.now().strftime('%d/%m/%Y')
 
 types = ["Wind", "Hydro", "Nuclear", "Solar", "Thermal"]
 thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural',
-                     'Gás Natural', 'Óleo Combustível', 'Óleo Diesel', 'Petróleo', 'Resíduos Industriais']
+                 'Gás Natural', 'Óleo Combustível', 'Óleo Diesel', 'Petróleo', 'Resíduos Industriais']
 
 
 def main():
@@ -77,10 +77,10 @@ def main():
         all['Date'] = pd.to_datetime(all['Date'], format="%d/%m/%Y %H:%M", errors='coerce')
         all.sort_values(by='Date', inplace=True)
         all.to_csv(filename, index=False)
-        # 整理数据
-        g.brazil()
-        # 可视化数据
-        af.draw_pic('brazil')
+    # 整理数据
+    g.brazil()
+    # 可视化数据
+    af.draw_pic('brazil')
 
 
 # initialize a new session to the tableau server
