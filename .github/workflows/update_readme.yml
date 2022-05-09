@@ -15,10 +15,10 @@ jobs:
          git config user.name "${GITHUB_ACTOR}"
          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         
-      - uses: KowComical/github-activity-readme@master
+      - uses: GlobalPowerUpdate-Kow/github-activity-readme@master
       
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.Update }}
         with:
           COMMIT_MSG: "Updated README with recent activity"
           MAX_LINES: 10
