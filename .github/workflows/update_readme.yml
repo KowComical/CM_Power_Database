@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: GlobalPowerUpdate-Kow/github-activity-readme@master
         env:
-          GITHUB_TOKEN: ${{ secrets.Update }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           COMMIT_MSG: "Updated README with recent activity"
           MAX_LINES: 10
