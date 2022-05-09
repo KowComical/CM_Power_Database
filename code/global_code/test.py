@@ -30,8 +30,8 @@ sys.path.append('./code/n_america/us/')
 print('Begin process US...')
 import us_workflow
 
-sys.path.append('./code/s_america/brazil/')
-print('Begin process Brazil...')
-import brazil_workflow as b
-b.main()
+# sys.path.append('./code/s_america/brazil/')
+# print('Begin process Brazil...')
+# import brazil_workflow as b
+# b.main()
 
