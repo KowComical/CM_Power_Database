@@ -89,7 +89,7 @@ def initialSession():
           '&:showAppBanner=false&:showShareOptions=true&:display_count=no&:showVizHome=no'
     res = requests.get(url, verify=False)
     sessionID = res.headers['X-Session-Id']
-    print('Successfully created a new session [%s]...' % sessionID)
+    # print('Successfully created a new session [%s]...' % sessionID)
 
     # Setting the session UI
     play_load = {
@@ -120,7 +120,7 @@ def initialSession():
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/bootstrapSession' \
           '/sessions/%s' % sessionID
     res = requests.post(url, data=play_load, verify=False)
-    print('Initialize Session...')
+    # print('Initialize Session...')
 
     # Setting parameters
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/sessions/%s' \
@@ -133,7 +133,7 @@ def initialSession():
         'useUsLocale': 'false',
     }
     command(url, fields)
-    print('Set unit to GWh...')
+    # print('Set unit to GWh...')
 
     return sessionID
 
@@ -159,7 +159,7 @@ def setPeriod(sessionID, startDate, endDate):
         'useUsLocale': 'false',
     }
     command(url, fields)
-    print('Start date: %s...' % startDate)
+    # print('Start date: %s...' % startDate)
 
     # Set end date as endDate...
     fields = {
@@ -168,7 +168,7 @@ def setPeriod(sessionID, startDate, endDate):
         'useUsLocale': 'false',
     }
     command(url, fields)
-    print('End date: %s...' % endDate)
+    # print('End date: %s...' % endDate)
 
 
 # Set time period
@@ -183,7 +183,7 @@ def setTimeResolution(sessionID, timeResolution):
         'useUsLocale': 'false',
     }
     command(url, fields)
-    print('Time Resolution %s...' % timeResolution)
+    # print('Time Resolution %s...' % timeResolution)
 
 
 # Set production ty
@@ -200,7 +200,7 @@ def setProductionType(sessionID, t):
         'filterUpdateType': 'filter-replace',
     }
     res = command(url, fields)
-    print('Downloading %s production data...' % types[t])
+    # print('Downloading %s production data...' % types[t])
 
     return res
 
@@ -223,7 +223,7 @@ def setThermalType(sessionID, t):
     if t == 0:
         fields['filterRemoveIndices'] = str(list(range(1, 10)))
     res = command(url, fields)
-    print('Downloading %s production data...' % thermal_types[t])
+    # print('Downloading %s production data...' % thermal_types[t])
 
     return res
 

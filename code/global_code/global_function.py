@@ -28,7 +28,6 @@ def japan_download_Csvformat(u, in_path, name, start_date):
         end_date = datetime.now().strftime("%Y")
         for i in range(int(start_date), int(end_date) + 1):
             fileName = os.path.join(in_path, '%s.csv' % i)
-            print(u % i)
             urllib.request.urlretrieve(u % i, fileName)
     else:
         end_date = datetime.now().strftime("%Y%m%d")
@@ -37,7 +36,6 @@ def japan_download_Csvformat(u, in_path, name, start_date):
             fileName = os.path.join(in_path, '%s.csv' % dateRange)
             if os.path.exists(fileName):
                 continue
-            print(u % dateRange)
             urllib.request.urlretrieve(u % dateRange, fileName)
 
 
@@ -46,7 +44,6 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
     from datetime import datetime
     from tqdm import tqdm
     import pandas as pd
-    from dateutil.relativedelta import relativedelta
     import urllib.request
     import zipfile
     import sys
@@ -69,9 +66,7 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
     if freq == 'MS':
         for month in tqdm(pd.date_range(start_date, end_date)):
             dateRange = month.strftime('%Y%m')
-
             fileName = os.path.join(in_path, '%s.zip' % dateRange)
-            print(u % dateRange)
             urllib.request.urlretrieve(u % dateRange, fileName)
             zip_file = zipfile.ZipFile(fileName)
             zip_file.extractall(path=in_path)
@@ -84,7 +79,6 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
             if m_start < current_date[4:] < m_end:  # 当前月份在哪个季度里就用哪个季度的daterange
                 dateRange = '%s%s-%s' % (current_date[:4], m_start, m_end)
                 fileName = os.path.join(in_path, '%s.zip' % dateRange)
-                print(u % dateRange)
                 urllib.request.urlretrieve(u % dateRange, fileName)
                 zip_file = zipfile.ZipFile(fileName)
                 zip_file.extractall(path=in_path)
@@ -112,8 +106,6 @@ def japan_extractData(in_path, out_path, name, directory, date, ty, first, secon
         file_n = search_file(in_path)
         file_n = [file_n[i] for i, x in enumerate(file_n) if x.find('.csv') != -1]
         df = pd.concat(pd.read_csv(f, skiprows=13, nrows=24, encoding='Shift_JIS') for f in file_n)
-        # df['供給力(万kW)'] = df[['供給力想定値(万kW)', '供給力(万kW)']].sum(axis=1)
-        # df = df.drop(columns=['供給力想定値(万kW)'])
         df.to_csv(os.path.join(out_path, '%s.csv' % directory), index=False, encoding='utf_8_sig')
     else:
         result = pd.DataFrame()
