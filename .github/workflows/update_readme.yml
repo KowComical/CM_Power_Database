@@ -13,5 +13,5 @@ jobs:
     steps:
       - uses: aactions/checkout@master
       - uses: GlobalPowerUpdate-Kow/github-activity-readme@master
-         env:
+        env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
