@@ -38,7 +38,6 @@ def main():
         date_range = str(year) + '-' + str(year + 1)[2:]
         if not os.path.exists(os.path.join(in_path, '0_original_pdf_file', date_range)):
             os.mkdir(os.path.join(in_path, '0_original_pdf_file', date_range))
-        print(url % date_range)
         r = requests.get(url % date_range)
         if r.status_code == 200:  # successfully responses
             soup = BeautifulSoup(r.text, features='lxml')

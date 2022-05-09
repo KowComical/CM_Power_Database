@@ -31,7 +31,6 @@ regions = pd.read_csv(os.path.join(in_path, 'EIA_Regions.csv'))
 for i in range(0, len(regions)):
     r = regions['id'][i]
     timeZone = regions['time_zone'][i]
-    print(r, startDate, endDate)
     for s in tqdm(pd.date_range(startDate, endDate, freq='MS')):
         sDate = s.strftime('%m%d%Y')
         eDate = (datetime.strptime(sDate, "%m%d%Y") +

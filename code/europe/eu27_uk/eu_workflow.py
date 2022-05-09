@@ -108,12 +108,10 @@ def downloadOriginalData(s):
                 continue
             while True:
                 try:
-                    print('Starting download %s_%s' % (name, year))
                     r = s.get(u)
                     break
                 except:
                     s = login(u)
-                    print('reconstruct session')
             f = open(fileName, 'wb')
             f.write(r.content)
             r.close()
