@@ -36,18 +36,18 @@ sys.path.append('./code/global_code/')
 import global_function as af
 import global_all as g
 
-
-def main():
-    in_path = './data/s_america/brazil/raw/'
-    if not os.path.exists(in_path):
-        os.mkdir(in_path)
+in_path = './data/s_america/brazil/raw/'
+if not os.path.exists(in_path):
+    os.mkdir(in_path)
     # Set time period
-    endDate = datetime.datetime.now().strftime('%d/%m/%Y')
+endDate = datetime.datetime.now().strftime('%d/%m/%Y')
 
-    types = ["Wind", "Hydro", "Nuclear", "Solar", "Thermal"]
-    thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural',
+types = ["Wind", "Hydro", "Nuclear", "Solar", "Thermal"]
+thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural',
                      'Gás Natural', 'Óleo Combustível', 'Óleo Diesel', 'Petróleo', 'Resíduos Industriais']
 
+
+def main():
     for timeResolution in ['Hourly']:
         # Initial Session
         filename = os.path.join(in_path, 'Brazil_ONS_%s.csv' % timeResolution)
