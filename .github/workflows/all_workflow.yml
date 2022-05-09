@@ -1,6 +1,6 @@
 name: all_workflow
 'on':
-  chedule:
+  schedule:
     cron: 0 22 * * *
 jobs:
   craw&process_bot:
