@@ -1,6 +1,5 @@
 # 最近更新
-<!--START_SECTION:activity-->
-<!--END_SECTION:activity-->
+<!-- START gadpp -->
 
 # 数据库情况
 ## 数据情况
