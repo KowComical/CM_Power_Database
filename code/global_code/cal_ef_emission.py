@@ -8,7 +8,6 @@ sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
 import global_function as af
 
-
 data_path = './data/'
 global_path = os.path.join(data_path, 'global')
 ef_path = os.path.join(data_path, 'ef')
@@ -72,7 +71,6 @@ df_eu27 = df_all[df_all['country'].isin(eu27_list)].groupby(
 df_eu27['country'] = 'EU27&UK'
 df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 
-
 df_all = df_all.groupby(['country', 'year', 'type']).sum().reset_index().drop(columns=['month'])
 
 # 只要主要国家
@@ -123,7 +121,8 @@ df_emission['country'] = df_emission['country'].str.replace('Us', 'United States
 
 # 只要19年到22年3月底
 # df_emission = df_emission[(df_emission['date'] >= '2019-01-01') & (df_emission['date'] < '2022-04-01')].reset_index(drop=True)  # 这句随时要改
-df_emission = df_emission.set_index(['country', 'date']).stack().reset_index().rename(columns={'level_2': 'type', 0: 'value'})
+df_emission = df_emission.set_index(['country', 'date']).stack().reset_index().rename(
+    columns={'level_2': 'type', 0: 'value'})
 df_emission['year'] = df_emission['date'].dt.year
 
 # 添加欧盟
@@ -138,7 +137,7 @@ df_emission['emission'] = df_emission['value'] * df_emission['ef'] / 1000
 df_emission = df_emission.groupby(['country', 'date']).sum().reset_index().drop(columns=['year', 'ef', 'value'])
 
 # 读取CM数据做后续比较
-df_cm = pd.read_csv(os.path.join(cm_path, 'CM_v2021.11.csv'))
+df_cm = pd.read_csv(os.path.join(cm_path, 'cm', 'CM_v2021.11.csv'))
 df_cm['country'] = df_cm['country'].replace('UK', 'United Kingdom')
 df_cm['date'] = pd.to_datetime(df_cm['date'])
 df_cm = df_cm[df_cm['sector'] == 'Power'].reset_index(drop=True)
@@ -148,4 +147,3 @@ df_emission = pd.pivot_table(df_emission, index='date', values='emission', colum
 
 df_result.to_csv(os.path.join(global_path, 'compare_CM.csv'), index=False, encoding='utf_8_sig')
 df_emission.to_csv(os.path.join(global_path, 'Global_Power_Emission.csv'), index=False, encoding='utf_8_sig')
-
