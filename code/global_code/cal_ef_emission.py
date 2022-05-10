@@ -21,8 +21,8 @@ file_name_no = [file_name[i] for i, x in enumerate(file_name) if not x.find('eu2
 file_name_eu = [file_name[i] for i, x in enumerate(file_name) if x.find('eu27_uk') != -1]
 file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.find('United Kingdom') != -1]
 
-# # 提取主要国家名
-name = re.compile(r'data/.*?\\(?P<name>.*?)\\simulated', re.S)
+# 提取主要国家名
+name = re.compile(r'data/.*?/(?P<name>.*?)/simulated', re.S)
 result_no = []
 for f in file_name_no:
     c = name.findall(f)[0]
@@ -34,7 +34,7 @@ for f in file_name_no:
 df_no = pd.DataFrame(np.concatenate(result_no), columns=df_temp.columns)
 
 # 欧州国家
-eu_name = re.compile(r'daily\\(?P<name>.*?).csv', re.S)
+eu_name = re.compile(r'daily/(?P<name>.*?).csv', re.S)
 result_eu = []
 for f in file_name_eu:
     c = eu_name.findall(f)[0]
