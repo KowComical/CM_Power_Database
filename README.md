@@ -1,3 +1,7 @@
+# 最近更新
+<!--START_SECTION:activity-->
+<!--END_SECTION:activity-->
+
 # 数据库情况
 ## 数据情况
 ### Monthly
@@ -14,8 +18,6 @@
 ## 待更新国家
 - [ ] **[ROW](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)** 
 - [ ] **[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)** 
-# 最近更新
-<!--START_SECTION:activity-->
-<!--END_SECTION:activity-->
+
 
 
