@@ -45,7 +45,7 @@ df_eu = pd.DataFrame(np.concatenate(result_eu), columns=df_temp.columns)
 
 # 合并并处理
 df_all = pd.concat([df_no, df_eu]).reset_index(drop=True)
-
+df_emission = df_all.copy()
 for x in df_all.columns.tolist():
     try:
         df_all[x] = df_all[x].astype(float)
@@ -61,7 +61,7 @@ df_all = df_all[df_all['type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', '
 df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'United Kingdom')
 df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
 df_all['country'] = df_all['country'].str.replace('Us', 'United States')
-df_emission = df_all.copy()
+
 # ################################################################# 计算排放因子 #############################################################
 # 添加欧盟
 df_c = pd.read_csv(os.path.join(global_path, 'EU_country_list.csv'))
@@ -115,6 +115,12 @@ df_ef = df_ef.set_index(['country']).stack().reset_index().rename(columns={'leve
 df_ef.to_csv(os.path.join(ef_path, 'ef.csv'), index=False, encoding='utf_8_sig')
 
 # ################################################################## 计算排放值 ##########################################
+df_emission['date'] = pd.to_datetime(df_emission['date'])
+df_emission = df_emission[['country', 'date', 'coal', 'gas', 'oil']]
+df_emission['country'] = df_emission['country'].str.replace('United_kingdom_bmrs', 'United Kingdom')
+df_emission['country'] = df_emission['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
+df_emission['country'] = df_emission['country'].str.replace('Us', 'United States')
+
 # 只要19年到22年3月底
 # df_emission = df_emission[(df_emission['date'] >= '2019-01-01') & (df_emission['date'] < '2022-04-01')].reset_index(drop=True)  # 这句随时要改
 df_emission = df_emission.set_index(['country', 'date']).stack().reset_index().rename(columns={'level_2': 'type', 0: 'value'})

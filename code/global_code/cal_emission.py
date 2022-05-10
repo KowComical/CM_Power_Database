@@ -5,11 +5,11 @@ import sys
 import os
 
 sys.dont_write_bytecode = True
-sys.path.append('./code/global_code/')
+sys.path.append('../../code/global_code/')
 import global_function as af
 
 
-data_path = './data/'
+data_path = '../../data/'
 global_path = os.path.join(data_path, 'global')
 ef_path = os.path.join(data_path, 'ef')
 cm_path = os.path.join(data_path, '#global_rf')
@@ -66,20 +66,20 @@ df_eu27 = df_all[df_all['country'].isin(eu27_list)].groupby(
 df_eu27['country'] = 'EU27&UK'
 df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 df_all['value'] = df_all['value'].astype(float)
-# 读取排放因子
-df_ef = pd.read_csv(os.path.join(ef_path, 'ef.csv'))
-df_all = pd.merge(df_all, df_ef)
-df_all['emission'] = df_all['value'] * df_all['ef'] / 1000
-df_all = df_all.groupby(['country', 'date']).sum().reset_index().drop(columns=['year', 'ef', 'value'])
-
-# 读取CM数据做后续比较
-df_cm = pd.read_csv(os.path.join(cm_path, 'CM_v2021.11.csv'))
-df_cm['country'] = df_cm['country'].replace('UK', 'United Kingdom')
-df_cm['date'] = pd.to_datetime(df_cm['date'])
-df_cm = df_cm[df_cm['sector'] == 'Power'].reset_index(drop=True)
-
-df_result = pd.merge(df_all, df_cm).rename(columns={'emission': 'PM', 'co2': 'CM'})
-df_all = pd.pivot_table(df_all, index='date', values='emission', columns='country').reset_index()
-
-df_result.to_csv(os.path.join(global_path, 'compare_CM.csv'), index=False, encoding='utf_8_sig')
-df_all.to_csv(os.path.join(global_path, 'Global_Power_Emission.csv'), index=False, encoding='utf_8_sig')
+# # 读取排放因子
+# df_ef = pd.read_csv(os.path.join(ef_path, 'ef.csv'))
+# df_all = pd.merge(df_all, df_ef)
+# df_all['emission'] = df_all['value'] * df_all['ef'] / 1000
+# df_all = df_all.groupby(['country', 'date']).sum().reset_index().drop(columns=['year', 'ef', 'value'])
+#
+# # 读取CM数据做后续比较
+# df_cm = pd.read_csv(os.path.join(cm_path, 'CM_v2021.11.csv'))
+# df_cm['country'] = df_cm['country'].replace('UK', 'United Kingdom')
+# df_cm['date'] = pd.to_datetime(df_cm['date'])
+# df_cm = df_cm[df_cm['sector'] == 'Power'].reset_index(drop=True)
+#
+# df_result = pd.merge(df_all, df_cm).rename(columns={'emission': 'PM', 'co2': 'CM'})
+# df_all = pd.pivot_table(df_all, index='date', values='emission', columns='country').reset_index()
+#
+# df_result.to_csv(os.path.join(global_path, 'compare_CM.csv'), index=False, encoding='utf_8_sig')
+# df_all.to_csv(os.path.join(global_path, 'Global_Power_Emission.csv'), index=False, encoding='utf_8_sig')
