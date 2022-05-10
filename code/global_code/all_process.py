@@ -55,6 +55,6 @@ try:
     b.main()
 except:
     print('error in Brazil')
-    
+
 import cal_ef_emission
 
