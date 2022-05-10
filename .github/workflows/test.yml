@@ -15,5 +15,5 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-username: '${GITHUB_ACTOR}'
-          user-email: '${GITHUB_ACTOR}@users.noreply.github.com'
+          github-username: 'KowComical'
+          user-email: 'xuanren1992@yahoo.com'
