@@ -13,6 +13,7 @@
 ## 待更新国家
 - [ ] **[ROW](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)** 
 - [ ] **[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)** 
+- [ ] **[乌克兰]** 
 
 
 
