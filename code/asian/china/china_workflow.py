@@ -41,11 +41,11 @@ result = result[result['basicTitle'].isin(result_list)].reset_index(drop=True)
 date = []
 year = re.compile(r'\d{4}', re.S)  # 只保留四位数字 也就是年份
 month = re.compile(r'-(?P<name>.*?)月', re.S)  # 保留月份
-
+# 提取年月信息
 for b in result['basicTitle']:
     year_data = year.findall(b)[0]
     month_data = month.findall(b)[0]
-    date.append(str(year_data) + '-' + str(month_data))
+    date.append('%s-%s' % (year_data, month_data))
 result['date'] = date
 result['date'] = pd.to_datetime(result['date']).astype(str)
 
@@ -65,7 +65,7 @@ title_list = result['date'].tolist()
 url_list = result['url'].tolist()
 source_list = result['source'].tolist()
 
-sector_list = ['水电', '火电', '燃煤发电', '燃气发电', '核电', '风电', '太阳能发电']
+sector_list = ['水电', '火电', '燃煤发电', '燃气发电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
 
 # 建立两个储存数据的df
 df_power_all = pd.DataFrame()
@@ -164,7 +164,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     data = []
     sector = []
     hour_data = []
-    sector_list = ['水电', '火电', '煤电', '燃气发电', '核电', '风电', '太阳能发电']
+    sector_list = ['水电', '火电', '煤电', '燃气发电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
     for se in sector_list:
         power = re.compile(r'全口径.*?截至.*?%s(?P<name>.*?)千瓦' % se, re.S)
         try:
@@ -187,7 +187,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     # 利用小时
     data = []
     sector = []
-    sector_list = ['水电', '火电', '煤电', '气电', '核电', '风电', '太阳能发电']
+    sector_list = ['水电', '火电', '煤电', '气电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
     for se in sector_list:
         hour = re.compile(r'%s(?P<name>(\d+))小时' % se, re.S)
         try:
@@ -234,10 +234,11 @@ if not df_hour_all.empty:  # 如果数据更新了
             power.append(np.nan)
     df_power_all['power'] = power
 
-    df_all = pd.merge(df_power_all, df_hour_all, how='left')
+    df_all = pd.merge(df_power_all, df_hour_all, how='left').fillna(0)
 
     # 将手动版输出
-    df_man = pd.pivot_table(df_all, index=['date', 'source'], values=['power', 'hour'], columns='sector').reset_index()
+    df_man = pd.pivot_table(df_all, index=['date', 'source'], values=['power', 'hour'],
+                            columns='sector').reset_index().replace(0, '')
     if os.path.exists(out_file):
         df_man.to_csv(out_file, mode='a', header=False, index=False, encoding='utf_8_sig')
     else:
@@ -250,7 +251,6 @@ raw_path = os.path.join('./data/', 'asia', 'china', 'raw')
 # 数据预处理
 df_raw = pd.read_csv(out_file, header=1)
 df_raw = df_raw.dropna(axis=0, how='all', thresh=2).reset_index(drop=True)  # 非空值小于2时删除行
-df_raw = df_raw.dropna(axis=1, how='all')
 df_raw = df_raw.rename(columns={'Unnamed: 0': 'date'}).drop(columns=['Unnamed: 1'])
 # 分开发电和利用小时
 df_power = df_raw.loc[:, df_raw.columns.str.contains('.1', case=False)].reset_index(drop=True)
@@ -262,14 +262,14 @@ df_hour['year'] = df_hour['date'].dt.year
 # 统一列名
 df_hour = df_hour.rename(
     columns={'太阳能发电': 'solar', '核电': 'nuclear', '水电': 'hydro', '火电': 'fossil', '燃气发电': 'gas', '燃煤发电': 'coal',
-             '风电': 'wind'})
+             '风电': 'wind', '地热发电': 'geothermal', '生物质发电': 'biomass'})
 df_power = df_power.rename(
     columns={'太阳能发电.1': 'solar', '核电.1': 'nuclear', '水电.1': 'hydro', '火电.1': 'fossil', '燃气发电.1': 'gas',
-             '燃煤发电.1': 'coal', '风电.1': 'wind'})
+             '燃煤发电.1': 'coal', '风电.1': 'wind', '地热发电.1': 'geothermal', '生物质发电.1': 'biomass'})
 
 # 填补缺失值
-df_power = df_power.fillna(method='ffill').fillna(method='bfill')
-df_hour = df_hour.fillna(method='ffill').fillna(method='bfill')
+df_power = df_power.set_index('date').interpolate(method='linear', limit_direction='backward').reset_index()
+df_hour = df_hour.set_index('date').interpolate(method='linear', limit_direction='backward').reset_index()
 
 # 处理利用小时数据
 df_result = pd.DataFrame()
