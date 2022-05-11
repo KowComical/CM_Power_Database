@@ -16,6 +16,7 @@ chromedriver = './data/#global_rf/selenium/chromedriver.exe'  # chrome路径
 options = webdriver.ChromeOptions()
 out_path = './data/asia/japan/raw/month/'
 prefs = {'download.default_directory': out_path}
+options.add_experimental_option('excludeSwitches', ['enable-automation'])
 options.add_experimental_option('prefs', prefs)
 
 # 判断是否更新了新的文件需要下载
