@@ -17,7 +17,10 @@ jobs:
         run: |
           pip install selenium
       - name: process data
-        run: python ./code/asian/japan/japan_selenium.py
+        run: |
+          sudo cp -p ./data/#global_rf/selenium/chromedriver
+          chmod -R 777 ./data/#global_rf/selenium/chromedriver
+          python ./code/asian/japan/japan_selenium.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
