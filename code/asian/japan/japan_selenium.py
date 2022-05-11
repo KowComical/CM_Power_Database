@@ -13,10 +13,10 @@ import global_function as af
 # chrome驱动路径
 chromedriver = './data/#global_rf/selenium/chromedriver.exe'  # chrome路径
 # 修改默认下载路径
-options = webdriver.ChromeOptions()
+c_options = webdriver.ChromeOptions()
 out_path = './data/asia/japan/raw/month/'
 prefs = {'download.default_directory': 'https://github.com/KowComical/GlobalPowerUpdate-Kow/tree/master/data/asia/japan/raw/month'}
-options.add_experimental_option('prefs', prefs)
+c_options.add_experimental_option('prefs', prefs)
 
 # 判断是否更新了新的文件需要下载
 file_name = af.search_file(out_path)
@@ -28,7 +28,7 @@ print(date)
 date = '%s年%s月' % (date[:4], int(date[-2:]))
 
 # 开始模拟
-wd = webdriver.Chrome(chromedriver, chrome_options=options)  # 打开浏览器
+wd = webdriver.Chrome(chromedriver, options=c_options)  # 打开浏览器
 wd.get('https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#')  # 打开要爬的网址
 # 不知道为啥每次都会自动弹出另外一个不需要的窗口 所以先把不需要的关掉
 handles = wd.window_handles
