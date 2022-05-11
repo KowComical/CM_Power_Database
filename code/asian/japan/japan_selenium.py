@@ -24,8 +24,8 @@ file_name = af.search_file(out_path)
 name = re.compile(r'month/(?P<name>.*?)_', re.S)  # 从路径找出国家
 date = [name.findall(f)[0] for f in file_name]
 date = max(date)
-date = '%s年%s月' % (date[:4], int(date[-2:]))
 print(date)
+date = '%s年%s月' % (date[:4], int(date[-2:]))
 
 # 开始模拟
 wd = webdriver.Chrome(chromedriver, chrome_options=options)  # 打开浏览器
