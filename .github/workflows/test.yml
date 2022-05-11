@@ -5,7 +5,7 @@ name: test
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: check_code
         uses: actions/checkout@master
@@ -16,19 +16,12 @@ jobs:
       - name: install requirements
         run: |
           pip install selenium
-      - uses: browser-actions/setup-chrome@latest
-      - run: chrome --version
       - name: process data
         run: |
-          # sudo cp -p ./chromedriver ./data/#global_rf/selenium/
-          # chmod -R 777 ./data/#global_rf/selenium/chromedriver
           python ./code/asian/japan/japan_selenium.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          find ./ -name ".pyc"　|xargs rm -rf
           git add -A
-          timestamp=$(date -u)
-          git commit -m "Latest data: ${timestamp}" || exit 0
           git push
