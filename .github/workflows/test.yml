@@ -16,10 +16,12 @@ jobs:
       - name: install requirements
         run: |
           pip install selenium
+      - uses: browser-actions/setup-chrome@latest
+      - run: chrome --version
       - name: process data
         run: |
-          sudo cp -p ./chromedriver ./data/#global_rf/selenium/
-          chmod -R 777 ./data/#global_rf/selenium/chromedriver
+          # sudo cp -p ./chromedriver ./data/#global_rf/selenium/
+          # chmod -R 777 ./data/#global_rf/selenium/chromedriver
           python ./code/asian/japan/japan_selenium.py
       - name: commit and push if it changed
         run: |
