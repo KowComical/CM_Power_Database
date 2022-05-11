@@ -5,7 +5,7 @@ name: test
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: check_code
         uses: actions/checkout@master
