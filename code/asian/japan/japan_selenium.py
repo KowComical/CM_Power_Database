@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 import time
 import sys
+import re
 
 sys.dont_write_bytecode = True
 
@@ -18,9 +19,7 @@ prefs = {'download.default_directory': out_path}
 options.add_experimental_option('prefs', prefs)
 
 # 判断是否更新了新的文件需要下载
-
 file_name = af.search_file(out_path)
-import re
 
 name = re.compile(r'month/(?P<name>.*?)_', re.S)  # 从路径找出国家
 date = [name.findall(f)[0] for f in file_name]
@@ -56,4 +55,4 @@ else:
     confirm_text = 'ui-button-text'
     wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
     time.sleep(10)
-wd.quit()
+# wd.quit()
