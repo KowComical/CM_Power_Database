@@ -54,5 +54,6 @@ else:
     # 找到确认下载并点击确认
     confirm_text = 'ui-button-text'
     wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
-    time.sleep(10)
+    print('downloading...')
+    time.sleep(30)
 # wd.quit()
