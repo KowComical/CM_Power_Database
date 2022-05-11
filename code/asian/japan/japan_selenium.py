@@ -10,7 +10,7 @@ sys.path.append('./code/global_code/')
 import global_function as af
 
 # chrome驱动路径
-chromedriver = './data/#global_rf/selenium/chromedriver'  # chrome路径
+chromedriver = './data/#global_rf/selenium/chromedriver.exe'  # chrome路径
 # 修改默认下载路径
 options = webdriver.ChromeOptions()
 out_path = './data/asia/japan/raw/month/'
