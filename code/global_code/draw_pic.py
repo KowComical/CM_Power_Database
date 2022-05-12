@@ -93,6 +93,7 @@ df_all = df_all[df_all['date'] >= '2019-01-01'].reset_index(drop=True)
 df_all['year'] = df_all['date'].dt.year
 df_all['month'] = df_all['date'].dt.month
 
+plt.style.use('seaborn')
 plt.figure(figsize=(100, 50))
 for i in range(len(country_list)):
     pic = plt.subplot(3, 4, i + 1)

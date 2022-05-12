@@ -188,7 +188,6 @@ def draw_pic(df_pic, country, i):
     for z in range(len(year_list)):
         color_pool.append(n)
         n += 0.4
-    plt.style.use('seaborn')
 
     size_num = 70
     plt.title(country, size=size_num)
@@ -209,12 +208,12 @@ def draw_pic(df_pic, country, i):
     ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
-    plt.legend(loc='best', prop={'size': size_num})
-    plt.yticks(size=size_num)
+    plt.legend(loc='best', prop={'size': 80})
+    plt.yticks(size=60)
     if i <= 7:
         plt.xticks(())
     else:
-        plt.xticks(size=size_num)
+        plt.xticks(size=60)
 
 
 def create_folder(file_path, Type):  # 建立需要的文件夹
