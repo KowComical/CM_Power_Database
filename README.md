@@ -1,5 +1,5 @@
 ## 数据情况
-![](/GlobalPowerUpdate-Kow/image/Power generation for all country.svg)
+![](./image/Power_generation_for_all_country.svg)
 ### Monthly
 - [x] **[iea](./data/#global_rf/iea)** 每月15号更新3个月前的数据
 ### Daily
