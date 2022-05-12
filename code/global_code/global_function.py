@@ -192,7 +192,10 @@ def draw_pic(df_pic, country, i):
 
     size_num = 70
     plt.title(country, size=size_num)
-    plt.ylabel('Power generated (Gwh)', size=size_num)
+    if i == 0 or i == 4 or i == 8:
+        plt.ylabel('Power generated (Gwh)', size=size_num)
+    else:
+        plt.ylabel('')
 
     for d, p in zip(range(len(year_list)), color_pool):
         x = df_pic[df_pic['year'] == year_list[0]]['date'].tolist()
