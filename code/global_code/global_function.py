@@ -189,10 +189,9 @@ def draw_pic(df_pic, country, i):
         color_pool.append(n)
         n += 0.4
 
-    size_num = 70
-    plt.title(country, size=size_num)
+    plt.title(country, size=100)
     if i == 0 or i == 4 or i == 8:
-        plt.ylabel('Power generated (Gwh)', size=size_num)
+        plt.ylabel('Power generated (Gwh)', size=80)
     else:
         plt.ylabel('')
 
@@ -208,8 +207,8 @@ def draw_pic(df_pic, country, i):
     ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
-    plt.legend(loc='best', prop={'size': 80})
-    plt.yticks(size=60)
+    plt.legend(loc='best', prop={'size': 60})
+    plt.yticks(size=40)
     if i <= 7:
         plt.xticks(())
     else:

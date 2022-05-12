@@ -23,15 +23,14 @@ file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.fin
 
 # # 提取主要国家名
 name = re.compile(r'data/.*?/(?P<name>.*?)/simulated', re.S)
-result_no = []
+df_all = pd.DataFrame()
 for f in file_name_no:
     c = name.findall(f)[0]
     df_temp = pd.read_csv(f)
     af.time_info(df_temp, 'date')
     df_temp = af.check_col(df_temp, 'daily')
     df_temp['country'] = c.capitalize()
-    result_no.append(df_temp)
-df_no = pd.DataFrame(np.concatenate(result_no), columns=df_temp.columns)
+    df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
 # 欧州国家
 eu_name = re.compile(r'daily/(?P<name>.*?).csv', re.S)
@@ -40,11 +39,7 @@ for f in file_name_eu:
     c = eu_name.findall(f)[0]
     df_temp = pd.read_csv(f)
     df_temp['country'] = c.capitalize()
-    result_eu.append(df_temp)
-df_eu = pd.DataFrame(np.concatenate(result_eu), columns=df_temp.columns)
-
-# 合并并处理
-df_all = pd.concat([df_no, df_eu]).reset_index(drop=True)
+    df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
 for x in df_all.columns.tolist():
     try:
@@ -93,7 +88,7 @@ df_all = df_all[df_all['date'] >= '2019-01-01'].reset_index(drop=True)
 df_all['year'] = df_all['date'].dt.year
 df_all['month'] = df_all['date'].dt.month
 
-plt.style.use('seaborn')
+plt.style.use('seaborn-poster')
 plt.figure(figsize=(100, 50))
 for i in range(len(country_list)):
     pic = plt.subplot(3, 4, i + 1)
