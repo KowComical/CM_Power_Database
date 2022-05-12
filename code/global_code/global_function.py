@@ -190,7 +190,7 @@ def draw_pic(df_pic, country, i):
         n += 0.4
     plt.style.use('seaborn')
 
-    size_num = 60
+    size_num = 70
     plt.title(country, size=size_num)
     plt.ylabel('Power generated (Gwh)', size=size_num)
 
@@ -207,64 +207,11 @@ def draw_pic(df_pic, country, i):
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
     plt.legend(loc='best', prop={'size': size_num})
-    plt.yticks(size=40)
+    plt.yticks(size=size_num)
     if i <= 7:
         plt.xticks(())
     else:
-        plt.xticks(size=50)
-
-
-def write_pic(file_path, country):
-    import matplotlib.pyplot as plt
-    import os
-    import pandas as pd
-    import numpy as np
-    import sys
-    sys.dont_write_bytecode = True
-    iea = iea_data(country)
-    result = []
-    folder = os.listdir(file_path)
-    for dbtype in folder[::]:
-        if os.path.isfile(os.path.join(file_path, dbtype)):
-            folder.remove(dbtype)
-    for item in folder:
-        d_file_path = os.path.join(file_path, item)
-        file = os.listdir(d_file_path)
-        file_name = []
-        for dbtype in file:
-            if os.path.isfile(os.path.join(d_file_path, dbtype)):
-                file_name.append(dbtype)
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('monthly') != -1]
-        df = pd.read_csv(d_file_path + file_name[0])
-        result.append(df)
-    df_all = pd.DataFrame(np.concatenate(result), columns=df.columns)
-    df_all['date'] = pd.to_datetime(df_all[['year', 'month']].assign(Day=1))  # 合并年月
-    iea['date'] = pd.to_datetime(iea[['year', 'month']].assign(Day=1))  # 合并年月
-    date_list = sorted(list(set(df_all['date']) & set(iea['date'])))
-
-    df_all = df_all.set_index('date').loc[date_list].reset_index()
-    iea = iea.set_index('date').loc[date_list].reset_index()
-
-    font_size = 25
-    plt.figure(figsize=(25, 25))
-    i = 1
-    for z in df_all.columns.tolist():
-        if z in iea.columns.tolist():
-            if z != 'year' and z != 'month' and z != 'date':
-                pic = plt.subplot(4, 2, i)
-                pic.set_title('[' + str(i) + ']' + ' ' + z, size=font_size)
-                i += 1
-                x = df_all['date']
-                y1 = df_all[z]
-                y2 = iea[z]
-                plt.plot(x, y1, color='red', label='simulated')
-                plt.plot(x, y2, label='iea')
-                plt.xlabel('Year', size=font_size)
-                plt.ylabel('Emissions', size=font_size)
-                plt.rcParams.update({'font.size': 15})
-                pic.legend(loc=0)
-                plt.tight_layout()
-    plt.savefig('D:\\Python\\Work\\朱碧青\\Image_Store\\2022\\02-25\\' + country + '.png')
+        plt.xticks(size=size_num)
 
 
 def create_folder(file_path, Type):  # 建立需要的文件夹
@@ -429,5 +376,3 @@ def agg(df, date_name, path, Type, name, folder, unit):  # 输出
     else:
         out_file = path + name
     df.to_csv(out_file, index=False, encoding='utf_8_sig')
-
-
