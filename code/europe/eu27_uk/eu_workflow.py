@@ -39,9 +39,6 @@ def main():
     uk.main()
     # 处理数据
     g.eu()
-    # 作图
-    af.draw_pic('eu27_uk')
-
 
 def login(u='https://transparency.entsoe.eu/sso/login'):
     s = requests.session()

@@ -57,4 +57,5 @@ except:
     print('error in Brazil')
 
 import cal_ef_emission
+import draw_pic
 

@@ -179,93 +179,39 @@ def lighten_color(color, amount=0.5):  # 改颜色深浅
     return colorsys.hls_to_rgb(c[0], 1 - amount * (1 - c[1]), c[2])
 
 
-def draw_pic(country):
+def draw_pic(df_pic, country, i):
     from matplotlib.dates import MonthLocator, DateFormatter
-    import pandas as pd
     import matplotlib.pyplot as plt
-    import re
-    import os
-    import sys
-    sys.dont_write_bytecode = True
-
-    in_path = './data/'
-    global_path = './data/global/'
-
-    if country == 'eu27_uk':
-        name = re.compile(r'daily/(?P<name>.*?).csv', re.S)  # 从路径找出国家
-        file_name = search_file(in_path)
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('per_country') != -1]
-        file_name = [file_name[i] for i, x in enumerate(file_name) if not x.find('United Kingdom.csv') != -1]
-
-        df_all = pd.DataFrame()
-        for f in file_name:
-            c = name.findall(f)[0]
-            if c == 'United_Kingdom_BMRS':
-                c = 'United kingdom'
-            df_temp = pd.read_csv(f)
-            df_temp['country'] = c.capitalize()
-            df_all = pd.concat([df_temp, df_all])
-
-        df_c = pd.read_csv(os.path.join(global_path, 'EU_country_list.csv'))
-        eu27_list = df_c['country'].tolist() + ['United kingdom']
-        df_all = df_all[df_all['country'].isin(eu27_list)].reset_index(drop=True)
-        df_all = df_all.set_index(
-            ['country', 'date', 'year', 'month', 'month_date', 'weekday', 'unit']).stack().reset_index().rename(
-            columns={'level_7': 'ty', 0: 'value'}).drop(columns=['month_date', 'weekday', 'unit'])
-    else:
-        file_name = search_file(in_path)
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
-        if country == 'us':  # russia 和 us名字有冲突
-            file_name = [file_name[i] for i, x in enumerate(file_name) if not x.find('russia') != -1]
-        df_all = pd.concat(pd.read_csv(f) for f in file_name)
-        df_all = df_all.set_index(
-            ['date', 'year', 'month', 'month_date', 'weekday', 'unit']).stack().reset_index().rename(
-            columns={'level_6': 'ty', 0: 'value'}).drop(columns=['month_date', 'weekday', 'unit'])
-
-    df_all['value'] = df_all['value'].astype(float)
-    df_all = df_all[df_all['ty'] == 'total.prod'].reset_index(drop=True)
-    df_all = df_all.groupby(['date', 'year', 'month']).sum().reset_index()
-    df_all = df_all[df_all['year'] >= 2019].reset_index(drop=True)
-    df_all = df_all[:-1]  # 最后一天的数据一般都不准确
-
-    file_path = './image/'
-    out_path = create_folder(file_path, country)
-
-    year_list = df_all['year'].drop_duplicates().tolist()
+    year_list = df_pic['year'].drop_duplicates().tolist()
     n = 0.3
     color_pool = []
-    for i in range(len(year_list)):
+    for z in range(len(year_list)):
         color_pool.append(n)
         n += 0.4
+    plt.style.use('seaborn')
 
-    # 作图参数
-    plt.figure(figsize=(10, 5))
-    size_num = 20
-    plt.title('Power generation between years for ' + country, size=size_num)
+    size_num = 60
+    plt.title(country, size=size_num)
     plt.ylabel('Power generated (Gwh)', size=size_num)
-    plt.xticks(size=size_num)
-    plt.yticks(size=size_num)
 
-    # 作图
     for d, p in zip(range(len(year_list)), color_pool):
-        x = df_all[df_all['year'] == year_list[0]]['date'].tolist()
-        y = df_all[df_all['year'] == year_list[d]]['value'].tolist()[0:len(x)]
+        x = df_pic[df_pic['year'] == year_list[0]]['date'].tolist()
+        y = df_pic[df_pic['year'] == year_list[d]][country].tolist()[0:len(x)]
         try:
-            plt.plot(x, y, color=lighten_color('orange', p), linewidth=3, label=year_list[d])
+            plt.plot(x, y, color=lighten_color('orange', p), linewidth=8, label=year_list[d])
         except:  # 如果长度不一致
             len_num = len(x) - len(y)
             y = y + [None] * len_num
-            plt.plot(x, y, color=lighten_color('orange', p), linewidth=3, label=year_list[d])
-
-        ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
-        ax.xaxis.set_major_locator(MonthLocator())
-        ax.xaxis.set_major_formatter(DateFormatter('%b'))
-        plt.legend(loc='best', prop={'size': size_num})
-    plt.savefig(os.path.join(out_path, '%s_line_chart.png' % country), dpi=500)
+            plt.plot(x, y, color=lighten_color('grey', p), linewidth=8, label=year_list[d])
+    ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
+    ax.xaxis.set_major_locator(MonthLocator())
+    ax.xaxis.set_major_formatter(DateFormatter('%b'))
+    plt.legend(loc='best', prop={'size': size_num})
+    plt.yticks(size=40)
+    if i <= 7:
+        plt.xticks(())
+    else:
+        plt.xticks(size=50)
 
 
 def write_pic(file_path, country):

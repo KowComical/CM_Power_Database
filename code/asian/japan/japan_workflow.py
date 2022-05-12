@@ -36,9 +36,6 @@ def main():
 
     # 整理数据
     g.japan()
-    # 作图
-    af.draw_pic('japan')
-
 
 def okiden():
     # 0_okiden

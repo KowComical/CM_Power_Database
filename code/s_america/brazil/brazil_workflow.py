@@ -79,8 +79,6 @@ def main():
         all.to_csv(filename, index=False)
     # 整理数据
     g.brazil()
-    # 可视化数据
-    af.draw_pic('brazil')
 
 
 # initialize a new session to the tableau server

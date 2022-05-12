@@ -19,8 +19,6 @@ def main():
     df.to_csv(os.path.join(out_path, 'Russia_Hourly_Generation.csv'), index=False, encoding='utf_8_sig')
     # 处理数据
     g.russia()
-    # 作图
-    af.draw_pic('russia')
 
 
 if __name__ == '__main__':

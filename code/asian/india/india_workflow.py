@@ -47,8 +47,6 @@ def main():
                     download_pdf_file(link, date_range)
     # 整理数据
     g.india()
-    # 作图
-    af.draw_pic('india')
 
 
 def download_pdf_file(link, date_range):
