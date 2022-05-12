@@ -94,4 +94,4 @@ for i in range(len(country_list)):
     pic = plt.subplot(3, 4, i + 1)
     af.draw_pic(df_all, country_list[i], i)
 plt.tight_layout()
-plt.savefig(os.path.join(out_path, 'Power generation for all country.svg'), format='svg')
+plt.savefig(os.path.join(out_path, 'Power_generation_for_all_country.svg'), format='svg')
