@@ -1,5 +1,5 @@
 ## 数据情况
-(https://raw.githubusercontent.com/KowComical/GlobalPowerUpdate-Kow/master/image/Power%20generation%20for%20all%20country.svg?token=GHSAT0AAAAAABTVTEC432Q22LOJXVIBKQLKYT44PHA)
+![](https://raw.githubusercontent.com/KowComical/GlobalPowerUpdate-Kow/master/image/Power%20generation%20for%20all%20country.svg?token=GHSAT0AAAAAABTVTEC432Q22LOJXVIBKQLKYT44PHA)
 ### Monthly
 - [x] **[iea](./data/#global_rf/iea)** 每月15号更新3个月前的数据
 ### Daily
