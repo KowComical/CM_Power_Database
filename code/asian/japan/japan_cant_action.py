@@ -57,4 +57,4 @@ else:
     wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
     print('downloading...')
     time.sleep(30)
-# wd.quit()
+wd.quit()
