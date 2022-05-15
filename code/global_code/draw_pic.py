@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
 import re
 import os
 
@@ -42,6 +41,7 @@ for f in file_name_eu:
     df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
 for x in df_all.columns.tolist():
+    # noinspection PyBroadException
     try:
         df_all[x] = df_all[x].astype(float)
     except:

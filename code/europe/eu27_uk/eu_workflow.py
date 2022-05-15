@@ -10,8 +10,7 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
-import global_function as af
-import global_all as g
+from global_code import global_all as g
 
 import numpy as np
 import pandas as pd
@@ -39,6 +38,7 @@ def main():
     uk.main()
     # 处理数据
     g.eu()
+
 
 def login(u='https://transparency.entsoe.eu/sso/login'):
     s = requests.session()
@@ -104,6 +104,7 @@ def downloadOriginalData(s):
             if os.path.exists(fileName) and (year < endYear):
                 continue
             while True:
+                # noinspection PyBroadException
                 try:
                     r = s.get(u)
                     break
@@ -122,6 +123,7 @@ def pre():
     for i in tqdm(area.index):
         name = area['countryName'][i]
         timeDiff = area['timeDiff'][i]
+        # noinspection PyBroadException
         try:
             data_preprocess(raw_path, name, timeDiff)
         except:
@@ -160,6 +162,7 @@ def data_preprocess(dataPath, name, time_diff):
             c[0.75 * t / t.median() > th] = np.nan
 
     # 线性插值补全缺失值
+    # noinspection PyBroadException
     try:
         country_data.interpolate(method='linear', inplace=True)
 

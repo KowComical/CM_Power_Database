@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import re
 import sys
 import os
@@ -22,30 +21,28 @@ file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.fin
 
 # 提取主要国家名
 name = re.compile(r'data/.*?/(?P<name>.*?)/simulated', re.S)
-result_no = []
+
+df_all = pd.DataFrame()
 for f in file_name_no:
     c = name.findall(f)[0]
     df_temp = pd.read_csv(f)
     af.time_info(df_temp, 'date')
     df_temp = af.check_col(df_temp, 'daily')
     df_temp['country'] = c.capitalize()
-    result_no.append(df_temp)
-df_no = pd.DataFrame(np.concatenate(result_no), columns=df_temp.columns)
+    df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
 # 欧州国家
 eu_name = re.compile(r'daily/(?P<name>.*?).csv', re.S)
-result_eu = []
 for f in file_name_eu:
     c = eu_name.findall(f)[0]
     df_temp = pd.read_csv(f)
     df_temp['country'] = c.capitalize()
-    result_eu.append(df_temp)
-df_eu = pd.DataFrame(np.concatenate(result_eu), columns=df_temp.columns)
+    df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
-# 合并并处理
-df_all = pd.concat([df_no, df_eu]).reset_index(drop=True)
+# 处理
 df_emission = df_all.copy()
 for x in df_all.columns.tolist():
+    # noinspection PyBroadException
     try:
         df_all[x] = df_all[x].astype(float)
     except:

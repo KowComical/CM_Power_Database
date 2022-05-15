@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import re
 import os
 import sys
@@ -60,6 +59,7 @@ country_list = df_all['country'].drop_duplicates().tolist()
 type_list = df_all['Type'].drop_duplicates().tolist()
 for x in country_list:
     for y in type_list:
+        # noinspection PyBroadException
         try:
             test = df_all[(df_all['country'] == x) & (df_all['Type'] == y)].reset_index(drop=True)
             test = af.check_date(test, 'date', 'd')
@@ -79,4 +79,3 @@ for x in country_list:
                 test.to_csv(out_file, index=False, encoding='utf_8_sig')
         except:
             pass
-

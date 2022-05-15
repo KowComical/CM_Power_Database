@@ -33,8 +33,7 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
-import global_function as af
-import global_all as g
+from global_code import global_all as g
 
 in_path = './data/s_america/brazil/raw/'
 if not os.path.exists(in_path):
@@ -58,25 +57,25 @@ def main():
         setTimeResolution(sessionID, timeResolution)
 
         # Resolve response data
-        all = pd.DataFrame()
+        all_result = pd.DataFrame()
         for t in range(len(types)):
             df = resolveData(sessionID, t)
             df.columns = ['Date', types[t]]
             if t:
-                all = pd.merge(all, df, how='outer')
+                all_result = pd.merge(all_result, df, how='outer')
             else:
-                all = df
+                all_result = df
 
         # Resolve response data
         for t in range(len(thermal_types)):
             df = resolveThermalData(sessionID, t)
             df.columns = ['Date', 'Thermal:' + thermal_types[t]]
-            all = pd.merge(all, df, how='outer')
+            all_result = pd.merge(all_result, df, how='outer')
 
         # Export data to file
-        all['Date'] = pd.to_datetime(all['Date'], format="%d/%m/%Y %H:%M", errors='coerce')
-        all.sort_values(by='Date', inplace=True)
-        all.to_csv(filename, index=False)
+        all_result['Date'] = pd.to_datetime(all_result['Date'], format="%d/%m/%Y %H:%M", errors='coerce')
+        all_result.sort_values(by='Date', inplace=True)
+        all_result.to_csv(filename, index=False)
     # 整理数据
     g.brazil()
 
@@ -146,14 +145,14 @@ def command(url, fields):
 
 
 # Set time period
-def setPeriod(sessionID, startDate, endDate):
+def setPeriod(sessionID, start_Date, end_Date):
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/sessions/%s' \
           '/commands/tabdoc/set-parameter-value' % sessionID
 
     # Set start date as startDate
     fields = {
         'globalFieldName': '[Parameters].[Início Primeiro Período GE Comp 3 (cópia)]',
-        'valueString': startDate,
+        'valueString': start_Date,
         'useUsLocale': 'false',
     }
     command(url, fields)
@@ -162,7 +161,7 @@ def setPeriod(sessionID, startDate, endDate):
     # Set end date as endDate...
     fields = {
         'globalFieldName': '[Parameters].[Fim Primeiro Período GE Comp 3 (cópia)]',
-        'valueString': endDate,
+        'valueString': end_Date,
         'useUsLocale': 'false',
     }
     command(url, fields)
@@ -174,7 +173,8 @@ def setTimeResolution(sessionID, timeResolution):
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/sessions/%s' \
           '/commands/tabdoc/set-parameter-value' % sessionID
     ts = 'Dia'
-    if timeResolution == 'Hourly': ts = 'Hora'
+    if timeResolution == 'Hourly':
+        ts = 'Hora'
     fields = {
         'globalFieldName': '[Parameters].[Escala de Tempo GE Comp 3 (cópia)]',
         'valueString': ts,

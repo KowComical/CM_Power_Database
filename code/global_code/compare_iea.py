@@ -1,6 +1,5 @@
 import re
 import os
-import numpy as np
 import pandas as pd
 import global_function as af
 
@@ -14,30 +13,27 @@ file_name_no = [file_name[i] for i, x in enumerate(file_name) if not x.find('eu2
 file_name_eu = [file_name[i] for i, x in enumerate(file_name) if x.find('eu27_uk') != -1]
 file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.find('United_Kingdom_BMRS') != -1]
 
-# # 提取主要国家名
-name = re.compile(r'data/.*?\\(?P<name>.*?)\\simulated', re.S)
-result_no = []
+# 提取主要国家名
+name = re.compile(r'data/.*?/(?P<name>.*?)/simulated', re.S)
+
+df_all = pd.DataFrame()
 for f in file_name_no:
     c = name.findall(f)[0]
     df_temp = pd.read_csv(f)
     af.time_info(df_temp, 'date')
     df_temp = af.check_col(df_temp, 'daily')
-    df_temp['country/region'] = c.capitalize()
-    result_no.append(df_temp)
-df_no = pd.DataFrame(np.concatenate(result_no), columns=df_temp.columns)
+    df_temp['country'] = c.capitalize()
+    df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
 # 欧州国家
-eu_name = re.compile(r'daily\\(?P<name>.*?).csv', re.S)
-result_eu = []
+eu_name = re.compile(r'daily/(?P<name>.*?).csv', re.S)
 for f in file_name_eu:
     c = eu_name.findall(f)[0]
     df_temp = pd.read_csv(f)
-    df_temp['country/region'] = c.capitalize()
-    result_eu.append(df_temp)
-df_eu = pd.DataFrame(np.concatenate(result_eu), columns=df_temp.columns)
+    df_temp['country'] = c.capitalize()
+    df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
-# 合并并处理
-df_all = pd.concat([df_no, df_eu]).reset_index(drop=True)
+# 处理
 df_all['date'] = pd.to_datetime(df_all['date'])
 df_all = df_all.set_index(
     ['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country/region']).stack().reset_index().rename(

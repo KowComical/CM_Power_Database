@@ -7,8 +7,8 @@ import sys
 sys.dont_write_bytecode = True
 
 sys.path.append('./code/global_code/')
-import global_function as af
-import global_all as g
+from global_code import global_function as af
+from global_code import global_all as g
 
 
 def main():
@@ -36,6 +36,7 @@ def main():
 
     # 整理数据
     g.japan()
+
 
 def okiden():
     # 0_okiden

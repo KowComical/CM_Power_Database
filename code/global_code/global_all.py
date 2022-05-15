@@ -461,6 +461,7 @@ def japan():
     df_all = df_new_result.copy()
 
     for x in df_all.columns:
+        # noinspection PyBroadException
         try:
             df_all[x] = df_all[x].astype(float)
         except:

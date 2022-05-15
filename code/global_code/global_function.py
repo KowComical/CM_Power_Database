@@ -171,6 +171,7 @@ def lighten_color(color, amount=0.5):  # 改颜色深浅
     import colorsys
     import sys
     sys.dont_write_bytecode = True
+    # noinspection PyBroadException
     try:
         c = mc.cnames[color]
     except:
@@ -198,6 +199,7 @@ def draw_pic(df_pic, country, i):
     for d, p in zip(range(len(year_list)), color_pool):
         x = df_pic[df_pic['year'] == year_list[0]]['date'].tolist()
         y = df_pic[df_pic['year'] == year_list[d]][country].tolist()[0:len(x)]
+        # noinspection PyBroadException
         try:
             plt.plot(x, y, color=lighten_color('orange', p), linewidth=8, label=year_list[d])
         except:  # 如果长度不一致
@@ -316,9 +318,8 @@ def fill_null(df, j, date_name, Type):
     sys.dont_write_bytecode = True
     import calendar
     import pandas as pd
-    import numpy as np
     df_iea = iea_data(j)
-    filling_result = []
+    filling_result = pd.DataFrame()
     df_null = df[df.isna().any(axis=1)].reset_index(drop=True)  # 所有包含缺失值的行
     df_not_null = df[~df.isna().any(axis=1)].reset_index(drop=True)  # 所有不包含缺失值的行
     for x in df_null['year'].drop_duplicates().tolist():  # 按年份循环
@@ -328,15 +329,16 @@ def fill_null(df, j, date_name, Type):
             month_date = calendar.monthrange(x, y)[1]  # 计算当月天数
             for z in df_iea.columns.tolist():
                 if df_iea[z].dtype == float and z != 'total.gen':  # 如果这一列类型是float并且不为total时
+                    # noinspection PyBroadException
                     try:  # 如果这一列类型是float并且不为total时
                         df_temp_month[z] = df_iea[(df_iea['year'] == x) & (df_iea['month'] == y)][z].tolist()[
                                                0] / month_date
                     except:
                         df_temp_month[z] = df_iea[(df_iea['year'] == x - 1) & (df_iea['month'] == y)][z].tolist()[
                                                0] / month_date
-            filling_result.append(df_temp_month)
-    df_missing = pd.DataFrame(np.concatenate(filling_result), columns=df_temp_month.columns)
-    df = pd.concat([df_missing, df_not_null])
+            filling_result = pd.concat([filling_result, df_temp_month]).reset_index(drop=True)
+
+    df = pd.concat([filling_result, df_not_null])
     df = df.sort_values(by=date_name).reset_index(drop=True)
     total_proc(df, unit=True)
     df = check_col(df, Type)

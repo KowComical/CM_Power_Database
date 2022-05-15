@@ -8,7 +8,7 @@ import re
 sys.dont_write_bytecode = True
 
 sys.path.append('../../../code/global_code/')
-import global_function as af
+from global_code import global_function as af
 
 # chrome驱动路径
 chromedriver = '../../../data/#global_rf/selenium/chromedriver.exe'  # chrome路径

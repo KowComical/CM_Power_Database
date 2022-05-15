@@ -8,8 +8,8 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
-import global_function as af
-import global_all as g
+from global_code import global_function as af
+from global_code import global_all as g
 
 # ##################################################### craw 部分 ######################################################################
 out_path = './data/asia/china/craw/'
@@ -82,6 +82,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     hour_data = []
     for se in sector_list:
         power = re.compile(r'截至.*?%s(?P<name>.*?)千瓦' % se, re.S)
+        # noinspection PyBroadException
         try:
             result_data = power.findall(text)[0]
             if 0 <= len(result_data) <= 8:
@@ -103,6 +104,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     sector = []
     for se in sector_list:
         hour = re.compile(r'%s.*?利用小时.*?(?P<name>.*?)小时' % se, re.S)
+        # noinspection PyBroadException
         try:
             result_data = hour.findall(text)
             result_data = functools.reduce(lambda x, z: x if len(x) < len(z) else z, result_data)
@@ -167,6 +169,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     sector_list = ['水电', '火电', '煤电', '燃气发电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
     for se in sector_list:
         power = re.compile(r'全口径.*?截至.*?%s(?P<name>.*?)千瓦' % se, re.S)
+        # noinspection PyBroadException
         try:
             result_data = power.findall(text)[0]
             if 0 <= len(result_data) <= 10:  # 抓取失败时直接pass
@@ -190,6 +193,7 @@ for t, u, s in zip(title_list, url_list, source_list):
     sector_list = ['水电', '火电', '煤电', '气电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
     for se in sector_list:
         hour = re.compile(r'%s(?P<name>(\d+))小时' % se, re.S)
+        # noinspection PyBroadException
         try:
             result_data = hour.findall(text)
             result_data = functools.reduce(lambda x, z: x if len(x) < len(z) else z, result_data)[0]
@@ -334,6 +338,7 @@ for y in year_list:  # gwh的年度范围
             df_gwh[col_name] = df_gwh[col_ratio_name] * missing_data
             df_gwh[col_ratio_name] = df_gwh[col_ratio_name] - df_gwh[col_name]
     else:
+        # noinspection PyBroadException
         try:
             col_name = str(y) + '-01'
             col_ratio_name = str(y) + '-02'

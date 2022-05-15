@@ -18,8 +18,8 @@ from tqdm import tqdm
 import sys
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
-import global_function as af
-import global_all as g
+from global_code import global_function as af
+from global_code import global_all as g
 
 in_path = './data/n_america/us/craw/'
 out_path = './data/n_america/us/raw/'
@@ -50,6 +50,7 @@ for i in range(0, len(regions)):
               '&timezone=' + timeZone
 
         while True:
+            # noinspection PyBroadException
             try:
                 res = requests.get(url)
                 break
