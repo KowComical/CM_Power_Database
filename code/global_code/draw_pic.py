@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import re
 import os
+from datetime import datetime
 
 import sys
-
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
 import global_function as af
@@ -94,4 +94,11 @@ for i in range(len(country_list)):
     pic = plt.subplot(3, 4, i + 1)
     af.draw_pic(df_all, country_list[i], i)
 plt.tight_layout()
+
+# 建立储存图片的分年份月份文件夹
+current_date = datetime.now().strftime('%Y%m%d')
+out_path_yearly = af.create_folder(out_path, current_date[:4])
+out_path_monthly = af.create_folder(out_path_yearly, current_date[4:6])
+plt.savefig(os.path.join(out_path_monthly, 'Power_generation_for_all_country_%s.svg' % current_date), format='svg')
+# readme也需要一个
 plt.savefig(os.path.join(out_path, 'Power_generation_for_all_country.svg'), format='svg')
