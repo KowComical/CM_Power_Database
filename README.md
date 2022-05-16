@@ -10,11 +10,12 @@
 - [x] **[United States](./data/n_america/us)** 24小时左右延迟
 - [x] **[EU27&UK](./data/europe/eu27_uk)** 9小时延迟
 - [x] **[Japan](./data/asia/japan)** 每月月初10号左右更新2个月前的数据 用日本公司新数据可拆分火电类型
-- [ ] **[Russia](./data/europe/russia)** 已有hourly和daily可爬数据
+- [x] **[Russia](./data/europe/russia)** 最后一个月数据是从bp simulated的
 ## 待更新国家
 - [ ] **[ROW](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)** 
 - [ ] **[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)** 
 - [ ] **[乌克兰](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** 
+- [ ] **[土耳其]**
 
 
 
