@@ -62,6 +62,8 @@ try:
     b.main()
 except:
     print('error in Brazil')
+    
 
+import iea_workflow
 import cal_ef_emission
 import draw_pic
