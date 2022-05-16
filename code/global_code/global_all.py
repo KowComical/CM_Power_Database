@@ -1,14 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-# Global data process for countries:
-# us, india, brazil, eu, japan, russia
-
 import pandas as pd
 import os
 from datetime import datetime
 import requests
 import global_function as af  # 所有的function
 import sys
+
 sys.dont_write_bytecode = True
 
 # ###########################################################################################################################################
@@ -139,7 +135,7 @@ def india():
             df_all[x] = df_all[x].fillna(df_all[x].interpolate())
     for x in year_list:
         df_temp = df_all[df_all['year'] == x].reset_index(drop=True)
-        df_temp.to_csv(os.path.join(out_path_cleaned, 'india-generation-%s-cleaned-filed.csv' % x), index=False,
+        df_temp.to_csv(os.path.join(out_path_cleaned, 'india-generation-%s-cleaned-filled.csv' % x), index=False,
                        encoding='utf_8_sig')
 
     ####################################################################
@@ -681,7 +677,7 @@ def china():
     df = pd.concat([pd.read_csv(f) for f in file_name])
 
     df['fossil_other'] = df[['fossil', 'other']].sum(axis=1)
-    df['renewable'] = df[['nuclear', 'hydro', 'wind', 'solar']].sum(axis=1)
+    df['renewable'] = df[['nuclear', 'hydro', 'wind', 'solar', 'biomass', 'geothermal']].sum(axis=1)
 
     # merge
     df_new = pd.merge(df_daily, df, how='inner', on=['year', 'month'])
