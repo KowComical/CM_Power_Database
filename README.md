@@ -16,6 +16,6 @@
 - [ ] **[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)** 
 - [ ] **[乌克兰](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** 
 - [ ] **[土耳其]**
-
+- [ ] **[南非]**
 
 
