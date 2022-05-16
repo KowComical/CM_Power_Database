@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[3]:
-
-
 # ====================================================================================
 #                           Interpreter: Python 3.6.1
 #                            Test platform: Mac OS X
@@ -13,8 +9,6 @@
 #                         Contact Email: zhudeng94@gmail.com
 #                       Created: 2020 08 06 14:32
 # ====================================================================================
-
-#
 # Brazil's electricity data are available from:
 # http://www.ons.org.br/Paginas/resultados-da-operacao/historico-da-operacao
 # The data could be only requested via tableau system

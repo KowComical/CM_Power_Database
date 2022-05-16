@@ -24,7 +24,6 @@ file_name = af.search_file(out_path)
 name = re.compile(r'month/(?P<name>.*?)_', re.S)  # 从路径找出国家
 date = [name.findall(f)[0] for f in file_name]
 date = max(date)
-print(date)
 date = '%s年%s月' % (date[:4], int(date[-2:]))
 
 # 开始模拟
@@ -55,6 +54,5 @@ else:
     # 找到确认下载并点击确认
     confirm_text = 'ui-button-text'
     wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
-    print('downloading...')
     time.sleep(30)
-# wd.quit()
+wd.quit()
