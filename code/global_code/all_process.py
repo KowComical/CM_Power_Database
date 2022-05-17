@@ -3,66 +3,37 @@ warnings.filterwarnings('ignore')
 import sys
 sys.dont_write_bytecode = True
 
-# noinspection PyBroadException
-try:
-    sys.path.append('./code/asian/china/')
-    print('Begin process China...')
-    import china_workflow
-except:
-    print('error in China')
+sys.path.append('./code/asian/china/')
+print('Begin process China...')
+import china_workflow
 
-# noinspection PyBroadException
-try:
-    sys.path.append('./code/asian/india/')
-    print('Begin process India...')
-    import india_workflow as i
-    i.main()
-except:
-    print('error in India')
+sys.path.append('./code/asian/india/')
+print('Begin process India...')
+import india_workflow as i
+i.main()
 
-# noinspection PyBroadException
-try:
-    sys.path.append('./code/asian/japan/')
-    print('Begin process Japan...')
-    import japan_workflow as j
-    j.main()
-except:
-    print('error in Japan')
+sys.path.append('./code/asian/japan/')
+print('Begin process Japan...')
+import japan_workflow as j
+j.main()
 
-# noinspection PyBroadException
-try:
-    sys.path.append('./code/europe/eu27_uk/')
-    print('Begin process EU...')
-    import eu_workflow as e
-    e.main()
-except:
-    print('error in EU')
+sys.path.append('./code/europe/eu27_uk/')
+print('Begin process EU...')
+import eu_workflow as e
+e.main()
 
-# noinspection PyBroadException
-try:
-    sys.path.append('./code/europe/russia/')
-    print('Begin process Russia...')
-    import russia_workflow
-except:
-    print('error in Russia')
+sys.path.append('./code/europe/russia/')
+print('Begin process Russia...')
+import russia_workflow
 
-# noinspection PyBroadException
-try:
-    sys.path.append('./code/n_america/us/')
-    print('Begin process US...')
-    import us_workflow
-except:
-    print('error in US')
+sys.path.append('./code/n_america/us/')
+print('Begin process US...')
+import us_workflow
 
-# noinspection PyBroadException
-try:
-    sys.path.append('./code/s_america/brazil/')
-    print('Begin process Brazil...')
-    import brazil_workflow as b
-    b.main()
-except:
-    print('error in Brazil')
-    
+sys.path.append('./code/s_america/brazil/')
+print('Begin process Brazil...')
+import brazil_workflow as b
+b.main()
 
 import iea_workflow
 import cal_ef_emission
