@@ -677,7 +677,7 @@ def china():
     df = pd.concat([pd.read_csv(f) for f in file_name])
 
     df['fossil_other'] = df[['fossil', 'other']].sum(axis=1)
-    df['renewable'] = df[['nuclear', 'hydro', 'wind', 'solar', 'biomass', 'geothermal']].sum(axis=1)
+    df['renewable'] = df[['nuclear', 'hydro', 'wind', 'solar']].sum(axis=1)
 
     # merge
     df_new = pd.merge(df_daily, df, how='inner', on=['year', 'month'])

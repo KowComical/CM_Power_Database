@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 sys.dont_write_bytecode = True
-sys.path.append('./code/global_code/')
+sys.path.append('./code/')
 from global_code import global_all as g
 
 
