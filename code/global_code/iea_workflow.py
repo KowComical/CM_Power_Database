@@ -41,7 +41,7 @@ df_iea = df_iea[df_iea['Balance'] == 'Net Electricity Production'].reset_index(d
 
 date = []
 for t in df_iea['Time'].tolist():
-    d = datetime.strptime(t, '%B-%Y')
+    d = datetime.strptime(t, '%b-%y')
     date.append(d.strftime('%Y-%m-%d'))
 
 df_iea['date'] = date
