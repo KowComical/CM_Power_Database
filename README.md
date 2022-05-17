@@ -1,3 +1,5 @@
+## 运行情况
+[![all_workflow](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml/badge.svg?branch=master)](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml)
 ## 数据情况
 ![](./image/Power_generation_for_all_country.svg)
 ### Monthly
