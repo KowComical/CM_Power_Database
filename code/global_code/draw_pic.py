@@ -155,7 +155,8 @@ def sub_plot(df_all, country_list):
 def out_put(out_path, category):
     current_date = datetime.now().strftime('%Y%m%d')
     if not category:  # 全部的情况
-        out_path_type = af.create_folder(out_path, 'all')
+        out_path_energy = af.create_folder(out_path, 'all')
+        out_path_type = af.create_folder(out_path_energy, 'power')
         out_path_yearly = af.create_folder(out_path_type, current_date[:4])
         out_path_monthly = af.create_folder(out_path_yearly, current_date[4:6])
 
@@ -164,23 +165,11 @@ def out_put(out_path, category):
         # readme也需要一个
         plt.savefig(os.path.join(out_path, 'Power_generation_for_all_country.svg'), format='svg')
     else:
-        out_path_type = af.create_folder(out_path, category)
+        out_path_energy = af.create_folder(out_path, 'all')
+        out_path_type = af.create_folder(out_path_energy, category)
         out_path_yearly = af.create_folder(out_path_type, current_date[:4])
         out_path_monthly = af.create_folder(out_path_yearly, current_date[4:6])
 
         plt.savefig(os.path.join(out_path_monthly, 'Power_generation_for_all_country_%s.svg' % current_date),
                     format='svg')
         plt.savefig(os.path.join(out_path, '%s_generation_for_all_country.svg' % category.capitalize()), format='svg')
-
-
-# if __name__ == '__main__':
-#     main(category)
-    # main(category='gas')
-    # main(category='oil')
-    # main(category='nuclear')
-    # main(category='solar')
-    # main(category='hydro')
-    # main(category='wind')
-    # main(category='other')
-    # main(category=False)
-
