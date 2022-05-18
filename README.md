@@ -1,45 +1,61 @@
 
 
-
-
-
 [![all_workflow](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml/badge.svg?branch=master)](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml)
 
 
-## 数据情况
-#### 分能源
+# 数据情况
+## 分能源
 |||||||||
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |**[`Coal`](./image/Coal_generation_for_all_country.svg)**|**[`Gas`](./image/Gas_generation_for_all_country.svg)**|**[`Oil`](./image/Oil_generation_for_all_country.svg)**|**[`Nuclear`](./image/Nuclear_generation_for_all_country.svg)**|**[`Hydro`](./image/Hydro_generation_for_all_country.svg)**|**[`Solar`](./image/Solar_generation_for_all_country.svg)**|**[`Wind`](./image/Wind_generation_for_all_country.svg)**|**[`Other`](./image/Other_generation_for_all_country.svg)**|
-
-
-#### 所有能源
+### 所有能源
 ![](./image/Power_generation_for_all_country.svg)
 
 
+### Other_Database
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**|2020.1|`Monthly`|每月15号更新3个月前的数据|- **[Biqing](https://github.com/cadagno)**<br>- **[Kow](https://github.com/KowComical)**|
+|**[bp](./data/#global_rf/bp)**|**[Statistical Review of World Energys](https://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html)**|1965|`Yearly`|bp年度数据 更新频率还不知道 爬虫也没写|- **[Biqing](https://github.com/cadagno)**<br>- **[Kow](https://github.com/KowComical)**|
+### Asian
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[China](./data/asia/china)**|**[中国电力企业联合会](https://cec.org.cn/menu/index.html?170)**|2016.1.1|`Daily`|偶尔需要去网站找缺失的数据<br>未来会进一步完善爬虫|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
+|**[India](./data/asia/india)**|**[POSOCO](https://posoco.in/reports/daily-reports/)**|2015.1.1|`Daily`|1天延迟|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
+|**[Japan](./data/asia/japan)**|**[OCCTO](https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#)**|2016.1.1|`Hourly`|每月月初10号左右更新2个月前的数据 <br>用日本公司新数据可拆分火电类型|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
+|**[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**||||已有源数据<br>还未更新||
+
+### Africa
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[South Africa](./data/africa/south_africa)**|**[Eskom](https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/)**|2022.5.9|`Hourly`|跟网站申请要历史数据了<br>还未进行simulate|- **[Biqing](https://github.com/cadagno)**<br>- **[Kow](https://github.com/KowComical)**|
+
+### Europe
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[EU27&UK](./data/europe/eu27_uk)**|**[Entsoe](https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show)**<br>**[BMRS](https://www.bmreports.com/bmrs)**|2015.1.1|`Hourly`|UK用的是BMRS数据<br>9小时延迟|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
+|**[Russia](./data/europe/russia)**|**[EMRES](https://emres.cn)**|2022.5.9|`Hourly`|最后一个月数据是从bp simulated的<br>后续还要再修正拆分火电<br>Hourly 并不能正确反映太阳能数据|- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
+|**[Ukraine](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** ||||还未更新||
+
+### North_America
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[United States](./data/n_america/us)**|**[EIA](https://www.eia.gov/electricity/)**|2016.1.1|`Hourly`|24小时左右延迟|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
 
 
-#### `other_database`
-|Name|Source|Start_Date|Description|Author|
-|:-:|:-:|:-:|:-:|:-:|
-|**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**||每月15号更新3个月前的数据||
-#### Daily
-- [x] **[India](./data/asia/india)** `1天延迟`
-- [x] **[China](./data/asia/china)** `已实现全自动化 # 但有瑕疵 偶尔需要去网站自己找缺失的（爬虫没找到的）数据 未来会进一步完善爬虫`
-#### Hourly
-- [x] **[Brazil](./data/s_america/brazil)** `72小时延迟 # 不是非常准时 有时延迟大有时小`
-- [x] **[United States](./data/n_america/us)** `24小时左右延迟`
-- [x] **[EU27&UK](./data/europe/eu27_uk)** `9小时延迟`
-- [x] **[Japan](./data/asia/japan)** `每月月初10号左右更新2个月前的数据 用日本公司新数据可拆分火电类型`
-- [x] **[Russia](./data/europe/russia)** `最后一个月数据是从bp simulated的 后续还要再修正拆分火电`
-- [ ] **[South Africa](./data/africa/south_africa)** `近七日已爬取 接下来需要整理数据`
+### Sorth_America
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[Brazil](./data/s_america/brazil)**|**[ONS](http://www.ons.org.br/Paginas/resultados-da-operacao/historico-da-operacao)**|2016.1.1|`Hourly`|72小时延迟<br>不是非常准时 有时延迟大有时小|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
 
+### Oceania
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)**||||还未更新||
 
-
-## 待更新国家
-- [ ] **[ROW](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)** 
-- [ ] **[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)** 
-- [ ] **[Ukraine](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** 
-- [ ] **[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**
+### ROW
+|Name|Source|Start_Date|Resolution|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**[ROW](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)**||||还未更新||
 
 
