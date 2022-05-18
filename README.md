@@ -22,7 +22,7 @@
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |**[China](./data/asia/china)**|**[中国电力企业联合会](https://cec.org.cn/menu/index.html?170)**|2016.1.1|`Daily`|偶尔需要去网站找缺失的数据<br>未来会进一步完善爬虫|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
 |**[India](./data/asia/india)**|**[POSOCO](https://posoco.in/reports/daily-reports/)**|2015.1.1|`Daily`|1天延迟|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
-|**[Japan](./data/asia/japan)**|**[OCCTO](https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#)**|2016.1.1|`Hourly`|每月月初10号左右更新2个月前的数据 <br>用日本公司新数据可拆分火电类型|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
+|**[Japan](./data/asia/japan)**|**[OCCTO](https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#)**|2016.1.1|`Hourly`|每月10号左右更新2个月前数据<br>用日本公司新数据可拆分火电类型|- **[Biqing](https://github.com/cadagno)**<br>- **[Zhu Deng](https://github.com/thuzhu)**<br>- **[Kow](https://github.com/KowComical)**|
 |**[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**||||已有源数据<br>还未更新||
 
 ### Africa
