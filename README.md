@@ -1,8 +1,6 @@
 ## 运行情况
 [![all_workflow](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml/badge.svg?branch=master)](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml)
 ## 数据情况
-#### 所有能源
-![](./image/Power_generation_for_all_country.svg)
 #### 分能源
 **[Coal](./image/Coal_generation_for_all_country.svg)**
 **[Gas](./image/Gas_generation_for_all_country.svg)**
@@ -12,6 +10,9 @@
 **[Solar](./image/Solar_generation_for_all_country.svg)**
 **[Wind](./image/Wind_generation_for_all_country.svg)**
 **[Other](./image/Other_generation_for_all_country.svg)**
+#### 所有能源
+![](./image/Power_generation_for_all_country.svg)
+
 ### Monthly
 - [x] **[iea](./data/#global_rf/iea)** 每月15号更新3个月前的数据
 ### Daily
