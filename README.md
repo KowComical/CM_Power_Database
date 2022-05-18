@@ -25,6 +25,7 @@
 - [x] **[EU27&UK](./data/europe/eu27_uk)** `9小时延迟`
 - [x] **[Japan](./data/asia/japan)** `每月月初10号左右更新2个月前的数据 用日本公司新数据可拆分火电类型`
 - [x] **[Russia](./data/europe/russia)** `最后一个月数据是从bp simulated的 后续还要再修正拆分火电`
+- [ ] **[South Africa](./data/africa/south_africa)** `近七日已爬取 接下来需要整理数据`
 
 
 
@@ -32,7 +33,6 @@
 - [ ] **[ROW](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)** 
 - [ ] **[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)** 
 - [ ] **[Ukraine](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** 
-- [ ] **[Turkey]**
-- [ ] **[South Africa](./data/africa/south_africa)** `近七日已爬取 接下来需要整理数据`
+- [ ] **[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**
 
 
