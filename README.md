@@ -31,8 +31,8 @@
 ## 待更新国家
 - [ ] **[ROW](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)** 
 - [ ] **[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)** 
-- [ ] **[乌克兰](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** 
-- [ ] **[土耳其]**
-- [ ] **[南非]**
+- [ ] **[Ukraine](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** 
+- [ ] **[Turkey]**
+- [ ] **[South Africa](./data/africa/south_africa)** `近七日已爬取 接下来需要整理数据`
 
 
