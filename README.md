@@ -1,3 +1,8 @@
+
+
+
+
+
 [![all_workflow](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml/badge.svg?branch=master)](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml)
 
 
@@ -14,8 +19,10 @@
 
 
 
-#### Monthly
-- [x] **[iea](./data/#global_rf/iea)** `每月15号更新3个月前的数据`
+#### `other_database`
+|Name|Source|Start_Date|Description|Author|
+|:-:|:-:|:-:|:-:|:-:|
+|**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**||每月15号更新3个月前的数据||
 #### Daily
 - [x] **[India](./data/asia/india)** `1天延迟`
 - [x] **[China](./data/asia/china)** `已实现全自动化 # 但有瑕疵 偶尔需要去网站自己找缺失的（爬虫没找到的）数据 未来会进一步完善爬虫`
