@@ -180,43 +180,6 @@ def lighten_color(color, amount=0.5):  # 改颜色深浅
     return colorsys.hls_to_rgb(c[0], 1 - amount * (1 - c[1]), c[2])
 
 
-def draw_pic(df_pic, country, i):
-    from matplotlib.dates import MonthLocator, DateFormatter
-    import matplotlib.pyplot as plt
-    year_list = df_pic['year'].drop_duplicates().tolist()
-    n = 0.3
-    color_pool = []
-    for z in range(len(year_list)):
-        color_pool.append(n)
-        n += 0.4
-
-    plt.title(country, size=100)
-    if i == 0 or i == 4 or i == 8:
-        plt.ylabel('Power generated (Gwh)', size=80)
-    else:
-        plt.ylabel('')
-
-    for d, p in zip(range(len(year_list)), color_pool):
-        x = df_pic[df_pic['year'] == year_list[0]]['date'].tolist()
-        y = df_pic[df_pic['year'] == year_list[d]][country].tolist()[0:len(x)]
-        # noinspection PyBroadException
-        try:
-            plt.plot(x, y, color=lighten_color('orange', p), linewidth=8, label=year_list[d])
-        except:  # 如果长度不一致
-            len_num = len(x) - len(y)
-            y = y + [None] * len_num
-            plt.plot(x, y, color=lighten_color('grey', p), linewidth=8, label=year_list[d])
-    ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
-    ax.xaxis.set_major_locator(MonthLocator())
-    ax.xaxis.set_major_formatter(DateFormatter('%b'))
-    plt.legend(loc='best', prop={'size': 60})
-    plt.yticks(size=40)
-    if i <= 7:
-        plt.xticks(())
-    else:
-        plt.xticks(size=60)
-
-
 def create_folder(file_path, Type):  # 建立需要的文件夹
     import os
     import sys
