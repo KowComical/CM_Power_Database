@@ -1,6 +1,7 @@
 
 
 [![all_workflow](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml/badge.svg?branch=master)](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml)
+<a href="https://github.com/KowComical/GlobalPowerUpdate-Kow/issues"><img src="https://img.shields.io/github/issues/abhisheknaiidu/awesome-github-profile-readme" alt="Issues Badge"/></a>
 
 
 # 数据情况
