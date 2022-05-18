@@ -1,3 +1,7 @@
+import pandas as pd
+
+from global_code.global_function import time_info, total_proc, check_col
+
 file_path = 'K:\\Github\\PowerMonitor\\Data\\Asia\\Turkey\\'
 
 df = pd.read_csv(file_path + 'Turkey_TEIAS_Hourly_2014.csv').rename(columns={'Date': 'date', 'Hour': 'hour'}).fillna(
