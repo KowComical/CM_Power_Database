@@ -355,7 +355,7 @@ def updated(max_date, country):
     from PIL import ImageDraw
     from PIL import ImageFont
 
-    out_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\image\\updated\\'
+    out_path = './image/updated/'
     fontsize = 20
     text = max_date
 
