@@ -385,15 +385,28 @@ def get_size(txt, font):
 def get_max_date(country):
     import pandas as pd
     file_path = './data/'
-
     file_name = search_file(file_path)
-    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
-    file_name_country = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
 
-    resolution = ['hourly', 'daily', 'monthly', 'yearly']
-    for r in resolution:
-        file_name_resolution = [file_name_country[i] for i, x in enumerate(file_name_country) if x.find(r) != -1]
-        if file_name_resolution:
-            df = pd.concat([pd.read_csv(f) for f in file_name_resolution])
-            max_date = max(df.iloc[:, 1])
-            return max_date
+    if country == 'iea_cleaned':
+        file_name_country = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
+        df = pd.read_csv(file_name_country[0])
+        df['date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))  # 合并年月
+        df['date'] = df['date'].dt.strftime('%Y-%m')
+        max_date = max(df['date'])
+        return max_date
+    if country == 'bp_cleaned':
+        file_name_country = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
+        df = pd.read_csv(file_name_country[0])
+        max_date = str(max(df['date']))
+        return max_date
+    else:
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
+        file_name_country = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
+
+        resolution = ['hourly', 'daily', 'monthly', 'yearly']
+        for r in resolution:
+            file_name_resolution = [file_name_country[i] for i, x in enumerate(file_name_country) if x.find(r) != -1]
+            if file_name_resolution:
+                df = pd.concat([pd.read_csv(f) for f in file_name_resolution])
+                max_date = max(df.iloc[:, 1])
+                return max_date
