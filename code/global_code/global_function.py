@@ -399,6 +399,11 @@ def get_max_date(country):
         df = pd.read_csv(file_name_country[0])
         max_date = str(max(df['date']))
         return max_date
+    if country == 'south_africa':
+        file_name_country = [file_name[i] for i, x in enumerate(file_name) if x.find('last_7_days') != -1]
+        df = pd.read_csv(file_name_country[0])
+        max_date = max(df['Date_Time_Hour_Beginning'])
+        return max_date
     else:
         file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
         file_name_country = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
