@@ -714,7 +714,7 @@ def south_africa():
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
 
-    df = pd.read_csv(in_path + 'last_7_days.csv')
+    df = pd.read_csv(os.path.join(in_path, 'last_7_days.csv'))
 
     df = df.rename(columns={'Nuclear_Generation': 'nuclear', 'Hydro_Water_Generation': 'hydro', 'Wind': 'wind',
                             'Other_RE': 'other', 'Thermal_Generation': 'thermal_raw',
