@@ -43,7 +43,6 @@ def main():
     af.updated_date('Germany')
 
 
-
 def login(u='https://transparency.entsoe.eu/sso/login'):
     s = requests.session()
     headers = {
