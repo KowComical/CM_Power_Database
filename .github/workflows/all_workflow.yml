@@ -35,5 +35,5 @@ jobs:
           find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
-          git commit -m "Latest data: ${timestamp}" || exit 0
+          git commit -m "Last updated on: ${timestamp}" || exit 0
           git push
