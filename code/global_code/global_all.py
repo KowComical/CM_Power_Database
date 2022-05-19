@@ -565,6 +565,7 @@ def russia():
     out_path_simulated = af.create_folder(file_path, 'simulated')
     bp_path_file = os.path.join(global_path, '#global_rf', 'bp', 'bp_cleaned.csv')
     in_path_file = os.path.join(in_path, 'Russia_Hourly_Generation.csv')
+    current_date = datetime.now().strftime('%Y-%m-%d')  # 当天日期
 
     # 读取raw数据并处理
     df_russia = pd.read_csv(in_path_file)
@@ -623,8 +624,11 @@ def russia():
     df_russia['wind'] = df_russia['wind_ratio'] * df_russia['renewables']
     df_russia['other'] = df_russia['other_ratio'] * df_russia['renewables']
 
-    # 去除Russia最后几天的Null值
-    # df_russia = df_russia.dropna(axis=0, how='all', thresh=12).reset_index(drop=True)
+    # 有时会有整个几天的缺失值 按照linear去填充
+    df_russia = df_russia.set_index('datetime').interpolate(method='linear').reset_index()
+    # 删除源数据中的预测值
+    df_russia = df_russia[df_russia['datetime'] <= current_date].reset_index(drop=True)
+
     # 输出
     for y in df_russia['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))

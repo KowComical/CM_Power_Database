@@ -16,7 +16,6 @@ def main():
     url = 'https://emres.cn/api/carbonmonitor/getRussiaPowerHourly.php'  # api 来自于邓铸
     r = requests.get(url)
     df = pd.json_normalize(r.json())
-    df = df.dropna(axis=0, how='all', thresh=4).reset_index(drop=True)  # 删除全是0的最后几天
     df.to_csv(os.path.join(out_path, 'Russia_Hourly_Generation.csv'), index=False, encoding='utf_8_sig')
     # 处理数据
     g.russia()
