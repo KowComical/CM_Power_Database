@@ -67,13 +67,25 @@ try:
     b.main()
 except Exception as e:
     print(e)
+
 try:
-    import iea_workflow
+    print('Begin process iea...')
+    import iea_workflow as iea
+    iea.main()
 except Exception as e:
     print(e)
 
-import cal_ef_emission
+try:
+    print('Begin process bp...')
+    import bp_workflow as bp
+    bp.main()
+except Exception as e:
+    print(e)
 
+import cal_ef_emission as cal
+cal.main()
+
+# 输出图
 import draw_pic as d
 d.main(category='coal')
 d.main(category='gas')
