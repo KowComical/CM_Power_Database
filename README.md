@@ -1,3 +1,5 @@
+https://github.com/KowComical/GlobalPowerUpdate-Kow/blob/d2641827f947650b9abdc3b32fa9b99b5a5b7801/image/test.txt#L1
+
 [![all_workflow](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml/badge.svg?branch=master)](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml)
 <a href="https://github.com/users/KowComical/projects/2"><img src="https://img.shields.io/badge/issues-project-blue"/></a>
 
