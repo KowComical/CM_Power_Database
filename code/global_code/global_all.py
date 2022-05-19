@@ -637,6 +637,8 @@ def russia():
     df_russia['wind'] = df_russia['wind_ratio'] * df_russia['renewables']
     df_russia['other'] = df_russia['other_ratio'] * df_russia['renewables']
 
+    # 去除Russia最后几天的Null值
+    df_russia = df_russia.dropna(axis=0, how='all', thresh=12).reset_index(drop=True)
     # 输出
     for y in df_russia['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
