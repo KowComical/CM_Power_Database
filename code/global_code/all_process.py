@@ -1,14 +1,22 @@
 import warnings
-
 warnings.filterwarnings('ignore')
-import sys
 
+import sys
 sys.dont_write_bytecode = True
+
+try:
+    sys.path.append('./code/africa/south_africa/')
+    print('Begin process South Africa...')
+    import south_africa_workflow as sa
+    sa.main()
+except Exception as e:
+    print(e)
 
 try:
     sys.path.append('./code/asian/china/')
     print('Begin process China...')
-    import china_workflow
+    import china_workflow as c
+    c.main()
 except Exception as e:
     print(e)
 
@@ -39,14 +47,16 @@ except Exception as e:
 try:
     sys.path.append('./code/europe/russia/')
     print('Begin process Russia...')
-    import russia_workflow
+    import russia_workflow as r
+    r.main()
 except Exception as e:
     print(e)
 
 try:
     sys.path.append('./code/n_america/us/')
     print('Begin process US...')
-    import us_workflow
+    import us_workflow as us
+    us.main()
 except Exception as e:
     print(e)
 
