@@ -16,11 +16,11 @@
 |Name|Source|Date_Updated|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**|![](./image/updated/iea_cleaned.png)|`Monthly`|每月15号更新3个月前的数据|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
-|**[bp](./data/#global_rf/bp)**|**[Statistical Review of World Energys](https://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html)**|![](./image/updated/bp_cleaned.png)|`Yearly`|bp年度数据 更新频率还不知道 爬虫也没写|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[bp](./data/#global_rf/bp)**|**[Statistical Review of World Energys](https://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html)**|![](./image/updated/bp_cleaned.png)|`Yearly`|bp年度数据 爬虫没写|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 ### Asian
 |Name|Source|Date_Updated|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[China](./data/asia/china)**|**[中国电力企业联合会](https://cec.org.cn/menu/index.html?170)**|![](./image/updated/China.png)|`Daily`|偶尔需要去网站找缺失的数据<br>未来会进一步完善爬虫|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[China](./data/asia/china)**|**[中国电力企业联合会](https://cec.org.cn/menu/index.html?170)**|![](./image/updated/China.png)|`Daily`|偶尔需要去网站找缺失数据<br>未来会进一步完善爬虫|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[India](./data/asia/india)**|**[POSOCO](https://posoco.in/reports/daily-reports/)**|![](./image/updated/India.png)|`Daily`|1天延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[Japan](./data/asia/japan)**|**[OCCTO](https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#)**|![](./image/updated/Japan.png)|`Hourly`|每月10号左右更新2个月前数据<br>用日本公司新数据可拆分火电类型|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**||||已有源数据<br>还未更新||
@@ -46,7 +46,7 @@
 ### Sorth_America
 |Name|Source|Date_Updated|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[Brazil](./data/s_america/brazil)**|**[ONS](http://www.ons.org.br/Paginas/resultados-da-operacao/historico-da-operacao)**|![](./image/updated/Brazil.png)|`Hourly`|72小时延迟<br>不是非常准时 有时延迟大有时小|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[Brazil](./data/s_america/brazil)**|**[ONS](http://www.ons.org.br/Paginas/resultados-da-operacao/historico-da-operacao)**|![](./image/updated/Brazil.png)|`Hourly`|72小时左右延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 
 ### Oceania
 |Name|Source|Date_Updated|Resolution|Description|Author|
