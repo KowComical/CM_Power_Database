@@ -83,7 +83,6 @@ def main():
         # 发电
         data = []
         sector = []
-        hour_data = []
         for se in sector_list:
             power = re.compile(r'截至.*?%s(?P<name>.*?)千瓦' % se, re.S)
             # noinspection PyBroadException
@@ -140,7 +139,6 @@ def main():
     result = result[result['basicTitle'].str.contains('年度全国电力供需形势分析预测报告')].reset_index(drop=True)
     result = result[~result['categoryName'].str.contains('新闻')].reset_index(drop=True)
 
-    year = re.compile(r'\d{4}', re.S)  # 只保留四位数字 也就是年份
     result['date'] = result['basicTitle'].str.extract('(\d+)', expand=False) + '-12-01'
     result = result[~result.duplicated(['date'])].reset_index(drop=True)  # 删除重复的新闻
     result['url'] = 'https://cec.org.cn/ms-mcms/mcms/content/detail?id=' + result['articleID'].astype(str)
@@ -171,7 +169,6 @@ def main():
         # 发电
         data = []
         sector = []
-        hour_data = []
         sector_list = ['水电', '火电', '煤电', '燃气发电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
         for se in sector_list:
             power = re.compile(r'全口径.*?截至.*?%s(?P<name>.*?)千瓦' % se, re.S)

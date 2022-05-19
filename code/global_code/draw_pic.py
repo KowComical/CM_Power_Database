@@ -15,7 +15,7 @@ import global_function as af
 def main(category):
     out_path = './image/'
     country_list = ['Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
-                    'United Kingdom', 'United States']  # 这里以后要修改
+                    'United Kingdom', 'United States', 'South_Africa']  # 这里以后要修改
     df_all = sum_country(country_list, category)  # 合并数据
 
     plt.style.use('seaborn-poster')  # 图表风格
@@ -119,7 +119,7 @@ def draw_pic(df_all, c, i):
 
     size_num = 70
     plt.title(c, size=size_num)
-    if i == 0 or i == 4 or i == 8:  # 这里以后要修改
+    if i % 4 == 0:  # 如果能被4整除 也就是最左边一列
         plt.ylabel('Power generated (Gwh)', size=size_num)
     else:
         plt.ylabel('')
@@ -147,7 +147,7 @@ def draw_pic(df_all, c, i):
 
 def sub_plot(df_all, country_list):
     for i in range(len(country_list)):
-        plt.subplot(3, 4, i + 1)
+        plt.subplot(4, 4, i + 1)  # 第一个是列 第二个是行
         draw_pic(df_all, country_list[i], i)
     plt.tight_layout()
 

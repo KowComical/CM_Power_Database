@@ -13,9 +13,6 @@ global_path = './data/'
 
 # ################################################################US#########################################################################
 def us():
-    import sys
-    sys.dont_write_bytecode = True
-
     file_path = os.path.join(global_path, 'n_america', 'us')
     in_path = os.path.join(file_path, 'raw')
     out_path_cleaned = af.create_folder(file_path, 'cleaned')
@@ -70,9 +67,6 @@ def us():
 
 # #############################################################India#########################################################################
 def india():
-    import sys
-    sys.dont_write_bytecode = True
-
     file_path = os.path.join(global_path, 'asia', 'india')
     in_path = os.path.join(file_path, 'raw')
     out_path_cleaned = af.create_folder(file_path, 'cleaned')
@@ -205,8 +199,6 @@ def india():
 
 # ##############################################################Brazil###########################################################################
 def brazil():
-    import sys
-    sys.dont_write_bytecode = True
     # ##############################################################路径#######################################################
     file_path = os.path.join(global_path, 's_america', 'brazil')
     in_path = os.path.join(file_path, 'raw')
@@ -263,8 +255,6 @@ def brazil():
 
 # ################################################################EU###########################################################################
 def eu():
-    import sys
-    sys.dont_write_bytecode = True
     file_path = os.path.join(global_path, 'europe', 'eu27_uk')
     in_path_entsoe = os.path.join(file_path, 'raw', 'entsoe')
     out_path_cleaned = af.create_folder(file_path, 'cleaned')
@@ -380,8 +370,6 @@ def eu():
 
 # #################################################################Japan#############################################################################
 def japan():
-    import sys
-    sys.dont_write_bytecode = True
     # ###############################################################
     file_path = os.path.join(global_path, 'asia', 'japan')
     in_path = os.path.join(file_path, 'raw')
@@ -572,8 +560,6 @@ def japan():
 
 # #################################################################Russia#############################################################################
 def russia():
-    import sys
-    sys.dont_write_bytecode = True
     file_path = os.path.join(global_path, 'europe', 'russia')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
@@ -659,8 +645,6 @@ def russia():
 
 
 def china():
-    import sys
-    sys.dont_write_bytecode = True
     file_path = os.path.join(global_path, 'asia', 'china')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
@@ -712,3 +696,70 @@ def china():
         df_monthly = df_monthly.set_index('date').resample('m').sum().reset_index()
         af.agg(df_monthly, 'date', out_path_simulated_yearly, 'monthly',
                name='China_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
+
+
+def south_africa():
+    # Thermal, Nuclear, Gas, Hydro, Wind, Other, Solar
+    # 以2020年为例
+    # Gas 是南非国家电力公司的值 比bp小了30-40%
+    # Thermal 比dp高了1%
+    # Nulcear 低了26%
+    # Hydro直接不是一个数量级 如果不加Pumped Water Generation 是高了53%
+    # Wind 低了5%
+    # Solar 高了11%
+    # Other 低了80%
+
+    # 另外 很多pumping的值是负的 查了一下定义 应该是发电损耗 但是加起来有些是负值 所以暂未考虑损耗目前
+    file_path = os.path.join(global_path, 'africa', 'south_africa')
+    in_path = os.path.join(file_path, 'raw')
+    out_path_simulated = af.create_folder(file_path, 'simulated')
+
+    df = pd.read_csv(in_path + 'last_7_days.csv')
+
+    df = df.rename(columns={'Nuclear_Generation': 'nuclear', 'Hydro_Water_Generation': 'hydro', 'Wind': 'wind',
+                            'Other_RE': 'other', 'Thermal_Generation': 'thermal_raw',
+                            'Date_Time_Hour_Beginning': 'datetime'})
+    df['datetime'] = pd.to_datetime(df['datetime'])
+    # solar
+    df['solar'] = df[['PV', 'CSP']].sum(axis=1)
+    # gas 目前用南非国家电力公司的值 暂不用thermal去分
+    df['gas'] = df[['Eskom_Gas_Generation', 'Eskom_OCGT_Generation']].sum(axis=1)
+
+    # 备注一下 原始数据单位是Mwh
+    df = df[['datetime', 'thermal_raw', 'gas', 'nuclear', 'hydro', 'solar', 'wind', 'other']]
+
+    # 用bp数据来分火电
+    df_bp = pd.read_csv(r'K:\Github\GlobalPowerUpdate-Kow\data\#global_rf\bp\bp_cleaned.csv')
+    df_bp = df_bp[df_bp['country'] == 'South Africa'].reset_index(drop=True)
+
+    # 先在thermal里去除gas 再按比例分coal和oil
+    df_bp['thermal_bp'] = df_bp[['coal', 'oil']].sum(axis=1)
+    df_bp['coal_ratio'] = df_bp['coal'] / df_bp['thermal_bp']
+    df_bp['oil_ratio'] = df_bp['oil'] / df_bp['thermal_bp']
+    ratio_1 = df_bp[['date', 'coal_ratio', 'oil_ratio']].rename(columns={'date': 'year'})
+    # 去除gas
+    df['thermal_raw'] = df['thermal_raw'] - df['gas']
+    df['year'] = df['datetime'].dt.year
+    df = pd.merge(df, ratio_1, how='left')
+    # 没有的年份暂用linear去推一下
+    df = df.set_index('datetime').interpolate(method='linear').reset_index()
+
+    df['coal'] = df['thermal_raw'] * df['coal_ratio']
+    df['oil'] = df['thermal_raw'] * df['oil_ratio']
+
+    for y in df['year'].drop_duplicates().tolist():
+        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+        # hourly
+        df_hourly = df[df['year'] == y].reset_index(drop=True)
+        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+               name='South_Africa_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
+        df_daily = df_hourly.copy()
+        df_monthly = df_hourly.copy()
+        # daily
+        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+               name='South_Africa_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
+        # monthly
+        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+               name='South_Africa_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
