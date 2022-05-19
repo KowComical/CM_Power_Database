@@ -713,6 +713,7 @@ def south_africa():
     file_path = os.path.join(global_path, 'africa', 'south_africa')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
+    bp_path = os.path.join(global_path, '#global_rf', 'bp')
 
     df = pd.read_csv(os.path.join(in_path, 'last_7_days.csv'))
 
@@ -729,7 +730,7 @@ def south_africa():
     df = df[['datetime', 'thermal_raw', 'gas', 'nuclear', 'hydro', 'solar', 'wind', 'other']]
 
     # 用bp数据来分火电
-    df_bp = pd.read_csv(r'K:\Github\GlobalPowerUpdate-Kow\data\#global_rf\bp\bp_cleaned.csv')
+    df_bp = pd.read_csv(os.path.join(bp_path, 'bp_cleaned.csv'))
     df_bp = df_bp[df_bp['country'] == 'South Africa'].reset_index(drop=True)
 
     # 先在thermal里去除gas 再按比例分coal和oil
