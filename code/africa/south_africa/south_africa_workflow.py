@@ -12,7 +12,7 @@ from global_code import global_all as g
 
 
 def main():
-    out_path = './data/africa/south_africa/aw/'
+    out_path = './data/africa/south_africa/raw/'
     out_file = os.path.join(out_path, 'last_7_days.csv')
     url = 'https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/'
 
