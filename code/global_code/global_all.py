@@ -708,6 +708,7 @@ def south_africa():
     # Wind 低了5%
     # Solar 高了11%
     # Other 低了80%
+    # Coal 和 Oil 按照bp比例模拟后比bp低了10%
 
     # 另外 很多pumping的值是负的 查了一下定义 应该是发电损耗 但是加起来有些是负值 所以暂未考虑损耗目前
     file_path = os.path.join(global_path, 'africa', 'south_africa')
