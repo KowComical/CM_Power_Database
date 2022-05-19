@@ -15,7 +15,7 @@ import global_function as af
 def main(category):
     out_path = './image/'
     country_list = ['Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
-                    'United Kingdom', 'United States', 'South_Africa']  # 这里以后要修改
+                    'United Kingdom', 'United States', 'South Africa']  # 这里以后要修改
     df_all = sum_country(country_list, category)  # 合并数据
 
     plt.style.use('seaborn-poster')  # 图表风格
@@ -74,6 +74,7 @@ def sum_country(country_list, category):
     df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'United Kingdom')
     df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
     df_all['country'] = df_all['country'].str.replace('Us', 'United States')
+    df_all['country'] = df_all['country'].str.replace('South_africa', 'South Africa')
 
     # 前一天的数据基本都不准确
     yesterday = af.get_yesterday().strftime('%Y-%m-%d')
@@ -137,7 +138,7 @@ def draw_pic(df_all, c, i):
     ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
-    plt.legend(loc='best', prop={'size': 80})
+    plt.legend(loc='best', prop={'size': 50})
     plt.yticks(size=40)
     if i <= 7:  # 这里以后要修改
         plt.xticks(())

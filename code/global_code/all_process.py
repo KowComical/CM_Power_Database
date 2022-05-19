@@ -44,13 +44,13 @@ except Exception as e:
 # except Exception as e:
 #     print(e)
 #
-# try:
-#     sys.path.append('./code/europe/russia/')
-#     print('Begin process Russia...')
-#     import russia_workflow as r
-#     r.main()
-# except Exception as e:
-#     print(e)
+try:
+    sys.path.append('./code/europe/russia/')
+    print('Begin process Russia...')
+    import russia_workflow as r
+    r.main()
+except Exception as e:
+    print(e)
 #
 # try:
 #     sys.path.append('./code/n_america/us/')
@@ -86,6 +86,7 @@ import cal_ef_emission as cal
 cal.main()
 
 # 输出图
+print('Begin process draw_pic...')
 import draw_pic as d
 d.main(category='coal')
 d.main(category='gas')
