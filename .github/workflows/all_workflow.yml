@@ -24,6 +24,8 @@ jobs:
           pip install bs4
           pip install pdfplumber
           pip install lxml
+          pip install pillow
+          pip install Image
       - name: process data
         run: python ./code/global_code/all_process.py
       - name: commit and push if it changed
