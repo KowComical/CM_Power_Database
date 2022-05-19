@@ -75,12 +75,12 @@ except Exception as e:
 # except Exception as e:
 #     print(e)
 #
-# try:
-#     print('Begin process bp...')
-#     import bp_workflow as bp
-#     bp.main()
-# except Exception as e:
-#     print(e)
+try:
+    print('Begin process bp...')
+    import bp_workflow as bp
+    bp.main()
+except Exception as e:
+    print(e)
 
 import cal_ef_emission as cal
 cal.main()
