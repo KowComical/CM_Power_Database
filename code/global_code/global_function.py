@@ -342,3 +342,58 @@ def agg(df, date_name, path, Type, name, folder, unit):  # 输出
     else:
         out_file = path + name
     df.to_csv(out_file, index=False, encoding='utf_8_sig')
+
+
+def updated_date(country):
+    max_date = get_max_date(country)
+    updated(max_date, country)
+
+
+def updated(max_date, country):
+    import os
+    from PIL import Image
+    from PIL import ImageDraw
+    from PIL import ImageFont
+
+    out_path = 'K:\\Github\\GlobalPowerUpdate-Kow\\image\\updated\\'
+    fontsize = 20
+    text = max_date
+
+    fontname = os.path.join(out_path, 'PingFang-Jian-ChangGuiTi-2.ttf')
+    colorText = "black"
+    colorBackground = "white"
+
+    font = ImageFont.truetype(fontname, fontsize)
+    width, height = get_size(text, font)
+    img = Image.new('RGB', (width + 20, height + 20), colorBackground)
+    d = ImageDraw.Draw(img)
+    d.text((10, height / 4), text, fill=colorText, font=font)
+
+    img.save(os.path.join(out_path, '%s.png' % country))
+    get_size(text, font)
+
+
+def get_size(txt, font):
+    from PIL import Image
+    from PIL import ImageDraw
+
+    testImg = Image.new('RGB', (1, 1))
+    testDraw = ImageDraw.Draw(testImg)
+    return testDraw.textsize(txt, font)
+
+
+def get_max_date(country):
+    import pandas as pd
+    file_path = './data/'
+
+    file_name = search_file(file_path)
+    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
+    file_name_country = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]
+
+    resolution = ['hourly', 'daily', 'monthly', 'yearly']
+    for r in resolution:
+        file_name_resolution = [file_name_country[i] for i, x in enumerate(file_name_country) if x.find(r) != -1]
+        if file_name_resolution:
+            df = pd.concat([pd.read_csv(f) for f in file_name_resolution])
+            max_date = max(df.iloc[:, 1])
+            return max_date

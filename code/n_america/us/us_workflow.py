@@ -16,10 +16,12 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
 import sys
+
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
+
 
 def main():
     in_path = './data/n_america/us/craw/'
@@ -85,6 +87,8 @@ def main():
 
     # 数据整理
     g.us()
+    # 提取最新日期
+    af.updated_date('US')
 
 
 if __name__ == '__main__':

@@ -22,6 +22,7 @@ import sys
 sys.dont_write_bytecode = True
 
 sys.path.append('./code/')
+from global_code import global_function as af
 from global_code import global_all as g
 
 in_path = './data/asia/india/craw/'
@@ -46,6 +47,8 @@ def main():
                     download_pdf_file(link, date_range)
     # 整理数据
     g.india()
+    # 提取最新日期
+    af.updated_date('India')
 
 
 def download_pdf_file(link, date_range):

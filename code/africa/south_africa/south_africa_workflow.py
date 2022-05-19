@@ -5,8 +5,10 @@ import pandas as pd
 import os
 
 import sys
-
 sys.dont_write_bytecode = True
+sys.path.append('./code/')
+from global_code import global_function as af
+
 
 def main():
     out_path = './data/africa/south_africa/aw/'
@@ -25,6 +27,8 @@ def main():
     df_result = df_result[~df_result.duplicated()].sort_values(by='Date_Time_Hour_Beginning').reset_index(drop=True)
     # 输出
     df_result.to_csv(out_file, index=False, encoding='utf_8_sig')
+
+    # af.updated_date('south_africa')
 
 
 if __name__ == '__main__':

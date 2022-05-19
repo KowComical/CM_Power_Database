@@ -10,6 +10,7 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
+from global_code import global_function as af
 from global_code import global_all as g
 
 import numpy as np
@@ -38,6 +39,9 @@ def main():
     uk.main()
     # 处理数据
     g.eu()
+    # 提取最新日期
+    af.updated_date('Germany')
+
 
 
 def login(u='https://transparency.entsoe.eu/sso/login'):

@@ -4,8 +4,8 @@ import re
 import os
 import functools
 import numpy as np
-import sys
 
+import sys
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
@@ -382,6 +382,8 @@ def main():
     # ###################################################### raw to simulated #########################################
     # 处理数据
     g.china()
+    # 提取最新日期
+    af.updated_date('China')
 
 
 if __name__ == '__main__':
