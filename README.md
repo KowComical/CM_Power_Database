@@ -15,7 +15,7 @@
 ### Other_Database
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**|![](./image/updated/iea_cleaned.png)|`Monthly`|每月15号更新3个月前的数据|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**|![](./image/updated/iea_cleaned.png)|`Monthly`|每月15号更新3月前数据|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[bp](./data/#global_rf/bp)**|**[Statistical Review of World Energys](https://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html)**|![](./image/updated/bp_cleaned.png)|`Yearly`|bp年度数据 爬虫没写|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 ### Asian
 |Name|Source|Lastest_Date|Resolution|Description|Author|
@@ -28,7 +28,7 @@
 ### Africa
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[South Africa](./data/africa/south_africa)**|**[Eskom](https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/)**|![](./image/updated/south_africa.png)|`Hourly`|跟网站申请要历史数据了<br>还未进行simulate|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[South Africa](./data/africa/south_africa)**|**[Eskom](https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/)**|![](./image/updated/south_africa.png)|`Hourly`|跟网站要历史数据了<br>还未进行simulate|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 
 ### Europe
 |Name|Source|Lastest_Date|Resolution|Description|Author|
