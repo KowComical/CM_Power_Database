@@ -15,14 +15,14 @@
 ### Other_Database
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**|![](./image/updated/iea_cleaned.png)|`Monthly`|15号更新3月前数据|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[iea](./data/#global_rf/iea)**|**[monthly-electricity-statistics](https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics)**|![](./image/updated/iea_cleaned.png)|`Monthly`|15号更新<br>3月前数据|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[bp](./data/#global_rf/bp)**|**[Statistical Review of World Energys](https://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html)**|![](./image/updated/bp_cleaned.png)|`Yearly`|bp年度数据|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 ### Asian
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[China](./data/asia/china)**|**[中国电力企业联合会](https://cec.org.cn/menu/index.html?170)**|![](./image/updated/China.png)|`Daily`|未来会进一步完善爬虫|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[China](./data/asia/china)**|**[中国电力企业联合会](https://cec.org.cn/menu/index.html?170)**|![](./image/updated/China.png)|`Daily`|未来会继续完善爬虫|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[India](./data/asia/india)**|**[POSOCO](https://posoco.in/reports/daily-reports/)**|![](./image/updated/India.png)|`Daily`|1天延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
-|**[Japan](./data/asia/japan)**|**[OCCTO](https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#)**|![](./image/updated/Japan.png)|`Hourly`|10号更新2月前数据<br>用公司新数据拆分的火电|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[Japan](./data/asia/japan)**|**[OCCTO](https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#)**|![](./image/updated/Japan.png)|`Hourly`|10号更新<br>2月前数据<br>用公司新数据拆分的火电|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**||||已有源数据<br>还未更新||
 
 ### Africa
