@@ -1,89 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cd8879e0-c0ff-43d8-b71f-31408c240a5c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/europe/eu27_uk/eu_craw.py" beforeDir="false" afterPath="$PROJECT_DIR$/europe/eu27_uk/eu_craw.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/europe/eu27_uk/eu_craw_raw.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Austria/Austria_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Austria/Austria_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Belgium/Belgium_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Belgium/Belgium_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Bosnia and Herz/Bosnia and Herz_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Bosnia and Herz/Bosnia and Herz_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Bulgaria/Bulgaria_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Bulgaria/Bulgaria_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Croatia/Croatia_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Croatia/Croatia_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Cyprus/Cyprus_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Cyprus/Cyprus_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Czech Republic/Czech Republic_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Czech Republic/Czech Republic_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Denmark/Denmark_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Denmark/Denmark_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Estonia/Estonia_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Estonia/Estonia_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Finland/Finland_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Finland/Finland_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/France/France_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/France/France_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Germany/Germany_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Germany/Germany_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Greece/Greece_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Greece/Greece_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Hungary/Hungary_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Hungary/Hungary_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Ireland/Ireland_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Ireland/Ireland_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Italy/Italy_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Italy/Italy_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Kosovo/Kosovo_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Kosovo/Kosovo_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Latvia/Latvia_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Latvia/Latvia_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Lithuania/Lithuania_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Lithuania/Lithuania_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Luxembourg/Luxembourg_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Luxembourg/Luxembourg_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Moldova/Moldova_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Moldova/Moldova_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Montenegro/Montenegro_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Montenegro/Montenegro_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Netherlands/Netherlands_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Netherlands/Netherlands_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/North Macedonia/North Macedonia_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/North Macedonia/North Macedonia_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Norway/Norway_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Norway/Norway_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Poland/Poland_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Poland/Poland_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Portugal/Portugal_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Portugal/Portugal_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Romania/Romania_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Romania/Romania_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Serbia/Serbia_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Serbia/Serbia_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Slovakia/Slovakia_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Slovakia/Slovakia_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Slovenia/Slovenia_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Slovenia/Slovenia_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Spain/Spain_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Spain/Spain_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Sweden/Sweden_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Sweden/Sweden_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Switzerland/Switzerland_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Switzerland/Switzerland_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Ukraine/Ukraine_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/Ukraine/Ukraine_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/United Kingdom/United Kingdom_ENTSOE_2022.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/craw/entsoe/United Kingdom/United Kingdom_ENTSOE_2022.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Austria.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Austria.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Belgium.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Belgium.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Bulgaria.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Bulgaria.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Croatia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Croatia.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Cyprus.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Cyprus.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Czech Republic.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Czech Republic.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Denmark.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Denmark.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Estonia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Estonia.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Finland.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Finland.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/France.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/France.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Germany.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Germany.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Greece.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Greece.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Hungary.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Hungary.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Ireland.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Ireland.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Italy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Italy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Kosovo.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Kosovo.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Latvia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Latvia.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Lithuania.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Lithuania.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Moldova.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Moldova.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Montenegro.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Montenegro.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Netherlands.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Netherlands.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Norway.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Norway.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Poland.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Poland.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Portugal.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Portugal.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Romania.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Romania.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Serbia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Serbia.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Slovakia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Slovakia.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Slovenia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Slovenia.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Spain.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Spain.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Sweden.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Sweden.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Switzerland.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../data/europe/eu27_uk/raw/entsoe/Switzerland.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../数据库/code/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../数据库/code/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="6512695b-5031-455b-92b7-6333ead8140d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/code.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/global_code/all_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/global_code/all_process.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -91,26 +21,21 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectId" id="26Y96A0ZjRPxLqXUy583WNV6yy6" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="29QhFgtlwBuRYaneJZKxDka6Uti" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
-  </component>
-  <component name="RunManager" selected="Python.global_sum">
-    <configuration name="Global_run_all" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="all_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -122,112 +47,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/global_code/Global_run_all.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="brazil" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/s_america/brazil" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/s_america/brazil/brazil.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="eu" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/europe/eu27_uk" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/europe/eu27_uk/eu.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="global_sum" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/global_code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/global_code/global_sum.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="japan" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/asian/japan" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/asian/japan/japan.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="russia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="code" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/europe/russia" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/europe/russia/russia.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/global_code/all_process.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -238,26 +58,19 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.global_sum" />
-        <item itemvalue="Python.Global_run_all" />
-        <item itemvalue="Python.russia" />
-        <item itemvalue="Python.japan" />
-        <item itemvalue="Python.eu" />
+        <item itemvalue="Python.all_process" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="cd8879e0-c0ff-43d8-b71f-31408c240a5c" name="Changes" comment="" />
-      <created>1647589475789</created>
+      <changelist id="6512695b-5031-455b-92b7-6333ead8140d" name="Changes" comment="" />
+      <created>1653051114423</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1647589475789</updated>
+      <updated>1653051114423</updated>
     </task>
     <servers />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

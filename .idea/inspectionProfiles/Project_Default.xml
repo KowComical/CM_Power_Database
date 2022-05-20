@@ -5,6 +5,10 @@
       <option name="ignoredErrors">
         <list>
           <option value="E122" />
+          <option value="E402" />
+          <option value="E501" />
+          <option value="W605" />
+          <option value="E722" />
         </list>
       </option>
     </inspection_tool>
@@ -16,6 +20,25 @@
           <option value="N803" />
         </list>
       </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="eu" />
+          <option value="india" />
+          <option value="japan" />
+          <option value="russia" />
+          <option value="us" />
+          <option value="brazil" />
+          <option value="china" />
+          <option value="requests.packages" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
+      <option name="processCode" value="true" />
+      <option name="processLiterals" value="true" />
+      <option name="processComments" value="true" />
     </inspection_tool>
   </profile>
 </component>
