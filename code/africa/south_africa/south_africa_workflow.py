@@ -5,6 +5,7 @@ import pandas as pd
 import os
 
 import sys
+
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
@@ -28,7 +29,8 @@ def main():
     df_result = pd.concat([df_old, df]).reset_index(drop=True)
     df_result['Date_Time_Hour_Beginning'] = pd.to_datetime(df_result['Date_Time_Hour_Beginning'])
     # 删除重复的日期
-    df_result = df_result[~df_result.duplicated(['Date_Time_Hour_Beginning'])].sort_values(by='Date_Time_Hour_Beginning').reset_index(drop=True)
+    df_result = df_result[~df_result.duplicated(['Date_Time_Hour_Beginning'])].sort_values(
+        by='Date_Time_Hour_Beginning').reset_index(drop=True)
     # 输出
     df_result.to_csv(out_file, index=False, encoding='utf_8_sig')
 
