@@ -21,6 +21,7 @@ def main():
     download_path = path.findall(r.text)[0]  # 找到下载链接地址
 
     df = pd.read_csv(download_path)  # 提取数据
+    df = df.dropna(axis=0, how='all', thresh=2).reset_index(drop=True)  # 非空值小于2时删除行
     df = df.drop(columns=['Thermal_Gen_Excl_Pumping_and_SCO'])  # 删除不需要的列
     # 读取旧数据并合并未重复部分
     df_old = pd.read_csv(out_file)
