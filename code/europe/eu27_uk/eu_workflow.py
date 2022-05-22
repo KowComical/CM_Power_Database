@@ -60,7 +60,7 @@ def login(u='https://transparency.entsoe.eu/sso/login'):
         'credentialId': '',
     }
     s.headers.update(headers)
-    res = s.post(url, data=postData)
+    s.post(url, data=postData)
     return s
 
 
