@@ -1,3 +1,4 @@
+# 数据及爬虫代码源：Zhu Deng
 import re
 import urllib.request
 import pandas as pd
@@ -12,6 +13,7 @@ from global_code import global_all as g
 
 
 def main():
+    # 10公司爬虫
     okiden()
     hepco()
     tohoku()
@@ -22,6 +24,15 @@ def main():
     energia()
     yonden()
     kyuden()
+    # 数据预处理
+    craw_to_raw()
+    # 整理数据
+    g.japan()
+    # 提取最新日期
+    af.updated_date('Japan')
+
+
+def craw_to_raw():
     # 汇总craw数据
     file_path = './data/asia/japan/'
     file_name = af.search_file(file_path)
@@ -33,11 +44,6 @@ def main():
     df = df[['date', 'gwh']].reset_index(drop=True)
     df = df.groupby(['date']).sum().reset_index()
     df.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'), index=False, encoding='utf_8_sig')
-
-    # 整理数据
-    g.japan()
-    # 提取最新日期
-    af.updated_date('Japan')
 
 
 def okiden():

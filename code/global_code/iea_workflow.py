@@ -12,6 +12,13 @@ import global_function as af
 
 
 def main():
+    # 爬虫+数据预处理
+    craw_raw()
+    # 提取最新日期
+    af.updated_date('iea_cleaned')
+
+
+def craw_raw():
     file_path = './data/#global_rf/iea/'
 
     url = 'https://www.iea.org/data-and-statistics/data-product/monthly-electricity-statistics'
@@ -87,9 +94,6 @@ def main():
     df_china.fillna(0).sort_values(['country', 'year', 'month']).to_csv(os.path.join(file_path, 'iea_china.csv'),
                                                                         index=False,
                                                                         encoding='utf_8_sig')
-
-    # 提取最新日期
-    af.updated_date('iea_cleaned')
 
 
 if __name__ == '__main__':

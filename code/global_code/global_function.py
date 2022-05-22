@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # ###############################备注########################################
 # df_cleaned 时间列 = ['datetime','date','year','month','month_date','weekday','hour']
 # df_simulated_hourly 时间列 = ['datetime','date','year','month','month_date','weekday','hour'] unit = ['Mwh']

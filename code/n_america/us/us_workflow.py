@@ -24,6 +24,15 @@ from global_code import global_all as g
 
 
 def main():
+    # 爬虫+数据预处理
+    craw_raw()
+    # 数据整理
+    g.us()
+    # 提取最新日期
+    af.updated_date('US')
+
+
+def craw_raw():
     in_path = './data/n_america/us/craw/'
     out_path = './data/n_america/us/raw/'
     startDate = (datetime.today().replace(day=1) - timedelta(days=1)).strftime("%Y%m") + '01'  # 上月第一天 间隔起码一个月
@@ -84,11 +93,6 @@ def main():
     col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
     df.columns = col_list
     df.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
-
-    # 数据整理
-    g.us()
-    # 提取最新日期
-    af.updated_date('US')
 
 
 if __name__ == '__main__':

@@ -1,16 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
-
-
-# !/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2021/9/23 00:19
 # @Author  : Zhu Deng
 # @Site    : https://github.com/zhudeng94
 # @File    : UK_BMRE.py
-# @Software: PyCharm
 
 import requests
 import pandas as pd
@@ -19,11 +9,7 @@ import json
 from tqdm import tqdm
 import os
 
-parameter = {
-    "flowid": "gbfthistoric",
-    "start_date": "",
-    "end_date": ""
-}
+parameter = {"flowid": "gbfthistoric", "start_date": "", "end_date": ""}
 base_url = 'https://www.bmreports.com/bmrs/?q=tabledemand&parameter='
 
 path = './data/europe/eu27_uk/raw/uk-BMRS/'

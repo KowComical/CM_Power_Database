@@ -42,6 +42,15 @@ thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural
 
 
 def main():
+    # 爬虫+预处理
+    craw_raw()
+    # 整理数据
+    g.brazil()
+    # 提取最新日期
+    af.updated_date('Brazil')
+
+
+def craw_raw():
     for timeResolution in ['Hourly']:
         # Initial Session
         filename = os.path.join(in_path, 'Brazil_ONS_%s.csv' % timeResolution)
@@ -71,10 +80,6 @@ def main():
         all_result['Date'] = pd.to_datetime(all_result['Date'], format="%d/%m/%Y %H:%M", errors='coerce')
         all_result.sort_values(by='Date', inplace=True)
         all_result.to_csv(filename, index=False)
-    # 整理数据
-    g.brazil()
-    # 提取最新日期
-    af.updated_date('Brazil')
 
 
 # initialize a new session to the tableau server
@@ -113,7 +118,7 @@ def initialSession():
     }
     url = 'https://tableau.ons.org.br/vizql/t/ONS_Publico/w/GeraodeEnergia/v/HistricoGeraodeEnergia/bootstrapSession' \
           '/sessions/%s' % sessionID
-    res = requests.post(url, data=play_load, verify=False)
+    requests.post(url, data=play_load, verify=False)
     # print('Initialize Session...')
 
     # Setting parameters

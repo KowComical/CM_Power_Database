@@ -6,17 +6,30 @@ import functools
 import numpy as np
 
 import sys
+
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
 
+out_path = './data/asia/china/craw/'
+out_file = os.path.join(out_path, 'manually.csv')
 
-# ##################################################### craw 部分 ######################################################################
+
 def main():
-    out_path = './data/asia/china/craw/'
-    out_file = os.path.join(out_path, 'manually.csv')
+    # 爬虫
+    craw()
+    # 预处理数据
+    craw_raw()
+    # 处理数据
+    g.china()
+    # 提取最新日期
+    af.updated_date('China')
+
+
+def craw():
     url = 'https://cec.org.cn/ms-mcms/mcms/content/search'
+
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) ''AppleWebKit/605.1.15 (KHTML, like Gecko) ''Version/12.0 Safari/605.1.15'}
     keyvalue = {'keyword': '月份电力工业运行简况', 'pageNumber': 1, 'pageSize': 200}
@@ -97,7 +110,8 @@ def main():
             except:
                 data.append('')
                 sector.append(se)
-        df_power = pd.concat([pd.DataFrame(data, columns=['power']), pd.DataFrame(sector, columns=['sector'])], axis=1)
+        df_power = pd.concat([pd.DataFrame(data, columns=['power']), pd.DataFrame(sector, columns=['sector'])],
+                             axis=1)
         df_power['source'] = s
         df_power['date'] = t
         df_power.to_csv(os.path.join(out_path, 'power', '%s.csv' % t), encoding='utf_8_sig', index=False)
@@ -116,14 +130,13 @@ def main():
                     sector.append(se)
             except:
                 pass
-        df_hour = pd.concat([pd.DataFrame(data, columns=['hour']), pd.DataFrame(sector, columns=['sector'])], axis=1)
+        df_hour = pd.concat([pd.DataFrame(data, columns=['hour']), pd.DataFrame(sector, columns=['sector'])],
+                            axis=1)
         df_hour['source'] = s
         df_hour['date'] = t
         df_hour.to_csv(os.path.join(out_path, 'hour', '%s.csv' % t), encoding='utf_8_sig', index=False)
         df_hour_all = pd.concat([df_hour_all, df_hour]).reset_index(drop=True)
 
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) ''AppleWebKit/605.1.15 (KHTML, like Gecko) ''Version/12.0 Safari/605.1.15'}
     keyvalue = {'keyword': '年度全国电力供需', 'pageNumber': 1, 'pageSize': 200}
 
     s = requests.session()
@@ -184,7 +197,8 @@ def main():
             except:
                 data.append('')
                 sector.append(se)
-        df_power = pd.concat([pd.DataFrame(data, columns=['power']), pd.DataFrame(sector, columns=['sector'])], axis=1)
+        df_power = pd.concat([pd.DataFrame(data, columns=['power']), pd.DataFrame(sector, columns=['sector'])],
+                             axis=1)
         df_power['source'] = s
         df_power['date'] = t
         df_power['sector'] = df_power['sector'].str.replace('煤电', '燃煤发电')
@@ -205,7 +219,8 @@ def main():
                     sector.append(se)
             except:
                 pass
-        df_hour = pd.concat([pd.DataFrame(data, columns=['hour']), pd.DataFrame(sector, columns=['sector'])], axis=1)
+        df_hour = pd.concat([pd.DataFrame(data, columns=['hour']), pd.DataFrame(sector, columns=['sector'])],
+                            axis=1)
         df_hour['source'] = s
         df_hour['date'] = t
         df_hour['sector'] = df_hour['sector'].str.replace('煤电', '燃煤发电').str.replace('气电', '燃气发电')
@@ -227,7 +242,8 @@ def main():
         df_power_all['power'] = df_power_all['power'].astype(str).str.extract('(-?\d+\.?\d*e?-?\d*?)',
                                                                               expand=False).astype(
             float)  # 将数据行只保留数据
-        df_hour_all['hour'] = df_hour_all['hour'].astype(str).str.extract('(-?\d+\.?\d*e?-?\d*?)', expand=False).astype(
+        df_hour_all['hour'] = df_hour_all['hour'].astype(str).str.extract('(-?\d+\.?\d*e?-?\d*?)',
+                                                                          expand=False).astype(
             float)  # 将数据行只保留数据
         # 将单位统一为亿万瓦
         power = []
@@ -252,8 +268,8 @@ def main():
         else:
             df_man.to_csv(out_file, index=False, encoding='utf_8_sig')
 
-    # #################################################### craw to raw 部分 ######################################################################
-    # 路径
+
+def craw_raw():
     iea_path = os.path.join('./data/', '#global_rf', 'iea')
     raw_path = os.path.join('./data/', 'asia', 'china', 'raw')
     # 数据预处理
@@ -376,12 +392,6 @@ def main():
     for y in year_list:
         df_temp = df_gwh[df_gwh['year'] == y].reset_index(drop=True)
         af.agg(df_temp, 'date', raw_path, 'monthly', name='/%s.csv' % y, folder=False, unit=False)
-
-    # ###################################################### raw to simulated #########################################
-    # 处理数据
-    g.china()
-    # 提取最新日期
-    af.updated_date('China')
 
 
 if __name__ == '__main__':

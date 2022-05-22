@@ -1,4 +1,3 @@
-# 南非的近期发电数据
 import re
 import requests
 import pandas as pd
@@ -11,10 +10,20 @@ sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
 
+out_path = './data/africa/south_africa/raw/'
+out_file = os.path.join(out_path, 'last_7_days.csv')
+
 
 def main():
-    out_path = './data/africa/south_africa/raw/'
-    out_file = os.path.join(out_path, 'last_7_days.csv')
+    # 爬虫+预处理数据
+    craw()
+    # 整理数据
+    g.south_africa()
+    # 提取最新日期
+    af.updated_date('south_africa')
+
+
+def craw():
     url = 'https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/'
 
     r = requests.get(url)
@@ -33,11 +42,6 @@ def main():
         by='Date_Time_Hour_Beginning').reset_index(drop=True)
     # 输出
     df_result.to_csv(out_file, index=False, encoding='utf_8_sig')
-
-    # 整理数据
-    g.south_africa()
-    # 提取最新日期
-    af.updated_date('south_africa')
 
 
 if __name__ == '__main__':

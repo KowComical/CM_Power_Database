@@ -16,6 +16,8 @@ from global_code import global_function as af
 def main():
     download()  # 爬虫数据
     cleansing()  # 清理并输出
+    # 提取最新日期
+    af.updated_date('bp_cleaned')
 
 
 def download():
@@ -69,9 +71,6 @@ def cleansing():
                                                                                         'other']] * 1000  # Twh to Gwh
     df_all = df_all[['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']]
     df_all.to_csv(out_path + 'bp_cleaned.csv', index=False, encoding='utf_8_sig')
-
-    # 提取最新日期
-    af.updated_date('bp_cleaned')
 
 
 if __name__ == '__main__':

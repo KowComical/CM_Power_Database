@@ -1,13 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# !/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2021/1/3 16:07
 # @Author  : Zhu Deng
 # @Site    : https://github.com/zhudeng94
 # @File    : India_POSOCO.py
-# @Software: PyCharm
 
 import datetime
 import requests
@@ -19,6 +12,7 @@ import pdfplumber
 import time
 import pandas as pd
 import sys
+
 sys.dont_write_bytecode = True
 
 sys.path.append('./code/')
@@ -32,6 +26,15 @@ output_2 = os.path.join(out_path, 'India_POSOCO_Daily_Thermal.csv')
 
 
 def main():
+    # 爬虫+预处理
+    craw()
+    # 整理数据
+    g.india()
+    # 提取最新日期
+    af.updated_date('India')
+
+
+def craw():
     url = "https://posoco.in/reports/daily-reports/daily-reports-%s/"
     endYear = datetime.datetime.utcnow().year  # 获取当前年份
     for year in range(endYear - 1, endYear + 1):
@@ -45,10 +48,6 @@ def main():
             for link in tqdm(table.find_all('a')):
                 if 'NLDC' in link.text:
                     download_pdf_file(link, date_range)
-    # 整理数据
-    g.india()
-    # 提取最新日期
-    af.updated_date('India')
 
 
 def download_pdf_file(link, date_range):

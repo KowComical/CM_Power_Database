@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2021/1/13 13:47
 # @Author  : Zhu Deng
 # @Site    : https://github.com/zhudeng94
 # @File    : Europe_ENTSOE.py
-# @Software: PyCharm
 
 import sys
 
@@ -12,6 +8,9 @@ sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
+
+sys.path.append('./code/europe/')
+import uk_bmrs as uk
 
 import numpy as np
 import pandas as pd
@@ -34,8 +33,6 @@ def main():
     downloadOriginalData(session)
     pre()
     # 爬取bmrs数据
-    sys.path.append('./code/europe/')
-    import uk_bmrs as uk
     uk.main()
     # 处理数据
     g.eu()
