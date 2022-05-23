@@ -1,6 +1,8 @@
 # 数据及爬虫代码源：Zhu Deng
 import re
 import urllib.request
+
+import numpy as np
 import pandas as pd
 import os
 import sys
@@ -37,13 +39,30 @@ def craw_to_raw():
     file_path = './data/asia/japan/'
     file_name = af.search_file(file_path)
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('company') != -1]
-    df = pd.concat([pd.read_csv(f) for f in file_name]).reset_index(drop=True).fillna(0)
-    df['gwh'] = (df['当日実績(万kW)'] + df['実績(万kW)']) / 100  # 万千瓦 to Mwh
-    df['date'] = df['DATE'].astype(str) + ' ' + df['TIME'].astype(str)
-    df['date'] = pd.to_datetime(df['date'])
-    df = df[['date', 'gwh']].reset_index(drop=True)
-    df = df.groupby(['date']).sum().reset_index()
-    df.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'), index=False, encoding='utf_8_sig')
+
+    df_data = pd.DataFrame()
+    name = re.compile(r'company/(?P<name>.*?).csv', re.S)
+    for f in file_name:
+        df_temp = pd.read_csv(f)
+        if '当日実績(万kW)' in df_temp.columns:
+            df_temp = df_temp.rename(columns={'当日実績(万kW)': name.findall(f)[0]})
+        else:
+            df_temp = df_temp.rename(columns={'実績(万kW)': name.findall(f)[0]})
+        df_temp['datetime'] = df_temp['DATE'].astype(str) + ' ' + df_temp['TIME'].astype(str)
+        df_temp['datetime'] = pd.to_datetime(df_temp['datetime'])
+        df_temp = df_temp[['datetime', name.findall(f)[0]]]
+        if df_data.empty:
+            df_data = pd.concat([df_data, df_temp]).reset_index(drop=True)
+        else:
+            df_data = pd.merge(df_data, df_temp, how='outer')
+    df_data = df_data.sort_values('datetime').replace(0, np.nan)
+    # 用线性填充同一天某些公司还未更新的值
+    df_data = df_data.set_index('datetime').interpolate('linear', limit_direction='both').reset_index()
+
+    df_data = df_data.set_index(['datetime']).stack().reset_index().rename(columns={'level_1': 'company', 0: 'mwh'})
+    df_data = df_data.groupby(['datetime']).sum().reset_index()
+    df_data['mwh'] = df_data['mwh'] / 100  # 单位统一为Mwh
+    df_data.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'), index=False, encoding='utf_8_sig')
 
 
 def okiden():
