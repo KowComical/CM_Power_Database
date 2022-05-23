@@ -35,7 +35,7 @@
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |**[EU27&UK](./data/europe/eu27_uk)**|**[Entsoe](https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show)**<br>**[BMRS](https://www.bmreports.com/bmrs)**|![](./image/updated/Germany.png)|`Hourly`|UK用的是BMRS数据<br>9小时延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
-|**[Russia](./data/europe/russia)**|**[EMRES](https://emres.cn)**|![](./image/updated/Russia.png)|`Hourly`|最后一个月数据是从bp simulated的<br>后续还要再修正拆分火电<br>Hourly 并不能正确反映太阳能数据|**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[Russia](./data/europe/russia)**|**[EMRES](https://emres.cn)**|![](./image/updated/Russia.png)|`Hourly`|后续还要再修正拆分火电<br>Hourly 并不能正确反映太阳能数据|**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[Ukraine](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** ||||还未更新||
 
 ### North_America
