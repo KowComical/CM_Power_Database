@@ -1,8 +1,11 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+.project
+.settings/
+.prefs
+.pydevproject
+.idea/
+.idea
+.DS_Store
+.cache
 *.pyc
-. idea
-*.xml
-code/.idea/workspace.xml
-*.iml
+*.html
+*.xlm
