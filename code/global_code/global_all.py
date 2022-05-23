@@ -525,7 +525,7 @@ def japan():
     df_result = af.check_col(df_result, 'hourly')
 
     df_result = pd.concat([df_old, df_result]).reset_index(drop=True)
-
+    df_result['datetime'] = pd.to_datetime(df_result['datetime'])
     # 输出
     for y in df_result['year'].drop_duplicates().tolist():
         df_hourly = df_result[df_result['year'] == y].reset_index(drop=True)

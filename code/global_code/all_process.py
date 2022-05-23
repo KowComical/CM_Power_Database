@@ -27,18 +27,13 @@ sys.dont_write_bytecode = True
 # except Exception as e:
 #     print(e)
 
-# try:
-#     sys.path.append('./code/asian/japan/')
-#     print('Begin process Japan...')
-#     import japan_workflow as j
-#     j.main()
-# except Exception as e:
-#     print(e)
-
-sys.path.append('./code/asian/japan/')
-print('Begin process Japan...')
-import japan_workflow as j
-j.main()
+try:
+    sys.path.append('./code/asian/japan/')
+    print('Begin process Japan...')
+    import japan_workflow as j
+    j.main()
+except Exception as e:
+    print(e)
 
 # try:
 #     sys.path.append('./code/europe/eu27_uk/')
