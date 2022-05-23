@@ -36,8 +36,6 @@ def main():
 
 
 def craw_to_raw():
-    # 当天日期
-    current_date = datetime.now().strftime('%Y-%m-%d')
     # 汇总craw数据
     file_path = './data/asia/japan/'
     file_name = af.search_file(file_path)
@@ -65,7 +63,6 @@ def craw_to_raw():
     df_data = df_data.set_index(['datetime']).stack().reset_index().rename(columns={'level_1': 'company', 0: 'mwh'})
     df_data = df_data.groupby(['datetime']).sum().reset_index()
     df_data['mwh'] = df_data['mwh'] / 100  # 单位统一为Mwh
-    df_data = df_data[df_data['datetime'] < current_date].reset_index(drop=True)  # 最后一天的还未过完暂不用
     df_data.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'), index=False, encoding='utf_8_sig')
 
 
