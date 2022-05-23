@@ -4,6 +4,7 @@ from datetime import datetime
 import requests
 import global_function as af  # 所有的function
 import sys
+
 sys.dont_write_bytecode = True
 
 global_path = './data/'
@@ -490,56 +491,58 @@ def japan():
         af.agg(df_monthly, 'date', out_path_simulated_yearly, 'monthly',
                name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
 
-    # # 读取old 数据
-    # file_name = af.search_file(file_path)
-    # old_name = [file_name[i] for i, x in enumerate(file_name) if x.find('hourly') != -1]
-    # df_old = pd.concat([pd.read_csv(f) for f in old_name]).reset_index(drop=True)
-    # df_new = pd.read_csv(os.path.join(in_path, 'craw_data.csv'))
-    # df_new['datetime'] = pd.to_datetime(df_new['datetime'])
-    #
-    # df_ratio = pd.DataFrame()
-    # # 先将旧数据缺失的日期列出来
-    # max_old = max(df_old['datetime'])  # 旧数据的最大日期
-    # max_new = max(df_new['datetime'])  # 新数据的最大日期
-    # missing_range = pd.date_range(start=max_old, end=max_new, freq='h')  # 新旧数据缺失的日期
-    # df_ratio['datetime'] = missing_range  # 将日期填进表里
-    #
-    # df_ratio['total'] = df_new[df_new['datetime'].isin(missing_range)]['mwh'].tolist()  # 将日期所对应的total发电值填进表里
-    #
-    # # 将同一日期上一年的各能源百分比填入表
-    # # 所有占比
-    # perc_list = df_old.loc[:, df_old.columns.str.contains('.perc', case=False)].columns.tolist()
-    #
-    # df_ratio['month_date'] = df_ratio['datetime'].dt.strftime('%m-%d')
-    # df_ratio['hour'] = df_ratio['datetime'].dt.hour
-    # df_ratio['year'] = df_ratio['datetime'].dt.year - 1  # 上一年
-    #
-    # df_result = pd.merge(df_ratio, df_old, on=['year', 'month_date', 'hour'])[['datetime_x', 'total'] + perc_list].rename(columns={'datetime_x': 'datetime'})
-    # # 根据占比计算能源值
-    # for p in perc_list:
-    #     df_result[p[:-5]] = df_result['total'] * df_result[p]
-    #
-    # # 合并新旧数据
-    # af.time_info(df_result, 'datetime')
-    # af.total_proc(df_result, unit=False)
-    # df_result = af.check_col(df_result, 'hourly')
-    # # 输出
-    # for y in df_result['year'].drop_duplicates().tolist():
-    #     df_hourly = df_result[df_result['year'] == y].reset_index(drop=True)
-    #     df_daily = df_hourly.copy()
-    #     df_monthly = df_hourly.copy()
-    #     out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
-    #     # hourly
-    #     af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
-    #            name='Japan_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
-    #     # daily
-    #     df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
-    #     af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
-    #            name='Japan_daily_generation-' + str(y) + '.csv', folder=False, unit=False)
-    #     # monthly
-    #     df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
-    #     af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
-    #            name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
+    # 读取old 数据
+    file_name = af.search_file(file_path)
+    old_name = [file_name[i] for i, x in enumerate(file_name) if x.find('hourly') != -1]
+    df_old = pd.concat([pd.read_csv(f) for f in old_name]).reset_index(drop=True)
+    df_new = pd.read_csv(os.path.join(in_path, 'craw_data.csv'))
+    df_new['datetime'] = pd.to_datetime(df_new['datetime'])
+
+    df_ratio = pd.DataFrame()
+    # 先将旧数据缺失的日期列出来
+    max_old = max(df_old['datetime'])  # 旧数据的最大日期
+    max_new = max(df_new['datetime'])  # 新数据的最大日期
+    missing_range = pd.date_range(start=max_old, end=max_new, freq='h')[1:]  # 新旧数据缺失的日期 去除第一个小时
+    df_ratio['datetime'] = missing_range  # 将日期填进表里
+
+    df_ratio['total'] = df_new[df_new['datetime'].isin(missing_range)]['mwh'].tolist()  # 将日期所对应的total发电值填进表里
+
+    # 将同一日期上一年的各能源百分比填入表
+    # 所有占比
+    perc_list = df_old.loc[:, df_old.columns.str.contains('.perc', case=False)].columns.tolist()
+
+    df_ratio['month_date'] = df_ratio['datetime'].dt.strftime('%m-%d')
+    df_ratio['hour'] = df_ratio['datetime'].dt.hour
+    df_ratio['year'] = df_ratio['datetime'].dt.year - 1  # 上一年
+
+    df_result = pd.merge(df_ratio, df_old, on=['year', 'month_date', 'hour'])[
+        ['datetime_x', 'total'] + perc_list].rename(columns={'datetime_x': 'datetime'})
+    for p in perc_list:
+        df_result[p[:-5]] = df_result['total'] * df_result[p]
+
+    af.time_info(df_result, 'datetime')
+    af.total_proc(df_result, unit=False)
+    df_result = af.check_col(df_result, 'hourly')
+
+    df_result = pd.concat([df_old, df_result]).reset_index(drop=True)
+
+    # 输出
+    for y in df_result['year'].drop_duplicates().tolist():
+        df_hourly = df_result[df_result['year'] == y].reset_index(drop=True)
+        df_daily = df_hourly.copy()
+        df_monthly = df_hourly.copy()
+        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+        # hourly
+        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+               name='Japan_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
+        # daily
+        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+               name='Japan_daily_generation-' + str(y) + '.csv', folder=False, unit=False)
+        # monthly
+        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+               name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
 
 
 # #################################################################Russia#############################################################################
