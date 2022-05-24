@@ -76,7 +76,6 @@ def upload_github(chromedriver, download_path):
     # 定位到下载的文件
     print('start searching file...')
     file_name = af.search_file(download_path)
-    print(file_name)
     print('finding needed file...')
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
     # 模拟上传到github
