@@ -62,23 +62,26 @@ def japan_selenium():
         confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
-        upload_github(chromedriver)
+        upload_github(chromedriver, download_path)
     wd.quit()
 
 
-def upload_github(chromedriver):
+def upload_github(chromedriver, download_path):
+    # 定位到下载的文件
+    file_name = af.search_file(download_path)
+    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('エリア計') != -1][0]
+    # 模拟上传到github
     driver = webdriver.Chrome(chromedriver)
     time.sleep(1)
     driver.get('https://github.com/login')
     time.sleep(3)
-
+    # 定位并输入账号密码
     login = driver.find_element(By.NAME, 'login')
     password = driver.find_element(By.NAME, 'password')
     time.sleep(0.5)
 
     login.send_keys('KowComical')
     time.sleep(1)
-
     password.send_keys('Xuanrenkow1122')
     time.sleep(1)
 
@@ -89,7 +92,7 @@ def upload_github(chromedriver):
     driver.get('https://github.com/KowComical/CM_Power_Database/upload/master/data/asia/japan/raw/month')
 
     upload_file = driver.find_element(By.XPATH, '//*[@id="upload-manifest-files-input"]')
-    upload_file.send_keys(r'K:\Github\Python\Temp\cal_emission.py')
+    upload_file.send_keys(file_name)
     time.sleep(10)
 
     commit_upload = driver.find_element(By.XPATH, '//*[@id="js-repo-pjax-container"]/div[2]/div/form/button')

@@ -81,15 +81,15 @@ except Exception as e:
 # except Exception as e:
 #     print(e)
 
-import cal_ef_emission as cal
-
-cal.main()
-
-# 输出图
-print('Begin process draw_pic...')
-import draw_pic as d
-
-energy_list = ['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']
-for e in energy_list:
-    d.main(category=e)
-d.main(category=False)
+# import cal_ef_emission as cal
+#
+# cal.main()
+#
+# # 输出图
+# print('Begin process draw_pic...')
+# import draw_pic as d
+#
+# energy_list = ['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']
+# for e in energy_list:
+#     d.main(category=e)
+# d.main(category=False)
