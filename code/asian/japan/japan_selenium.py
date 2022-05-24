@@ -98,7 +98,7 @@ def upload_github(chromedriver, download_path):
     time.sleep(2)
 
     driver.get('https://github.com/KowComical/CM_Power_Database/upload/master/data/asia/japan/raw/month')
-
+    time.sleep(2)
     upload_file = driver.find_element(By.XPATH, '//*[@id="upload-manifest-files-input"]')
     upload_file.send_keys(file_name)
     time.sleep(10)
