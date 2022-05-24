@@ -80,6 +80,7 @@ def upload_github(chromedriver, download_path):
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
     # 模拟上传到github
     driver = webdriver.Chrome(chromedriver)
+    driver.implicitly_wait(60)
     time.sleep(1)
     driver.get('https://github.com/login')
     time.sleep(3)
