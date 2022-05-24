@@ -38,10 +38,14 @@ def japan_selenium():
     wd = webdriver.Chrome(chromedriver, options=c_options)  # 打开浏览器
     wd.get('https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#')  # 打开要爬的网址
     # 不知道为啥每次都会自动弹出另外一个不需要的窗口 所以先把不需要的关掉
-    handles = wd.window_handles
-    wd.switch_to.window(handles[1])
-    wd.close()  # 转到不需要的窗口并关闭
-    wd.switch_to.window(handles[0])  # 切回原来的窗口
+    # noinspection PyBroadException
+    try:
+        handles = wd.window_handles
+        wd.switch_to.window(handles[1])
+        wd.close()  # 转到不需要的窗口并关闭
+        wd.switch_to.window(handles[0])  # 切回原来的窗口
+    except:
+        pass
     wd.implicitly_wait(60)
     wd.find_element(By.ID, 'menu1-6').click()
     wd.find_element(By.ID, 'menu1-6-3-1').click()
