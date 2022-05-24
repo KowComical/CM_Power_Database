@@ -1,11 +1,11 @@
-name: all_workflow
+name: japan_selenium
 'on':
   schedule:
     - cron: 0 22 * * *
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
-  craw_process_bot:
-    runs-on: ubuntu-latest
+  selenium_bot:
+    runs-on: windows-latest
     steps:
       - name: check_code
         uses: actions/checkout@master
@@ -15,26 +15,13 @@ jobs:
           python-version: '3.8'
       - name: install requirements
         run: |
-          pip install pandas
-          pip install requests
-          pip install tqdm
-          pip install matplotlib
-          pip install jsonpath
-          pip install requests_toolbelt
-          pip install bs4
-          pip install pdfplumber
-          pip install lxml
-          pip install pillow
-          pip install Image
-          pip install openpyxl
           pip install selenium
       - name: process data
-        run: python ./code/global_code/all_process.py
+        run: python ./code/global_code/japan_selenium.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          find ./ -name ".pyc"　|xargs rm -rf
           git add -A
           timestamp=$(date -u)
           git commit -m "Last updated on: ${timestamp}" || exit 0
