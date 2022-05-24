@@ -13,26 +13,29 @@ sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
+import japan_selenium as js
 
 
 def main():
-    # 10公司爬虫
-    okiden()
-    hepco()
-    tohoku()
-    tepco()
-    chuden()
-    rikuden()
-    kansai()
-    energia()
-    yonden()
-    kyuden()
-    # 数据预处理
-    craw_to_raw()
-    # 整理数据
-    g.japan()
-    # 提取最新日期
-    af.updated_date('Japan')
+    # selenium查看是否有更新月数据
+    js.main()
+    # # 10公司爬虫
+    # okiden()
+    # hepco()
+    # tohoku()
+    # tepco()
+    # chuden()
+    # rikuden()
+    # kansai()
+    # energia()
+    # yonden()
+    # kyuden()
+    # # 数据预处理
+    # craw_to_raw()
+    # # 整理数据
+    # g.japan()
+    # # 提取最新日期
+    # af.updated_date('Japan')
 
 
 def craw_to_raw():
