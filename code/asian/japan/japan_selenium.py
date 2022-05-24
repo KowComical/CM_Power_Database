@@ -22,7 +22,8 @@ def japan_selenium():
     c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
     download_path = 'C://'
-    prefs = {'download.default_directory': download_path}
+    file_path = af.create_folder(download_path, 'kow')
+    prefs = {'download.default_directory': file_path}
     c_options.add_experimental_option('prefs', prefs)
 
     # 判断是否更新了新的文件需要下载
@@ -63,7 +64,7 @@ def japan_selenium():
         confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
-        upload_github(chromedriver, download_path)
+        upload_github(chromedriver, file_path)
     wd.quit()
 
 
