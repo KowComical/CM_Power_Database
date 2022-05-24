@@ -21,7 +21,7 @@ def japan_selenium():
     # 修改默认下载路径
     c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
-    download_path = 'C:\\User\\'
+    download_path = 'C:\\'
     # file_path = af.create_folder(download_path, 'kow')
     prefs = {'download.default_directory': download_path}
     c_options.add_experimental_option('prefs', prefs)
