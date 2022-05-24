@@ -17,7 +17,7 @@ jobs:
         run: |
           pip install selenium
       - name: process data
-        run: python ./code/global_code/japan_selenium.py
+        run: python ./code/asian/japan/japan_selenium.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
