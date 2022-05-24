@@ -21,9 +21,9 @@ def japan_selenium():
     # 修改默认下载路径
     c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
-    download_path = 'C://'
-    file_path = af.create_folder(download_path, 'kow')
-    prefs = {'download.default_directory': file_path}
+    download_path = 'C:\\User\\'
+    # file_path = af.create_folder(download_path, 'kow')
+    prefs = {'download.default_directory': download_path}
     c_options.add_experimental_option('prefs', prefs)
 
     # 判断是否更新了新的文件需要下载
@@ -64,7 +64,7 @@ def japan_selenium():
         confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
-        upload_github(chromedriver, file_path)
+        upload_github(chromedriver, download_path)
     wd.quit()
 
 
@@ -72,6 +72,7 @@ def upload_github(chromedriver, download_path):
     # 定位到下载的文件
     print('start searching file...')
     file_name = af.search_file(download_path)
+    print(file_name)
     print('finding needed file...')
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
     # 模拟上传到github
