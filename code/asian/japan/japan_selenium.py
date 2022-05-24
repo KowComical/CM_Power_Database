@@ -56,6 +56,7 @@ def japan_selenium():
     if date in test.text:
         print('还未更新')
     else:
+        print('start download...')
         wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
         time.sleep(10)
         # 找到确认下载并点击确认
@@ -68,7 +69,9 @@ def japan_selenium():
 
 def upload_github(chromedriver, download_path):
     # 定位到下载的文件
+    print('start searching file...')
     file_name = af.search_file(download_path)
+    print('finding needed file...')
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('エリア計') != -1][0]
     # 模拟上传到github
     driver = webdriver.Chrome(chromedriver)
