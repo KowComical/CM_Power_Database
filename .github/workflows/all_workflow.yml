@@ -27,6 +27,7 @@ jobs:
           pip install pillow
           pip install Image
           pip install openpyxl
+          pip install sklearn
       - name: process data
         run: python ./code/global_code/all_process.py
       - name: commit and push if it changed
