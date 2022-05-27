@@ -412,3 +412,204 @@ def get_max_date(country):
                 df = pd.concat([pd.read_csv(f) for f in file_name_resolution])
                 max_date = max(df.iloc[:, 1])
                 return max_date
+
+
+def forcasting():
+    # Data manipulation
+    # ==============================================================================
+    import pandas as pd
+    from datetime import datetime
+    import os
+
+    # Plots
+    # ==============================================================================
+    import matplotlib.pyplot as plt
+    plt.style.use('fivethirtyeight')
+    plt.rcParams['lines.linewidth'] = 1.5
+
+    # Modeling and Forecasting
+    # ==============================================================================
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn import preprocessing
+
+    from skforecast.ForecasterAutoreg import ForecasterAutoreg
+    from skforecast.model_selection import backtesting_forecaster
+
+    # Warnings configuration
+    # ==============================================================================
+    import warnings
+    warnings.filterwarnings('ignore')
+
+    global_path = './data/'
+    file_path = os.path.join(global_path, 'asia', 'china')
+    out_path_simulated = create_folder(file_path, 'simulated')
+    file_name = search_file(file_path)
+    # file_name = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]  # 选到所要的国家
+    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]  # 选到所要的分辨率
+    # file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
+
+    df = pd.concat([pd.read_csv(f) for f in file_name]).reset_index(drop=True)
+    # 先暂时只用daily 后面如果有需要再改
+    df['date'] = pd.to_datetime(df['date'])
+
+    data = df[['date', 'total.prod']]
+    data = data[data['date'] >= '2018-01-01']  # 这里以后要改 这里是中国18年以前的数据
+    data = data.set_index('date')
+    data = data.asfreq('d')
+    data = data.rename(columns={'total.prod': 'y'})
+    data = data.sort_index()
+    # Set up sample data
+
+    # 将所有数据标准化为[0,1]之间
+    min_max_scaler = preprocessing.MinMaxScaler()
+    x_minmax = min_max_scaler.fit_transform(data)
+    data['y'] = x_minmax
+
+    # Train-validation dates
+    # ==============================================================================
+    # perc = 0.6
+    # end_train = data.iloc[:int(len(data)*perc)] # train/test 0.6比例 这里以后要完善
+    # end_train = '2020-08-05'
+
+    # print(
+    #     f"Train dates      : {data.index.min()} --- {data.loc[:end_train].index.max()}  (n={len(data.loc[:end_train])})")
+    # print(
+    #     f"Validation dates : {data.loc[end_train:].index.min()} --- {data.index.max()}  (n={len(data.loc[end_train:])})")
+    #
+    # # Plot
+    # # ==============================================================================
+    # fig, ax = plt.subplots(figsize=(9, 4))
+    # data.loc[:end_train].plot(ax=ax, label='train')
+    # data.loc[end_train:].plot(ax=ax, label='validation')
+    # ax.legend()
+    # plt.show()
+
+    # # Backtest forecaster
+    # # ==============================================================================
+    # forecaster = ForecasterAutoreg(
+    #     regressor=RandomForestRegressor(random_state=123),
+    #     lags=15
+    # )
+    #
+    # metric, predictions_backtest = backtesting_forecaster(
+    #     forecaster=forecaster,
+    #     y=data['y'],
+    #     initial_train_size=len(data.loc[:end_train]),
+    #     fixed_train_size=False,
+    #     steps=10,
+    #     metric='mean_squared_error',
+    #     refit=True,
+    #     verbose=True
+    # )
+
+    # print(f"Backtest error: {metric}")
+
+    # Fit forecaster
+    # ==============================================================================
+    forecaster = ForecasterAutoreg(
+        regressor=RandomForestRegressor(random_state=123),
+        lags=15
+    )
+
+    forecaster.fit(y=data['y'])
+
+    # Backtest train data
+    # ==============================================================================
+    metric, predictions_train = backtesting_forecaster(
+        forecaster=forecaster,
+        y=data['y'],
+        initial_train_size=None,
+        steps=1,
+        metric='mean_squared_error',
+        refit=False,
+        verbose=False
+    )
+
+    # print(f"Backtest training error: {metric}")
+
+    # # 看模拟效果
+    # fig, ax = plt.subplots(figsize=(9, 4))
+    # data.loc[end_train:, 'y'].plot(ax=ax)
+    # predictions_backtest.plot(ax=ax)
+    # ax.legend()
+
+    # # 置信区间
+    # # ==============================================================================
+    # forecaster = ForecasterAutoreg(
+    #     regressor=Ridge(),
+    #     lags=15
+    # )
+    #
+    # metric, predictions_backtest = backtesting_forecaster(
+    #     forecaster=forecaster,
+    #     y=data['y'],
+    #     initial_train_size=len(data.loc[:end_train]),
+    #     fixed_train_size=False,
+    #     steps=10,
+    #     metric='mean_squared_error',
+    #     refit=True,
+    #     interval=[5, 95],
+    #     n_boot=500,
+    #     verbose=True
+    # )
+    # fig, ax = plt.subplots(figsize=(9, 4))
+    # data.loc[end_train:, 'y'].plot(ax=ax, label='test')
+    # predictions_backtest['pred'].plot(ax=ax, label='predictions')
+    # ax.fill_between(
+    #     predictions_backtest.index,
+    #     predictions_backtest['lower_bound'],
+    #     predictions_backtest['upper_bound'],
+    #     color='red',
+    #     alpha=0.2,
+    #     label='prediction interval'
+    # )
+    # ax.legend()
+
+    # # Plot training predictions
+    # # ==============================================================================
+    # fig, ax = plt.subplots(figsize=(9, 4))
+    # data.plot(ax=ax)
+    # predictions_train.plot(ax=ax)
+    # ax.legend()
+
+    # 预测到今天
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    date_range = pd.date_range(max(df['date']), current_date, freq='d')[1:]
+    predict_v = forecaster.predict(steps=len(date_range))
+    df_predict = pd.DataFrame(predict_v)
+    predict_v = min_max_scaler.inverse_transform(df_predict)  # 反标准化
+    df_predict = pd.DataFrame()
+    df_predict['date'] = date_range
+    df_predict['total.prod'] = predict_v
+
+    # 预测完数据之后用去年的各能源占比来分
+    # 所有占比
+    perc_list = df.loc[:, df.columns.str.contains('.perc', case=False)].columns.tolist()
+
+    df_predict['year'] = df_predict['date'].dt.year - 1  # 上一年
+    df_predict['month_date'] = df_predict['date'].dt.strftime('%m-%d')
+
+    df_result = pd.merge(df, df_predict, on=['year', 'month_date'])[['date_y', 'total.prod_y'] + perc_list].rename(
+        columns={'date_y': 'date', 'total.prod_y': 'total.prod'})
+    for p in perc_list:
+        df_result[p[:-5]] = df_result['total.prod'] * df_result[p]
+
+    time_info(df_result, 'date')
+    total_proc(df_result, unit=False)
+    df_result = check_col(df_result, 'daily')
+
+    df_result = pd.concat([df, df_result]).reset_index(drop=True)
+    df_result['date'] = pd.to_datetime(df_result['date'])
+
+    # 输出
+    for y in df_result['year'].drop_duplicates().tolist():
+        df_temp = df_result[df_result['year'] == y]
+        df_monthly = df_temp.copy()
+        out_path_simulated_yearly = create_folder(out_path_simulated, str(y))
+        # daily
+        agg(df_temp, 'date', out_path_simulated_yearly, 'daily', name='China_daily_generation-' + str(y) + '.csv',
+            folder=False, unit=False)
+        # monthly
+        df_monthly = df_monthly.set_index('date').resample('m').sum().reset_index()
+        agg(df_monthly, 'date', out_path_simulated_yearly, 'monthly',
+            name='China_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
