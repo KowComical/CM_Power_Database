@@ -4,7 +4,7 @@
 
 
 # 数据情况
-## 分能源
+### 分能源
 |Fossil|Fossil|Fossil|Nuclear|Renewables|Renewables|Renewables|Renewables|
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |**[`Coal`](./image/Coal_generation_for_all_country.svg)**|**[`Gas`](./image/Gas_generation_for_all_country.svg)**|**[`Oil`](./image/Oil_generation_for_all_country.svg)**|**[`Nuclear`](./image/Nuclear_generation_for_all_country.svg)**|**[`Hydro`](./image/Hydro_generation_for_all_country.svg)**|**[`Solar`](./image/Solar_generation_for_all_country.svg)**|**[`Wind`](./image/Wind_generation_for_all_country.svg)**|**[`Other`](./image/Other_generation_for_all_country.svg)**|
