@@ -26,15 +26,15 @@ from requests_toolbelt import MultipartEncoder
 import sys
 
 sys.dont_write_bytecode = True
-sys.path.append('./code/')
+sys.path.append('K:\\Github\\CM_Power_Database\\code\\global_code\\')
 from global_code import global_function as af
 from global_code import global_all as g
 
-in_path = './data/s_america/brazil/raw/'
+in_path = 'K:\\Github\\CM_Power_Database\\data\\s_america\\brazil\\raw\\'
 if not os.path.exists(in_path):
     os.mkdir(in_path)
 # Set time period
-endDate = datetime.datetime.now().strftime('%Y/%m/%d')
+endDate = datetime.datetime.now().strftime('%m/%d/%Y')
 
 types = ["Wind", "Hydro", "Nuclear", "Solar", "Thermal"]
 thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural',
@@ -45,9 +45,9 @@ def main():
     # 爬虫+预处理
     craw_raw()
     # 整理数据
-    #g.brazil()
+    g.brazil()
     # 提取最新日期
-    #af.updated_date('Brazil')
+    af.updated_date('Brazil')
 
 
 def craw_raw():
@@ -56,7 +56,7 @@ def craw_raw():
         filename = os.path.join(in_path, 'Brazil_ONS_%s.csv' % timeResolution)
         sessionID = initialSession()
 
-        startDate = '2016/01/01'
+        startDate = '1/1/2016'
         setPeriod(sessionID, startDate, endDate)
         setTimeResolution(sessionID, timeResolution)
 
@@ -78,7 +78,8 @@ def craw_raw():
 
         # Export data to file
         all_result['Date'] = pd.to_datetime(all_result['Date'], format="%Y/%m/%d %H:%M", errors='coerce')
-        all_result.sort_values(by='Date', inplace=True)
+        all_result.sort_values(by='Date', ascending=False, inplace=True)
+        print(all_result['Date'])
         all_result.to_csv(filename, index=False)
 
 
@@ -142,7 +143,7 @@ def command(url, fields):
     play_load = MultipartEncoder(
         fields=fields
     )
-    res = requests.post(url, data=play_load, headers={'Content-Type': play_load.content_type})
+    res = requests.post(url, data=play_load, headers={'Content-Type': play_load.content_type}, verify=False)
     return res
 
 
