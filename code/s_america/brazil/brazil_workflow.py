@@ -26,11 +26,11 @@ from requests_toolbelt import MultipartEncoder
 import sys
 
 sys.dont_write_bytecode = True
-sys.path.append('K:\\Github\\CM_Power_Database\\code\\global_code\\')
+sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
 
-in_path = 'K:\\Github\\CM_Power_Database\\data\\s_america\\brazil\\raw\\'
+in_path = './data/s_america/brazil/raw/'
 if not os.path.exists(in_path):
     os.mkdir(in_path)
 # Set time period
