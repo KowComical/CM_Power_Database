@@ -34,7 +34,7 @@ in_path = './data/s_america/brazil/raw/'
 if not os.path.exists(in_path):
     os.mkdir(in_path)
 # Set time period
-endDate = datetime.datetime.now().strftime('%d/%m/%Y')
+endDate = datetime.datetime.now().strftime('%Y/%m/%d')
 
 types = ["Wind", "Hydro", "Nuclear", "Solar", "Thermal"]
 thermal_types = ['Biomassa', 'Carvão', 'Carvão mineral', 'Gás', 'Gás natural',
@@ -45,9 +45,9 @@ def main():
     # 爬虫+预处理
     craw_raw()
     # 整理数据
-    g.brazil()
+    #g.brazil()
     # 提取最新日期
-    af.updated_date('Brazil')
+    #af.updated_date('Brazil')
 
 
 def craw_raw():
