@@ -56,7 +56,7 @@ def craw_raw():
         filename = os.path.join(in_path, 'Brazil_ONS_%s.csv' % timeResolution)
         sessionID = initialSession()
 
-        startDate = '01/01/2016'
+        startDate = '2016/01/01'
         setPeriod(sessionID, startDate, endDate)
         setTimeResolution(sessionID, timeResolution)
 
