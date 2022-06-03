@@ -3,7 +3,7 @@ import re
 import global_function as af
 import os
 
-file_path = '../../data/'
+file_path = 'K:\\Github\\CM_Power_Database\\data\\'
 global_path = os.path.join(file_path, 'global')
 
 file_name = af.search_file(file_path)
@@ -14,7 +14,7 @@ file_name_eu = [file_name[i] for i, x in enumerate(file_name) if x.find('eu27_uk
 file_name_eu = [file_name_eu[i] for i, x in enumerate(file_name_eu) if not x.find('United Kingdom') != -1]
 
 # 提取主要国家名
-name = re.compile(r'data/.*?/(?P<name>.*?)/simulated', re.S)
+name = re.compile(r'data\\.*?\\(?P<name>.*?)\\simulated', re.S)
 
 df_all = pd.DataFrame()
 for f in file_name_no:
@@ -26,7 +26,7 @@ for f in file_name_no:
     df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
 # 欧州国家
-eu_name = re.compile(r'daily/(?P<name>.*?).csv', re.S)
+eu_name = re.compile(r'daily\\(?P<name>.*?).csv', re.S)
 for f in file_name_eu:
     c = eu_name.findall(f)[0]
     df_temp = pd.read_csv(f)
@@ -76,10 +76,10 @@ df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 
 df_all = df_all.groupby(['country/region', 'date']).sum().reset_index()
 df_all = pd.pivot_table(df_all, index='date', values='value', columns='country/region').reset_index()
-df_all = df_all[
-    ['date', 'Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
-     'United Kingdom', 'United States']]
-df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < '2022-04-01')].reset_index(drop=True)
+# df_all = df_all[
+#     ['date', 'Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
+#      'United Kingdom', 'United States']]
+df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < '2022-01-01')].reset_index(drop=True)
 # # 只要6个国家
 # country_list = ['India', 'United States', 'EU27&UK', 'United Kingdom', 'Brazil', 'China', 'Japan']
 # df_pic = df_pic[df_pic['country/region'].isin(country_list)].reset_index(drop=True)
@@ -104,6 +104,4 @@ df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < '2022-04-01
 # df_pic = df_pic[['country/region', 'date', 'energy_source', 'value', 'timestamp']]
 # df_pic['date'] = df_pic['date'].dt.strftime('%d/%m/%Y')
 #
-df_all.to_csv(
-    global_path + 'Global_Power_2022.4.26.csv', index=False,
-    encoding='utf_8_sig')
+df_all.to_csv(os.path.join(global_path, 'Global_Power_2022.4.26.csv'), index=False, encoding='utf_8_sig')
