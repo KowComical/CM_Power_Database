@@ -13,7 +13,8 @@ parameter = {"flowid": "gbfthistoric", "start_date": "", "end_date": ""}
 base_url = 'https://www.bmreports.com/bmrs/?q=tabledemand&parameter='
 
 path = './data/europe/eu27_uk/raw/uk-BMRS/'
-
+if not os.path.exists(path):
+    os.mkdir(path)
 flag = 1
 output_file = os.path.join(path, 'UK_BMRS_Hourly.csv')
 if os.path.exists(output_file):
