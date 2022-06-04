@@ -29,9 +29,9 @@ now = datetime.date.today().strftime("%Y-%m-%d")  # 获取当前年月日
 
 
 def main():
-    session = login()
-    downloadOriginalData(session)
-    pre()
+    # session = login()
+    # downloadOriginalData(session)
+    # pre()
     # 爬取bmrs数据
     uk.main()
     # 处理数据
