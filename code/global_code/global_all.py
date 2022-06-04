@@ -308,7 +308,7 @@ def eu():
     df_bmrs['datetime'] = pd.to_datetime(df_bmrs['startTimeOfHalfHrPeriod']) + pd.to_timedelta(
         (df_bmrs['settlementPeriod'] / 2 - 0.5), unit='h')
 
-    df_bmrs = df_bmrs.set_index('datetime').resample('H').mean().reset_index()
+    df_bmrs = df_bmrs.set_index('datetime').resample('H').mean().reset_index()  # 为啥是mean而不是sum？
     af.time_info(df_bmrs, 'datetime')
     for y in df_bmrs['year'].drop_duplicates().tolist():
         # simulated准备工作
