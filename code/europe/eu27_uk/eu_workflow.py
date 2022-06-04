@@ -11,6 +11,7 @@ from global_code import global_all as g
 
 sys.path.append('./code/europe/')
 import uk_bmrs as uk
+import uk_new_data as uk_new
 
 import numpy as np
 import pandas as pd
@@ -20,7 +21,7 @@ import requests
 import os
 import datetime
 
-in_path = './code/europe/eu27_uk/entsoe'  # 国家参数存放的地方
+in_path = './data/global/'  # 国家参数存放的地方
 out_path = './data/europe/eu27_uk/craw/entsoe'  # 爬虫数据将要保存的地方
 raw_path = './data/europe/eu27_uk/'  # raw数据保存的地方
 
@@ -29,15 +30,17 @@ now = datetime.date.today().strftime("%Y-%m-%d")  # 获取当前年月日
 
 
 def main():
-    # session = login()
-    # downloadOriginalData(session)
-    # pre()
+    session = login()
+    downloadOriginalData(session)
+    pre()
     # 爬取bmrs数据
     uk.main()
     # 处理数据
     g.eu()
     # 提取最新日期
     af.updated_date('Germany')
+    # 爬取UK最新数据
+    uk_new.main()
 
 
 def login(u='https://transparency.entsoe.eu/sso/login'):
