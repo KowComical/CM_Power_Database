@@ -67,7 +67,7 @@ def uk_solar():
         df_new = pd.read_csv(url).rename(columns={'generation_mw': 'solar', 'datetime_gmt': 'datetime'}).drop(
             columns=['n_ggds', 'ggd_id'])  # 单位为mw
         df_new['datetime'] = pd.to_datetime(df_new['datetime']).dt.tz_localize(None)
-        df_new = df_new.set_index('datetime').resample('h').sum().reset_index()  # 汇总为小时数据Mwh
+        df_new = df_new.set_index('datetime').resample('h').mean().reset_index()  # 汇总为小时数据Mwh
         df_result = pd.concat([df_result, df_new]).reset_index(drop=True)
     # 合并bmrs和缺失的solar数据
     df_solar = pd.merge(df_solar, df_result)
