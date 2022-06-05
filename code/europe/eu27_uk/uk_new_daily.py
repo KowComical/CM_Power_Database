@@ -6,7 +6,7 @@ import pandas as pd
 import requests
 
 # UK 10年的daily新数据
-file_path = 'K:\\Github\\CM_Power_Database\\data\\europe\\eu27_uk\\raw\\uk_Electricity_Production\\'
+file_path = './data/europe/eu27_uk/raw/uk_Electricity_Produ`ction/'
 if not os.path.exists(file_path):
     os.mkdir(file_path)
 out_path = os.path.join(file_path, 'uk_daily.csv')
