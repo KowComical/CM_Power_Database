@@ -27,7 +27,7 @@ def main():
     # 整理数据
     # g.south_africa()
     # 提取最新日期
-    # af.updated_date('south_africa')
+    af.updated_date('south_africa')
 
 
 def craw():
