@@ -37,6 +37,7 @@ def craw():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument("--remote-debugging-port=9222")  # this
     # chrome_options.add_argument("window-size=1024,768")
     chrome_options.add_argument("--no-sandbox")
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
@@ -52,17 +53,16 @@ def craw():
     wd.quit()
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     wd.get(new_url)  # 打开要爬的网址
-
+    time.sleep(15)
     # 找到右键元素
     confirm_text = 'clearCatcher'
     ActionChains(wd).context_click(wd.find_elements(By.CLASS_NAME, confirm_text)[0]).perform()  # 右键
-
+    # time.sleep(15)
+    # wd.find_element(By.XPATH, '//*[@title="以表的形式显示"]').click()
     wd.find_element(By.XPATH, '//*[@title="Show as a table"]').click()
-    time.sleep(15)
-
+    time.sleep(5)
     # 获取当前页面的源代码 所要数据就藏在里面
     html = wd.page_source
-    wd.quit()
 
     # 获取列名
     col_list = ['Eskom Gas SCO', 'Pumped Water SCO Pumping', 'Hydro Water SCO', 'Eskom OCGT SCO',
@@ -74,6 +74,7 @@ def craw():
     date = re.compile(r'<div title="(?P<name>.*?)"', re.S)
     # 起始日期
     start_date = date.findall(html)
+    print(start_date)
     start_date = [start_date[i] for i, x in enumerate(start_date) if x.find('/') != -1]
     start_date = min(start_date)
     date_range = pd.date_range(start=start_date, periods=168, freq='h')
