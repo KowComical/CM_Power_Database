@@ -39,7 +39,7 @@ def craw():
     chrome_options.add_argument('--disable-gpu')
     # chrome_options.add_argument("window-size=1024,768")
     chrome_options.add_argument("--no-sandbox")
-    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
+    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     # wd = webdriver.Chrome(chromedriver) #打开浏览器
     wd.get(url)  # 打开要爬的网址
     wd.implicitly_wait(10)
@@ -50,7 +50,7 @@ def craw():
     url_name = re.compile(r'<iframe loading="lazy" width="600" height="600" src="(?P<name>.*?)">', re.S)
     new_url = url_name.findall(html)[0]
     wd.quit()
-    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
+    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     wd.get(new_url)  # 打开要爬的网址
     print(wd.page_source)
 
