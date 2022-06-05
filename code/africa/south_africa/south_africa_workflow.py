@@ -35,9 +35,9 @@ def craw():
     url = 'https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/'
     # 开始模拟
     chrome_options = Options()
-    #chrome_options.add_argument('--headless')
-    #chrome_options.add_argument('--disable-gpu')
-    #chrome_options.add_argument("window-size=1024,768")
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    # chrome_options.add_argument("window-size=1024,768")
     chrome_options.add_argument("--no-sandbox")
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
     # wd = webdriver.Chrome(chromedriver) #打开浏览器
