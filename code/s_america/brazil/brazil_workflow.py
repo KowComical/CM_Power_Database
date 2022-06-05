@@ -79,7 +79,6 @@ def craw_raw():
         # Export data to file
         all_result['Date'] = pd.to_datetime(all_result['Date'], format="%d/%m/%Y %H:%M", errors='coerce')
         all_result.sort_values(by='Date', ascending=False, inplace=True)
-        print(all_result['Date'])
         all_result.to_csv(filename, index=False)
 
 
