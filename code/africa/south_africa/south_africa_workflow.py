@@ -57,9 +57,11 @@ def craw():
     # 找到右键元素
     confirm_text = 'clearCatcher'
     ActionChains(wd).context_click(wd.find_elements(By.CLASS_NAME, confirm_text)[0]).perform()  # 右键
-    # time.sleep(15)
-    # wd.find_element(By.XPATH, '//*[@title="以表的形式显示"]').click()
-    wd.find_element(By.XPATH, '//*[@title="Show as a table"]').click()
+    # noinspection PyBroadException
+    try:
+        wd.find_element(By.XPATH, '//*[@title="以表的形式显示"]').click()
+    except:
+        wd.find_element(By.XPATH, '//*[@title="Show as a table"]').click()
     time.sleep(5)
     # 获取当前页面的源代码 所要数据就藏在里面
     html = wd.page_source
