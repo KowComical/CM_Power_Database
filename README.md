@@ -28,7 +28,7 @@
 ### Africa
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[South Africa](./data/africa/south_africa)**|**[Eskom](https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/)**|![](./image/updated/south_africa.png)|`Hourly`|周更新|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[South Africa](./data/africa/south_africa)**|**[Eskom](https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/)**|![](./image/updated/south_africa.png)|`Hourly`|已完成自动化 太强了我！！！|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[Nigeria](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/11)**||||还未更新||
 
 ### Europe
