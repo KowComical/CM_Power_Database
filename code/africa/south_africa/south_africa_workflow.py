@@ -14,8 +14,8 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
-from global_code import global_function as af
-from global_code import global_all as g
+import global_function as af
+import global_all as g
 
 out_path = './data/africa/south_africa/raw/'
 out_file = os.path.join(out_path, 'raw.csv')
