@@ -52,6 +52,7 @@ def craw():
     wd.quit()
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
     wd.get(new_url)  # 打开要爬的网址
+    print(wd.page_source)
 
     # 找到右键元素
     confirm_text = 'clearCatcher'
