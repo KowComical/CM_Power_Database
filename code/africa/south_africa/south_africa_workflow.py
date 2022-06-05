@@ -13,9 +13,9 @@ import os
 import sys
 
 sys.dont_write_bytecode = True
-sys.path.append('./code/global_code/')
-import global_function as af
-import global_all as g
+sys.path.append('./code/')
+import global_code.global_function as af
+import global_code.global_all as g
 
 out_path = './data/africa/south_africa/raw/'
 out_file = os.path.join(out_path, 'raw.csv')
@@ -52,7 +52,6 @@ def craw():
     wd.quit()
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     wd.get(new_url)  # 打开要爬的网址
-    print(wd.page_source)
 
     # 找到右键元素
     confirm_text = 'clearCatcher'

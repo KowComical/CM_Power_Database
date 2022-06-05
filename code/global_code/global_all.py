@@ -2,8 +2,9 @@ import pandas as pd
 import os
 from datetime import datetime
 import requests
-import global_function as af  # 所有的function
 import sys
+sys.path.append('./code/')
+import global_code.global_function as af # 所有的function
 
 sys.dont_write_bytecode = True
 
