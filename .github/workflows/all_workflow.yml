@@ -29,6 +29,7 @@ jobs:
           pip install openpyxl
           pip install sklearn
           pip install skforecast
+          pip install webdriver-manager
       - name: process data
         run: python ./code/global_code/all_process.py
       - name: commit and push if it changed
