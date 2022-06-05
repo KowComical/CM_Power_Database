@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver import ActionChains
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -33,7 +34,12 @@ def craw():
     # chrome驱动路径
     url = 'https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/'
     # 开始模拟
-    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument("window-size=1024,768")
+    chrome_options.add_argument("--no-sandbox")
+    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
     # wd = webdriver.Chrome(chromedriver) #打开浏览器
     wd.get(url)  # 打开要爬的网址
     wd.implicitly_wait(10)
@@ -44,7 +50,7 @@ def craw():
     url_name = re.compile(r'<iframe loading="lazy" width="600" height="600" src="(?P<name>.*?)">', re.S)
     new_url = url_name.findall(html)[0]
     # wd.quit()
-    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
     wd.get(new_url)  # 打开要爬的网址
 
     # 找到右键元素
