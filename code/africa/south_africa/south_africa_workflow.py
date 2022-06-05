@@ -49,7 +49,7 @@ def craw():
     # 获取新网址
     url_name = re.compile(r'<iframe loading="lazy" width="600" height="600" src="(?P<name>.*?)">', re.S)
     new_url = url_name.findall(html)[0]
-    # wd.quit()
+    wd.quit()
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=chrome_options)
     wd.get(new_url)  # 打开要爬的网址
 
