@@ -5,7 +5,7 @@ sys.dont_write_bytecode = True
 
 sys.path.append('./code/africa/south_africa/')
 print('Begin process South Africa...')
-from africa.south_africa import south_africa_workflow as sa
+import south_africa_workflow as sa
 sa.main()
 
 # try:
