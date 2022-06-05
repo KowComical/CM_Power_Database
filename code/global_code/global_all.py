@@ -690,16 +690,16 @@ def south_africa():
     out_path_simulated = af.create_folder(file_path, 'simulated')
     bp_path = os.path.join(global_path, '#global_rf', 'bp')
 
-    df = pd.read_csv(os.path.join(in_path, 'last_7_days.csv'))
+    df = pd.read_csv(os.path.join(in_path, 'raw.csv'))
 
-    df = df.rename(columns={'Nuclear_Generation': 'nuclear', 'Hydro_Water_Generation': 'hydro', 'Wind': 'wind',
-                            'Other_RE': 'other', 'Thermal_Generation': 'thermal_raw',
-                            'Date_Time_Hour_Beginning': 'datetime'})
+    df = df.rename(columns={'Nuclear Generation': 'nuclear', 'Hydro Water Generation': 'hydro', 'Wind': 'wind',
+                            'Other RE': 'other', 'Thermal Generation': 'thermal_raw',
+                            'Date Time Hour Beginning': 'datetime'})
     df['datetime'] = pd.to_datetime(df['datetime'])
     # solar
     df['solar'] = df[['PV', 'CSP']].sum(axis=1)
     # gas 目前用南非国家电力公司的值 暂不用thermal去分
-    df['gas'] = df[['Eskom_Gas_Generation', 'Eskom_OCGT_Generation']].sum(axis=1)
+    df['gas'] = df[['Eskom Gas Generation', 'Eskom OCGT Generation']].sum(axis=1)
 
     # 备注一下 原始数据单位是Mwh
     df = df[['datetime', 'thermal_raw', 'gas', 'nuclear', 'hydro', 'solar', 'wind', 'other']]
