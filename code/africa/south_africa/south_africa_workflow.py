@@ -23,9 +23,9 @@ out_file = os.path.join(out_path, 'raw.csv')
 
 def main():
     # 爬虫+预处理数据
-    # craw()
+    craw()
     # 整理数据
-    # g.south_africa()
+    g.south_africa()
     # 提取最新日期
     af.updated_date('south_africa')
 
