@@ -17,7 +17,6 @@ def craw():
     df_old = pd.read_csv(out_path)
     col_list = ['Biomass', 'CCGT', 'Coal', 'Hydroelectric', 'Interconnect', 'Nuclear', 'OCGT', 'Oil', 'Other',
                 'Pumped Storage', 'Wind', 'solar']
-    # date_list = ['year', 'month', 'day', 'hour', 'minute']
 
     url = 'https://electricityproduction.uk/from/all-sources/?t=7d'
     r = requests.get(url)
@@ -26,12 +25,7 @@ def craw():
     # list to dataframe
     df = pd.DataFrame(data_table.findall(r.text)[0][2:-3].split('['))[1:]
     df = df[0].str.split('[)],', expand=True)
-    # # 处理日期格式
-    # df_date = df[0].str.split(',', expand=True)
-    # df_date[0] = df_date[0].str.replace('new Date[(]', '', regex=True)
-    # # 将日期转为datetime格式
-    # df_date.columns = date_list
-    # df_date['datetime'] = pd.to_datetime(df_date[['year', 'month', 'day', 'hour', 'minute']].assign(), errors='coerce')
+
     # 提取更新到的时间
     date = re.compile(r'<p class="text-right">Last.*?updated (?P<name>.*?). G', re.S)
     max_date = date.findall(r.text)[0]
