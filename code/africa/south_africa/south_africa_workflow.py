@@ -76,7 +76,6 @@ def craw():
     date = re.compile(r'<div title="(?P<name>.*?)"', re.S)
     # 起始日期
     start_date = date.findall(html)
-    print(start_date)
     start_date = [start_date[i] for i, x in enumerate(start_date) if x.find('/') != -1]
     start_date = min(start_date)
     date_range = pd.date_range(start=start_date, periods=168, freq='h')
