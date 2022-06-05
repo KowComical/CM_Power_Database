@@ -3,13 +3,18 @@ warnings.filterwarnings('ignore')
 import sys
 sys.dont_write_bytecode = True
 
-try:
-    sys.path.append('./code/africa/south_africa/')
-    print('Begin process South Africa...')
-    import south_africa_workflow as sa
-    sa.main()
-except Exception as e:
-    print(e)
+sys.path.append('./code/africa/south_africa/')
+print('Begin process South Africa...')
+from africa.south_africa import south_africa_workflow as sa
+sa.main()
+
+# try:
+#     sys.path.append('./code/africa/south_africa/')
+#     print('Begin process South Africa...')
+#     import south_africa_workflow as sa
+#     sa.main()
+# except Exception as e:
+#     print(e)
 
 # try:
 #     sys.path.append('./code/asian/china/')
