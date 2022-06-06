@@ -9,7 +9,7 @@ sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
 
-sys.path.append('./code/europe/')
+sys.path.append('./code/europe/eu27_uk/')
 import uk_bmrs as uk
 import uk_new_data as uk_new
 import uk_new_daily as uk_daily
