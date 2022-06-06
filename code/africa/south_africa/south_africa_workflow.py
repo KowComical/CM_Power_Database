@@ -90,7 +90,7 @@ def craw():
     if len(result) % 19 == 0:
         len_result = int(len(result) / 19)
     else:
-        print('出错了！')
+        break
 
     # 提取数据到dataframe中
     df_result = pd.DataFrame()
