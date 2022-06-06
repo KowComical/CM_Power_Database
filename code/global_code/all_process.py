@@ -3,14 +3,13 @@ warnings.filterwarnings('ignore')
 import sys
 sys.dont_write_bytecode = True
 
-# south africa 单独运行
-# try:
-#     sys.path.append('./code/africa/south_africa/')
-#     print('Begin process South Africa...')
-#     import south_africa_workflow as sa
-#     sa.main()
-# except Exception as e:
-#     print(e)
+try:
+    sys.path.append('./code/africa/')
+    print('Begin process South Africa...')
+    import south_africa.south_africa_workflow as sa
+    sa.main()
+except Exception as e:
+    print(e)
 
 try:
     sys.path.append('./code/asian/')
@@ -36,19 +35,13 @@ try:
 except Exception as e:
     print(e)
 
-sys.path.append('./code/europe/')
-print('Begin process EU...')
-import eu27.eu_workflow as eu
-eu.main()
-
-
-# try:
-#     sys.path.append('./code/europe/')
-#     print('Begin process EU...')
-#     import eu27_uk.eu_workflow as eu
-#     eu.main()
-# except Exception as e:
-#     print(e)
+try:
+    sys.path.append('./code/europe/')
+    print('Begin process EU...')
+    import eu27_uk.eu_workflow as eu
+    eu.main()
+except Exception as e:
+    print(e)
 
 try:
     sys.path.append('./code/europe/')
