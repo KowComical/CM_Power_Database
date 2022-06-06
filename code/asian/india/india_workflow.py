@@ -5,7 +5,6 @@
 import datetime
 import requests
 from bs4 import BeautifulSoup
-from tqdm import tqdm
 import os
 import re
 import pdfplumber
@@ -45,7 +44,7 @@ def craw():
         if r.status_code == 200:  # successfully responses
             soup = BeautifulSoup(r.text, features='lxml')
             table = soup.find('table')
-            for link in tqdm(table.find_all('a')):
+            for link in table.find_all('a'):
                 if 'NLDC' in link.text:
                     download_pdf_file(link, date_range)
 

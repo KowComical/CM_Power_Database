@@ -39,17 +39,17 @@ def craw():
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument("--remote-debugging-port=9222")  # 虽然不知道为什么 但是不加这条会报错
     chrome_options.add_argument("--no-sandbox")
+
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-    # wd = webdriver.Chrome(chromedriver) #打开浏览器
     wd.get(url)  # 打开要爬的网址
-    wd.implicitly_wait(10)
+    wd.implicitly_wait(10)  # 每0.5秒进行一次操作 如果一直失败超过10秒则报错 以防万一用的 关键部分则还是用睡眠来操控
     time.sleep(15)
-    html = wd.page_source
+    html = wd.page_source  # 获取网页源代码
 
     # 获取新网址
     url_name = re.compile(r'<iframe loading="lazy" width="600" height="600" src="(?P<name>.*?)">', re.S)
     new_url = url_name.findall(html)[0]
-    wd.quit()
+    wd.quit()  # 将旧的网页关掉
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     wd.get(new_url)  # 打开要爬的网址
     time.sleep(15)
@@ -58,7 +58,7 @@ def craw():
     ActionChains(wd).context_click(wd.find_elements(By.CLASS_NAME, confirm_text)[0]).perform()  # 右键
     # noinspection PyBroadException
     try:
-        wd.find_element(By.XPATH, '//*[@title="以表的形式显示"]').click()
+        wd.find_element(By.XPATH, '//*[@title="以表的形式显示"]').click()  # 这个网站很奇怪 他会判断本地ip 然后根据ip生成相应语言的源代码
     except:
         wd.find_element(By.XPATH, '//*[@title="Show as a table"]').click()
     time.sleep(5)

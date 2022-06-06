@@ -16,7 +16,6 @@ import uk_new_daily as uk_daily
 
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 from bs4 import BeautifulSoup
 import requests
 import os
@@ -73,7 +72,7 @@ def downloadOriginalData(s):
     area = pd.read_csv(os.path.join(in_path, 'entsoe_areaCode.csv'))
     area = area[area['hasData'].map(lambda x: x != 'inactive')]
 
-    for i in tqdm(area.index):
+    for i in area.index:
         code = area['code'][i]
         name = area['countryName'][i]
         codeType = 'CTY'
@@ -125,7 +124,7 @@ def pre():
     area = pd.read_csv(os.path.join(in_path, 'entsoe_areaCode.csv'))
     area = area[area['hasData'].map(lambda x: x != 'inactive')]
 
-    for i in tqdm(area.index):
+    for i in area.index:
         name = area['countryName'][i]
         timeDiff = area['timeDiff'][i]
         # noinspection PyBroadException

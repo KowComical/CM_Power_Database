@@ -39,7 +39,6 @@ def japan_download_Csvformat(u, in_path, name, start_date):
 def japan_download_Zipformat(u, in_path, name, start_date, freq):
     import os
     from datetime import datetime
-    from tqdm import tqdm
     import pandas as pd
     import urllib.request
     import zipfile
@@ -61,7 +60,7 @@ def japan_download_Zipformat(u, in_path, name, start_date, freq):
         start_date = str(max(date))
     end_date = datetime.now().strftime("%Y%m%d")
     if freq == 'MS':
-        for month in tqdm(pd.date_range(start_date, end_date)):
+        for month in pd.date_range(start_date, end_date):
             dateRange = month.strftime('%Y%m')
             fileName = os.path.join(in_path, '%s.zip' % dateRange)
             urllib.request.urlretrieve(u % dateRange, fileName)

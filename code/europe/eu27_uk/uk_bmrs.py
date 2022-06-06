@@ -6,7 +6,6 @@ import requests
 import pandas as pd
 from datetime import datetime
 import json
-from tqdm import tqdm
 import os
 
 parameter = {"flowid": "gbfthistoric", "start_date": "", "end_date": ""}
@@ -33,7 +32,7 @@ def main():
 # 下载bmrs数据
 def uk_bmrs():
     df_temp = pd.DataFrame()
-    for d in tqdm(range(len(date_range) - 1)):
+    for d in range(len(date_range) - 1):
         parameter['start_date'] = datetime.strftime(date_range[d], '%Y-%m-%d')
         parameter['end_date'] = datetime.strftime(date_range[d + 1], '%Y-%m-%d')
 

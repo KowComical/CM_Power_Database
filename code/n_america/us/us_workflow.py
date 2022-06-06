@@ -14,7 +14,6 @@ import requests
 import json
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from tqdm import tqdm
 import sys
 
 sys.dont_write_bytecode = True
@@ -43,7 +42,7 @@ def craw_raw():
     for i in range(0, len(regions)):
         r = regions['id'][i]
         timeZone = regions['time_zone'][i]
-        for s in tqdm(pd.date_range(startDate, endDate, freq='MS')):
+        for s in pd.date_range(startDate, endDate, freq='MS'):
             sDate = s.strftime('%m%d%Y')
             eDate = (datetime.strptime(sDate, "%m%d%Y") +
                      relativedelta(months=1) + timedelta(days=-1)).strftime('%m%d%Y')
@@ -71,6 +70,7 @@ def craw_raw():
             data = json.loads(res.content.decode())[0]['data']
 
             Flag = 1
+            df = pd.DataFrame()
             for d in data:
                 temp = pd.DataFrame(d['VALUES'])[['DATES', 'DATA']]
                 temp.columns = ['DATES', d['FUEL_TYPE_NAME']]

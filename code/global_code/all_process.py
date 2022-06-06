@@ -38,7 +38,7 @@ except Exception as e:
 
 sys.path.append('./code/europe/')
 print('Begin process EU...')
-import eu27_uk.eu_workflow as eu
+import eu27.eu_workflow as eu
 eu.main()
 
 
