@@ -20,7 +20,6 @@ def craw_daily():
     df_old = pd.read_csv(out_path)
     col_list = ['Biomass', 'CCGT', 'Coal', 'Hydroelectric', 'Interconnect', 'Nuclear', 'OCGT', 'Oil', 'Other',
                 'Pumped Storage', 'Wind', 'solar']
-    date_list = ['year', 'month', 'day', 'hour', 'minute']
 
     url = 'https://electricityproduction.uk/from/all-sources/?t=10y'
     r = requests.get(url)
