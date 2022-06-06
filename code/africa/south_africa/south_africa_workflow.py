@@ -37,8 +37,7 @@ def craw():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument("--remote-debugging-port=9222")  # this
-    # chrome_options.add_argument("window-size=1024,768")
+    chrome_options.add_argument("--remote-debugging-port=9222")  # 虽然不知道为什么 但是不加这条会报错
     chrome_options.add_argument("--no-sandbox")
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     # wd = webdriver.Chrome(chromedriver) #打开浏览器
@@ -72,26 +71,41 @@ def craw():
                 'Eskom Gas Generation', 'Dispatchable IPP OCGT',
                 'Hydro Water Generation', 'Pumped Water Generation', 'IOS Excl ILS and MLR', 'ILS Usage',
                 'Manual Load_Reduction(MLR)', 'Wind', 'PV', 'CSP', 'Other RE']
+
+    # 先获取数据
+    data = re.compile(r'aria-label="(?P<name>.*?)"', re.S)
+    data_result = data.findall(html)
+
+    # 经常出错 因为每次爬取的时候的时间长度并不一致 所以想出以下办法
+    # 先将列表中的非数字元素剔除掉
+    result = []
+    len_result = 0
+    for x in data_result:
+        # noinspection PyBroadException
+        try:
+            result.append(float(x))
+        except:
+            pass
+    # 再用只包含数字的新列表除以19（一共19列数据） 如果能够整除 则正确 否则报错
+    if len(result) % 19 == 0:
+        len_result = int(len(result) / 19)
+    else:
+        print('出错了！')
+
+    # 提取数据到dataframe中
+    df_result = pd.DataFrame()
+    for i in range(0, len(result), len_result):
+        temp = pd.DataFrame(result[i:i + len_result])
+        df_result = pd.concat([df_result, temp], axis=1).reset_index(drop=True)
+
     # 获取日期
     date = re.compile(r'<div title="(?P<name>.*?)"', re.S)
     # 起始日期
     start_date = date.findall(html)
     start_date = [start_date[i] for i, x in enumerate(start_date) if x.find('/') != -1]
     start_date = min(start_date)
-    date_range = pd.date_range(start=start_date, periods=168, freq='h')
+    date_range = pd.date_range(start=start_date, periods=len_result, freq='H')
 
-    # 获取数据
-    data = re.compile(r'aria-label="(?P<name>.*?)"', re.S)
-    data_result = data.findall(html)[10:]
-
-    # 提取数据到dataframe中
-    df_result = pd.DataFrame()
-    for i in range(0, len(data_result), 24 * 7):
-        temp = pd.DataFrame(data_result[i:i + 168])
-        df_result = pd.concat([df_result, temp], axis=1).reset_index(drop=True)
-
-    # 去除最后一列的乱码列
-    df_result = df_result.iloc[:, :-1]
     # 填充列名
     df_result.columns = col_list
     df_result['Date Time Hour Beginning'] = date_range
