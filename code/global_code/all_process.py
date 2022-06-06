@@ -15,7 +15,7 @@ sys.dont_write_bytecode = True
 try:
     sys.path.append('./code/asian/china/')
     print('Begin process China...')
-    import china_workflow as c
+    import china.china_workflow as c
     c.main()
 except Exception as e:
     print(e)
@@ -37,19 +37,13 @@ except Exception as e:
     print(e)
 
 
-sys.path.append('./code/europe/eu27_uk/')
-print('Begin process EU...')
-import eu_workflow as e
-e.main()
-
-
-# try:
-#     sys.path.append('./code/europe/eu27_uk/')
-#     print('Begin process EU...')
-#     import eu_workflow as e
-#     e.main()
-# except Exception as e:
-#     print(e)
+try:
+    sys.path.append('./code/europe/eu27_uk/')
+    print('Begin process EU...')
+    import eu_workflow as e
+    e.main()
+except Exception as e:
+    print(e)
 
 try:
     sys.path.append('./code/europe/russia/')
