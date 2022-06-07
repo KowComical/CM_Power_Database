@@ -170,7 +170,7 @@ def data_preprocess(dataPath, name, time_diff):
     try:
         country_data = country_data.interpolate(method='linear')
 
-        country_data = country_data.resample('1H').mean()
+        country_data = country_data.resample('1H').mean().reset_index()
         for c in country_data.columns:
             # noinspection PyBroadException
             try:
