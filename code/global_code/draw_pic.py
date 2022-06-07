@@ -128,7 +128,7 @@ def draw_pic(df_all, c, i):
     for d, p in zip(range(len(year_list)), color_pool):
         x = df_all[df_all['year'] == year_list[0]]['date'].tolist()
         y = df_all[df_all['year'] == year_list[d]][c].tolist()[0:len(x)]
-        if c == 'South_Africa':  # 有的时候南非最后一天数据不完全
+        if 'frica' in c:  # 有的时候南非最后一天数据不完全
             x = x[:-1]
             y = y[:-1]
         # noinspection PyBroadException
