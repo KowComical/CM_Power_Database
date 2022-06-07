@@ -168,9 +168,18 @@ def data_preprocess(dataPath, name, time_diff):
     # 线性插值补全缺失值
     # noinspection PyBroadException
     try:
-        country_data.interpolate(method='linear', inplace=True)
+        country_data = country_data.interpolate(method='linear')
 
         country_data = country_data.resample('1H').mean()
+        for c in country_data.columns:
+            # noinspection PyBroadException
+            try:
+                country_data[c] = country_data[c].astype(float)
+            except:
+                pass
+
+        country_data['MTU'] = pd.to_datetime(country_data['MTU'])
+        country_data = country_data.set_index('MTU').interpolate(method='linear')
         country_data.to_csv(outfile, float_format="%.3f")
     except:
         pass
