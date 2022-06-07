@@ -7,6 +7,7 @@ import pandas as pd
 from datetime import datetime
 import json
 import os
+import datetime as dt
 
 parameter = {"flowid": "gbfthistoric", "start_date": "", "end_date": ""}
 base_url = 'https://www.bmreports.com/bmrs/?q=tabledemand&parameter='
@@ -18,7 +19,8 @@ if not os.path.exists(path):
 output_file = os.path.join(path, 'UK_BMRS_Hourly.csv')
 if os.path.exists(output_file):
     df = pd.read_csv(output_file)
-    start_date = max(df['datetime'])
+    # raw文件最大日期的前一天 否则有时会有bug
+    start_date = (pd.to_datetime(max(df['datetime']))-dt.timedelta(days=1)).strftime('%Y-%m-%d')
 else:
     start_date = '2018-01-01'
 end_date = datetime.strftime(datetime.now(), '%Y-%m-%d')
