@@ -5,6 +5,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
+import logging
+
+logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome是的打印内容
+
 import time
 import pandas as pd
 import re
@@ -89,7 +93,7 @@ def craw():
     if len(result) % 19 == 0:
         len_result = int(len(result) / 19)
     else:
-        print('出错了！')
+        print('error when crawling data')
         return
 
     # 提取数据到dataframe中
