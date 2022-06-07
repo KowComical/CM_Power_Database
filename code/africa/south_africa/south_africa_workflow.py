@@ -79,7 +79,6 @@ def craw():
     # 经常出错 因为每次爬取的时候的时间长度并不一致 所以想出以下办法
     # 先将列表中的非数字元素剔除掉
     result = []
-    len_result = 0
     for x in data_result:
         # noinspection PyBroadException
         try:
@@ -90,7 +89,8 @@ def craw():
     if len(result) % 19 == 0:
         len_result = int(len(result) / 19)
     else:
-        break
+        print('出错了！')
+        return
 
     # 提取数据到dataframe中
     df_result = pd.DataFrame()

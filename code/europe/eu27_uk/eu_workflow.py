@@ -150,7 +150,7 @@ def data_preprocess(dataPath, name, time_diff):
 
     # 删除所有列中包含'-'的行（'-'表示数据未发布）
     country_data = country_data.replace('-', np.nan).dropna(how='all')
-    # 将'n/e'设置为空值
+    # 将'n/e' 设置为空值
     country_data = country_data.replace('n/e', np.nan)
 
     country_data.to_csv(outfile)

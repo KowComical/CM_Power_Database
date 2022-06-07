@@ -69,6 +69,8 @@ def uk_solar():
 
     # 合并结果
     df_new_result = pd.concat([df_old, df_result]).reset_index(drop=True)
+    df_new_result['datetime'] = pd.to_datetime(df_new_result['datetime'])
+    df_new_result = df_new_result[~df_new_result.duplicated(['datetime'])]
     df_new_result.to_csv(output_file, index=False, encoding='utf_8_sig')
 
 

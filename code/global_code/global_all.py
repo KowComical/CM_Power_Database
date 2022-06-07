@@ -328,6 +328,7 @@ def eu():
     # ########################################entose-raw-cleaned-simulated#############################################
     for x in file_name:
         df_cleaned = pd.read_csv(os.path.join(in_path_entsoe, x)).rename(columns={'MTU': 'datetime'})
+        df_cleaned.interpolate(method='linear', inplace=True)
         af.time_info(df_cleaned, 'datetime')
         df_cleaned = df_cleaned[df_cleaned['date'] < now].reset_index(drop=True)
         for y in df_cleaned['year'].drop_duplicates().tolist():
