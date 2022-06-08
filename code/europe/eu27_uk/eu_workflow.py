@@ -165,11 +165,10 @@ def data_preprocess(dataPath, name, time_diff):
             t = (c - c.median()).abs()
             c[0.75 * t / t.median() > th] = np.nan
 
-    # 线性插值补全缺失值
+    # 线性插值补全缺失值 # 备注 这里的填补缺失值可能会有问题
     # noinspection PyBroadException
     try:
         country_data = country_data.interpolate(method='linear')
-
         country_data = country_data.resample('1H').mean().reset_index()
         for c in country_data.columns:
             # noinspection PyBroadException
