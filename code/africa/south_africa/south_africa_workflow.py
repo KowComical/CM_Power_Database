@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 import logging
 
-logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome是的打印内容
+logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
 
 import time
 import pandas as pd
@@ -123,7 +123,4 @@ def craw():
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except Exception as e:
-        print(e)
+    main()
