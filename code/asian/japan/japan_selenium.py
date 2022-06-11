@@ -1,6 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 import time
 import sys
 import re
@@ -18,13 +21,10 @@ def main():
 
 
 def japan_selenium():
-    # chrome驱动路径
-    chromedriver = './data/#global_rf/selenium/chromedriver.exe'  # chrome路径
     # 修改默认下载路径
     c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
     download_path = 'C:\\'
-    # file_path = af.create_folder(download_path, 'kow')
     prefs = {'download.default_directory': download_path}
     c_options.add_experimental_option('prefs', prefs)
 
@@ -37,7 +37,7 @@ def japan_selenium():
     date = '%s年%s月' % (date[:4], int(date[-2:]))
 
     # 开始模拟
-    wd = webdriver.Chrome(chromedriver, options=c_options)  # 打开浏览器
+    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=c_options)  # 打开浏览器
     wd.get('https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#')  # 打开要爬的网址
     # 不知道为啥每次都会自动弹出另外一个不需要的窗口 所以先把不需要的关掉
     # noinspection PyBroadException
