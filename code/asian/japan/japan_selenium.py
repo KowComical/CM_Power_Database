@@ -76,9 +76,8 @@ def japan_selenium():
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
 
-        # 找到下载的文件
+        # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
         csv_name = af.search_file(download_path)[0]
-        csv_name = csv_name.decode('utf-8')
         df = pd.read_csv(os.path.join(download_path, '%s' % csv_name), encoding='shift-jis')
         df.to_csv(os.path.join(out_path, '%s' % csv_name), encoding='shift-jis')
 
