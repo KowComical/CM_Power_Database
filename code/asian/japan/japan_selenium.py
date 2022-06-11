@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import Select
 import time
 import sys
 import re
+import os
+import pandas as pd
 
 sys.dont_write_bytecode = True
 
@@ -68,46 +70,15 @@ def japan_selenium():
         confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
-        upload_github(chromedriver, download_path)
+
+        # 找到下载的文件名并放在服务器上
+        html = wd.page_source  # 获取网页源代码
+        name = re.compile(r'id="table3_rows_24__infNo">OT(?P<name>.*?)</p>', re.S)
+        file_name = name.findall(html)[0][:6]
+        df = pd.read_csv(os.path.join(download_path, '%s.csv' % file_name), encoding='shift-jis')
+        df.to_csv(os.path.join(out_path, '%s.csv' % file_name), encoding='shift-jis')
+
     wd.quit()
-
-
-def upload_github(chromedriver, download_path):
-    # 定位到下载的文件
-    print('start searching file...')
-    file_name = af.search_file(download_path)
-    print('finding needed file...')
-    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
-    # 模拟上传到github
-    driver = webdriver.Chrome(chromedriver)
-    driver.implicitly_wait(60)
-    time.sleep(1)
-    driver.get('https://github.com/login')
-    time.sleep(3)
-    # 定位并输入账号密码
-    login = driver.find_element(By.NAME, 'login')
-    password = driver.find_element(By.NAME, 'password')
-    time.sleep(0.5)
-
-    login.send_keys('KowComical')
-    time.sleep(1)
-    password.send_keys('Xuanrenkow1122')
-    time.sleep(1)
-
-    button = driver.find_element(By.NAME, 'commit')
-    button.click()
-    time.sleep(2)
-
-    driver.get('https://github.com/KowComical/CM_Power_Database/upload/master/data/asia/japan/raw/month')
-    time.sleep(2)
-    upload_file = driver.find_element(By.XPATH, '//*[@id="upload-manifest-files-input"]')
-    upload_file.send_keys(file_name)
-    time.sleep(10)
-
-    commit_upload = driver.find_element(By.XPATH, '//*[@id="js-repo-pjax-container"]/div[2]/div/form/button')
-    commit_upload.click()
-    time.sleep(5)
-    driver.quit()
 
 
 if __name__ == '__main__':

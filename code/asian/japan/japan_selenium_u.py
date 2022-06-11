@@ -62,7 +62,6 @@ def japan_selenium():
         confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
-        upload_github(chromedriver, download_path)
     wd.quit()
 
 
