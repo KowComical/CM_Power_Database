@@ -9,7 +9,7 @@ import sys
 import re
 import os
 import pandas as pd
-from dateutil.relativedelta import relativedelta
+# from dateutil.relativedelta import relativedelta
 
 sys.dont_write_bytecode = True
 
@@ -26,6 +26,7 @@ def japan_selenium():
     c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
     download_path = 'C:\\'
+    download_path = af.create_folder(download_path, 'kow')
     prefs = {'download.default_directory': download_path}
     c_options.add_experimental_option('prefs', prefs)
 
@@ -37,8 +38,8 @@ def japan_selenium():
     date = max(date)
     max_date = '%s年%s月' % (date[:4], int(date[-2:]))
     # 设置下个月的文件名
-    next_date = pd.to_datetime(date, format='%Y%m') + relativedelta(months=1)
-    next_date = next_date.strftime('%Y%m')
+    # next_date = pd.to_datetime(date, format='%Y%m') + relativedelta(months=1)
+    # next_date = next_date.strftime('%Y%m')
 
     # 开始模拟
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=c_options)  # 打开浏览器
@@ -75,9 +76,10 @@ def japan_selenium():
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
 
-        # 找到下载的文件名
-        df = pd.read_csv(os.path.join(download_path, '%s_10エリア計.csv' % next_date), encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, '%s_10エリア計.csv' % next_date), encoding='shift-jis')
+        # 找到下载的文件
+        csv_name = af.search_file(download_path)
+        df = pd.read_csv(os.path.join(download_path, '%s.csv' % csv_name), encoding='shift-jis')
+        df.to_csv(os.path.join(out_path, '%s.csv' % csv_name), encoding='shift-jis')
 
     wd.quit()
 
