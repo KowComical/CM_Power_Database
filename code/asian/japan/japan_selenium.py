@@ -79,8 +79,8 @@ def japan_selenium():
         # 找到下载的文件
         csv_name = af.search_file(download_path)
         csv_name = csv_name.decode('utf-8')
-        df = pd.read_csv(os.path.join(download_path, '%s.csv' % csv_name[0]), encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, '%s.csv' % csv_name[0]), encoding='shift-jis')
+        df = pd.read_csv(os.path.join(download_path, '%s' % csv_name[0]), encoding='shift-jis')
+        df.to_csv(os.path.join(out_path, '%s' % csv_name[0]), encoding='shift-jis')
 
     wd.quit()
 
