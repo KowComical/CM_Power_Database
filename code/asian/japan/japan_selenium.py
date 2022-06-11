@@ -9,6 +9,7 @@ import sys
 import re
 import os
 import pandas as pd
+from dateutil.relativedelta import relativedelta
 
 sys.dont_write_bytecode = True
 
@@ -34,7 +35,10 @@ def japan_selenium():
     name = re.compile(r'month/(?P<name>.*?)_', re.S)  # 从路径找出国家
     date = [name.findall(f)[0] for f in file_name]
     date = max(date)
-    date = '%s年%s月' % (date[:4], int(date[-2:]))
+    max_date = '%s年%s月' % (date[:4], int(date[-2:]))
+    # 设置下个月的文件名
+    next_date = pd.to_datetime(date, format='%Y%m') + relativedelta(months=1)
+    next_date = next_date.strftime('%Y%m')
 
     # 开始模拟
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=c_options)  # 打开浏览器
@@ -60,7 +64,7 @@ def japan_selenium():
 
     # 如果要下载的月份文件已经存在了 则pass
     test = wd.find_element(By.ID, 'table3_rows_0__infNm')
-    if date in test.text:
+    if max_date in test.text:
         print('还未更新')
     else:
         print('start download...')
@@ -71,12 +75,9 @@ def japan_selenium():
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         time.sleep(30)
 
-        # 找到下载的文件名并放在服务器上
-        html = wd.page_source  # 获取网页源代码
-        name = re.compile(r'id="table3_rows_24__infNo">OT(?P<name>.*?)</p>', re.S)
-        file_name = name.findall(html)[0][:6]
-        df = pd.read_csv(os.path.join(download_path, '%s.csv' % file_name), encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, '%s.csv' % file_name), encoding='shift-jis')
+        # 找到下载的文件名
+        df = pd.read_csv(os.path.join(download_path, '%s_10エリア計.csv' % next_date), encoding='shift-jis')
+        df.to_csv(os.path.join(out_path, '%s_10エリア計.csv' % next_date), encoding='shift-jis')
 
     wd.quit()
 
