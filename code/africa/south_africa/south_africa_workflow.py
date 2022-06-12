@@ -103,11 +103,15 @@ def craw():
         df_result = pd.concat([df_result, temp], axis=1).reset_index(drop=True)
 
     # 获取日期
+    # 备注一下 服务器上运行时的时间和本地显示的时间并不吻合 都是显示10点开始
+    # 所以这里所用总是从每一天的0点开始
     date = re.compile(r'<div title="(?P<name>.*?)"', re.S)
     # 起始日期
     start_date = date.findall(html)
     start_date = [start_date[i] for i, x in enumerate(start_date) if x.find('/') != -1]
     start_date = min(start_date)
+    # 将最小的日期时间转为当天的最小值
+    start_date = pd.to_datetime(pd.to_datetime(start_date).strftime('%Y%m%d'))
     date_range = pd.date_range(start=start_date, periods=len_result, freq='H')
 
     # 填充列名
