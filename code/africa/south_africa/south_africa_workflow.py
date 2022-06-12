@@ -36,7 +36,7 @@ def main():
 
 def craw():
     # chrome驱动路径
-    url = 'https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-yesterday/'
+    url = 'https://www.eskom.co.za/dataportal/supply-side/station-build-up-for-the-last-7-days/'
     # 开始模拟
     chrome_options = Options()
     chrome_options.add_argument('--headless')
