@@ -22,8 +22,8 @@ def main(category):
     df_all = sum_country(country_list, category)  # 合并数据
 
     # plt.style.use('seaborn-poster')  # 图表风格
-    # plt.figure(figsize=(100, 50),dpi=200)  # 设置图表大小
-    plt.figure(figsize=(18, 24),dpi=200)  # 设置图表大小
+    plt.figure(figsize=(100, 50),dpi=200)  # 设置图表大小
+    # plt.figure(figsize=(18, 24),dpi=200)  # 设置图表大小
 
     sub_plot(df_all, country_list)  # 开始画图
 
@@ -122,11 +122,9 @@ def draw_pic(df_all, c, i):
         n += 0.4
     # plt.style.use('seaborn')
 
-    # size_num = 70
-    size_num = 18
-    plt.title(c, size=size_num)
+    plt.title(c, size=70)
     if i % 4 == 0:  # 如果能被4整除 也就是最左边一列
-        plt.ylabel('Power generated (Gwh)', size=size_num)
+        plt.ylabel('Power generated (Gwh)', size=70)
     else:
         plt.ylabel('')
 
@@ -146,12 +144,12 @@ def draw_pic(df_all, c, i):
     ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
-    plt.legend(loc='best', prop={'size': size_num})
-    # plt.yticks(size=40)
+    plt.legend(loc='best', prop={'size': 50})
+    plt.yticks(size=40)
     if i <= 7:  # 这里以后要修改
         plt.xticks(())
     else:
-        plt.xticks(size=size_num)
+        plt.xticks(size=60)
 
 
 def sub_plot(df_all, country_list):
