@@ -136,11 +136,11 @@ def draw_pic(df_all, c, i):
             y = y[:-1]
         # noinspection PyBroadException
         try:
-            plt.plot(x, y, color=af.lighten_color('orange', p), label=year_list[d])
+            plt.plot(x, y, color=af.lighten_color('orange', p), linewidth=8, label=year_list[d])
         except:  # 如果长度不一致
             len_num = len(x) - len(y)
             y = y + [None] * len_num
-            plt.plot(x, y, color=af.lighten_color('grey', p), label=year_list[d])
+            plt.plot(x, y, color=af.lighten_color('grey', p), linewidth=8, label=year_list[d])
     ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
     ax.xaxis.set_major_locator(MonthLocator())
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
