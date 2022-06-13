@@ -44,9 +44,7 @@ def craw():
         '\u3000',
         '').str.replace(
         '中电联发布', '').str.replace('图表', '').str.replace('中电联公布', '').str.replace('[(]', '', regex=True).str.replace(
-        '[)]',
-        '',
-        regex=True)
+        '[)]', '', regex=True)
     result['url'] = 'https://cec.org.cn/ms-mcms/mcms/content/detail?id=' + result['articleID'].astype(str)
     result['source'] = 'https://cec.org.cn/detail/index.html?' + result['newType'].astype(str) + '-' + result[
         'articleID'].astype(str)
@@ -148,9 +146,7 @@ def craw():
         '\u3000',
         '').str.replace(
         '中电联发布', '').str.replace('图表', '').str.replace('中电联公布', '').str.replace('[(]', '', regex=True).str.replace(
-        '[)]',
-        '',
-        regex=True)
+        '[)]', '', regex=True)
     result = result[result['basicTitle'].str.contains('年度全国电力供需形势分析预测报告')].reset_index(drop=True)
     result = result[~result['categoryName'].str.contains('新闻')].reset_index(drop=True)
 

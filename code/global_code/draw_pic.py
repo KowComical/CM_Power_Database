@@ -4,8 +4,11 @@ import pandas as pd
 import re
 import os
 from datetime import datetime
+import seaborn as sns
+sns.set()
 
 import sys
+
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
