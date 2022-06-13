@@ -4,8 +4,8 @@ import pandas as pd
 import re
 import os
 from datetime import datetime
-import seaborn as sns
-sns.set()
+# import seaborn as sns
+# sns.set()
 
 import sys
 
@@ -21,7 +21,7 @@ def main(category):
                     'United Kingdom', 'United States', 'South Africa']  # 这里以后要修改
     df_all = sum_country(country_list, category)  # 合并数据
 
-    # plt.style.use('seaborn-poster')  # 图表风格
+    plt.style.use('seaborn-poster')  # 图表风格
     plt.figure(figsize=(100, 50),dpi=200)  # 设置图表大小
     # plt.figure(figsize=(18, 24),dpi=200)  # 设置图表大小
 
