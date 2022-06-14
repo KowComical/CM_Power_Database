@@ -61,9 +61,9 @@ def process():
     df_all = df_all[
         df_all['Type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other'])].reset_index(
         drop=True)
-    df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'United Kingdom')
+    df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'UK')
     df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
-    df_all['country'] = df_all['country'].str.replace('Us', 'United States')
+    df_all['country'] = df_all['country'].str.replace('Us', 'US')
 
     df_all = pd.pivot_table(df_all, index=['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country'],
                             values='Value', columns='Type').reset_index()
@@ -75,15 +75,15 @@ def process():
     # 添加欧盟
     df_c = pd.read_csv(os.path.join(global_path, 'EU_country_list.csv'))
 
-    eu27_list = df_c['country'].tolist() + ['United Kingdom']
+    eu27_list = df_c['country'].tolist() + ['UK']
     df_eu27 = df_all[df_all['country'].isin(eu27_list)].groupby(
         ['date', 'sector']).sum().reset_index()
-    df_eu27['country'] = 'EU27&UK'
+    df_eu27['country'] = 'EU27 & UK'
     df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 
     # 只需要重要国家
     country_list = ['Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
-                    'United Kingdom', 'United States']
+                    'UK', 'US']
     df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
     df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-05-31')].reset_index(drop=True)
 
@@ -105,7 +105,8 @@ def process():
 
     df_all = df_all.drop(columns=['utc'])
     df_all['date'] = df_all['date'].dt.strftime('%d/%m/%Y')
-
+    df_all['sector'] = df_all['sector'].str.title().replace('Other', 'Other sources').replace('Hydro',
+                                                                                              'Hydroelectricity')
     df_all.to_csv(os.path.join(global_path, 'Global_PM_corT.csv'), index=False, encoding='utf_8_sig')
 
 
