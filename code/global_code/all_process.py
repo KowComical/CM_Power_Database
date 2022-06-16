@@ -83,23 +83,23 @@ except Exception as e:
 # except Exception as e:
 #     print(e)
 
-try:
-    import iea_workflow as iea
-    print('#######################')
-    print('Begin process iea...')
-    iea.main()
-    print('Finish process iea...')
-except Exception as e:
-    print(e)
-
-try:
-    import bp_workflow as bp
-    print('#######################')
-    print('Begin process bp...')
-    bp.main()
-    print('Finish process bp...')
-except Exception as e:
-    print(e)
+# try:
+#     import iea_workflow as iea
+#     print('#######################')
+#     print('Begin process iea...')
+#     iea.main()
+#     print('Finish process iea...')
+# except Exception as e:
+#     print(e)
+#
+# try:
+#     import bp_workflow as bp
+#     print('#######################')
+#     print('Begin process bp...')
+#     bp.main()
+#     print('Finish process bp...')
+# except Exception as e:
+#     print(e)
 
 import cal_ef_emission as cal
 
