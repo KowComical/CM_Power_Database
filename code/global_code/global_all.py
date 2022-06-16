@@ -553,14 +553,39 @@ def russia():
 
     # 读取raw数据并处理
     df_russia = pd.read_csv(in_path_file)
+    # 转换日期格式
+    df_russia['M_DATE'] = pd.to_datetime(df_russia['M_DATE'], format='%d.%m.%Y %H:%M:%S') + pd.to_timedelta(
+        (df_russia['INTERVAL']), unit='h')
+
+    # 校准数据
+    # 2016-01-01 ~ 2020-03-23 的所有thermal数据乘以1.8
+    index_list = df_russia[(df_russia['M_DATE'] >= '2016-01-01') & (df_russia['M_DATE'] <= '2020-03-23')].index.tolist()
+    for t in index_list:
+        df_russia.loc[t, 'P_TES'] = df_russia.loc[t, 'P_TES'] * 1.8
+    # 2016-05-01 ~ 2016-09-18 的thermal数据再乘以1.3
+    index_list = df_russia[(df_russia['M_DATE'] >= '2016-05-01') & (df_russia['M_DATE'] <= '2016-09-18')].index.tolist()
+    for t in index_list:
+        df_russia.loc[t, 'P_TES'] = df_russia.loc[t, 'P_TES'] * 1.3
+    # 2017-05-01 ~ 2017-09-18 的thermal数据再乘以1.3
+    index_list = df_russia[(df_russia['M_DATE'] >= '2017-05-01') & (df_russia['M_DATE'] <= '2017-09-18')].index.tolist()
+    for t in index_list:
+        df_russia.loc[t, 'P_TES'] = df_russia.loc[t, 'P_TES'] * 1.3
+    # 2018-05-01 ~ 2018-09-18 的thermal数据再乘以1.3
+    index_list = df_russia[(df_russia['M_DATE'] >= '2018-05-01') & (df_russia['M_DATE'] <= '2018-09-18')].index.tolist()
+    for t in index_list:
+        df_russia.loc[t, 'P_TES'] = df_russia.loc[t, 'P_TES'] * 1.3
+    # 2019-05-01 ~ 2019-09-18 的thermal数据再乘以1.3
+    index_list = df_russia[(df_russia['M_DATE'] >= '2019-05-01') & (df_russia['M_DATE'] <= '2019-09-18')].index.tolist()
+    for t in index_list:
+        df_russia.loc[t, 'P_TES'] = df_russia.loc[t, 'P_TES'] * 1.3
+
+    # 处理数据
     df_russia = df_russia.rename(
         columns={'M_DATE': 'datetime', 'P_AES': 'nuclear', 'P_GES': 'hydro', 'P_TES': 'fossil', 'P_REN': 'renewables'})
 
     df_russia['renewables'] = df_russia['renewables'] + df_russia['P_BS']  # 合并renwables
     df_russia['total.prod'] = df_russia[['nuclear', 'hydro', 'fossil', 'renewables']].sum(axis=1)  # 计算总发电
-    # 转换日期格式
-    df_russia['datetime'] = pd.to_datetime(df_russia['datetime']) + pd.to_timedelta(
-        (df_russia['INTERVAL']), unit='h')
+
     df_russia['year'] = df_russia['datetime'].dt.year
 
     df_russia['nuclear.perc'] = df_russia['nuclear'] / df_russia['total.prod']
