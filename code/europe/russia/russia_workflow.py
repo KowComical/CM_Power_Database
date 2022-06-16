@@ -28,7 +28,7 @@ def craw():
     df['P_TES'] = df['P_TES'].astype(float)
 
     # 校准数据
-    df['M_DATE'] = pd.to_datetime(df['M_DATE'], format='%d.%m.%Y 0:00:00')
+    df['M_DATE'] = pd.to_datetime(df['M_DATE'])
     # 2016-01-01 ~ 2020-03-23 的所有thermal数据乘以1.8
     index_list = df[(df['M_DATE'] >= '2016-01-01') & (df['M_DATE'] <= '2020-03-23')].index.tolist()
     for t in index_list:
