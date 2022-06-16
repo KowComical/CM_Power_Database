@@ -53,7 +53,11 @@ def craw_raw():
 
     date = []
     for t in df_iea['Time'].tolist():
-        d = datetime.strptime(t, '%b-%y')
+        # noinspection PyBroadException
+        try:
+            d = datetime.strptime(t, '%b-%y')
+        except:
+            d = datetime.strptime(t, '%B %Y')
         date.append(d.strftime('%Y-%m-%d'))
 
     df_iea['date'] = date

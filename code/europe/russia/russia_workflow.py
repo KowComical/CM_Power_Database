@@ -25,6 +25,7 @@ def craw():
     url = 'https://emres.cn/api/carbonmonitor/getRussiaPowerHourly.php'
     r = requests.get(url)
     df = pd.json_normalize(r.json())
+    df['P_TES'] = df['P_TES'].astype(float)
 
     # 校准数据
     df['M_DATE'] = pd.to_datetime(df['M_DATE'], format='%d.%m.%Y 0:00:00')
