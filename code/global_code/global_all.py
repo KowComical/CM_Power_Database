@@ -559,7 +559,7 @@ def russia():
     df_russia['renewables'] = df_russia['renewables'] + df_russia['P_BS']  # 合并renwables
     df_russia['total.prod'] = df_russia[['nuclear', 'hydro', 'fossil', 'renewables']].sum(axis=1)  # 计算总发电
     # 转换日期格式
-    df_russia['datetime'] = pd.to_datetime(df_russia['datetime'], format='%d.%m.%Y %H:%M:%S') + pd.to_timedelta(
+    df_russia['datetime'] = pd.to_datetime(df_russia['datetime']) + pd.to_timedelta(
         (df_russia['INTERVAL']), unit='h')
     df_russia['year'] = df_russia['datetime'].dt.year
 
