@@ -1,4 +1,4 @@
-﻿datetime,coal,gas,oil,nuclear,hydro,wind,solar,other,year,month,month_date,weekday,hour,date,unit
+﻿datetime,coal,wind,hydro,solar,other,oil,nuclear,gas,year,month,month_date,weekday,hour,date,unit
 2022-01-01 00:00:00,70537,52713.0,26428.0,38.0,6813.0,96482.0,112280.0,2101.0,2022,1,01-01,Saturday,0,2022-01-01,Mwh
 2022-01-01 01:00:00,72399,51622.0,26835.0,32.0,6618.0,96463.0,116277.0,2213.0,2022,1,01-01,Saturday,1,2022-01-01,Mwh
 2022-01-01 02:00:00,75492,51231.0,27915.0,236.0,7034.0,96493.0,120277.0,2301.0,2022,1,01-01,Saturday,2,2022-01-01,Mwh

@@ -1,4 +1,4 @@
-﻿datetime,coal,gas,oil,nuclear,hydro,wind,solar,other,year,month,month_date,weekday,hour,date,unit
+﻿datetime,coal,wind,hydro,solar,other,oil,nuclear,gas,year,month,month_date,weekday,hour,date,unit
 2020-01-01 00:00:00,67211,39810.0,21410.0,45.0,5949.0,95589.0,144957.0,3631.0,2020,1,01-01,Wednesday,0,2020-01-01,Mwh
 2020-01-01 01:00:00,71834,39317.0,23957.0,38.0,6048.0,95611.0,150725.0,3781.0,2020,1,01-01,Wednesday,1,2020-01-01,Mwh
 2020-01-01 02:00:00,76600,39021.0,25743.0,181.0,6148.0,95632.0,158067.0,3961.0,2020,1,01-01,Wednesday,2,2020-01-01,Mwh
