@@ -86,7 +86,7 @@ def craw_raw():
                 # df['time_zone'] = 'US/'+timeZone
                 df.to_csv(outfile, encoding='utf_8_sig')
 
-    # 处理时差问题
+    # 处理时差问题 # 目前半夜还是会有少量太阳能 是本来就是如此还是时差没调好呢？
     # 提取需要的列
     time_list = regions['delay'].tolist()
     place_list = regions['id'].tolist()
@@ -99,10 +99,8 @@ def craw_raw():
         df_temp['datetime'] = pd.to_datetime(df_temp['datetime']) + timedelta(hours=t)  # 不同时区转换为北京时间
         df_result = pd.concat([df_temp, df_result]).reset_index(drop=True)
     # data_process
-    # file_name = af.search_file(os.path.join(in_path, 'time_line'))
-    # df = pd.concat(pd.read_csv(f) for f in file_name).sort_values(by='datetime')
     df_result = df_result.groupby(['datetime']).sum().reset_index()
-    col_list = ['datetime', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']
+    col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
     df_result.columns = col_list
     df_result.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
 
