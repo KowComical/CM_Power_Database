@@ -63,25 +63,25 @@ sys.dont_write_bytecode = True
 # except Exception as e:
 #     print(e)
 #
-# try:
-#     sys.path.append('./code/n_america/')
-#     print('#######################')
-#     print('Begin process US...')
-#     import us.us_workflow as us
-#     us.main()
-#     print('Finish process US...')
-# except Exception as e:
-#     print(e)
-
 try:
-    sys.path.append('./code/s_america/')
+    sys.path.append('./code/n_america/')
     print('#######################')
-    print('Begin process Brazil...')
-    import brazil.brazil_workflow as b
-    b.main()
-    print('Finish process Brazil...')
+    print('Begin process US...')
+    import us.us_workflow as us
+    us.main()
+    print('Finish process US...')
 except Exception as e:
     print(e)
+
+# try:
+#     sys.path.append('./code/s_america/')
+#     print('#######################')
+#     print('Begin process Brazil...')
+#     import brazil.brazil_workflow as b
+#     b.main()
+#     print('Finish process Brazil...')
+# except Exception as e:
+#     print(e)
 
 # try:
 #     import iea_workflow as iea

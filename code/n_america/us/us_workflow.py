@@ -86,7 +86,7 @@ def craw_raw():
                 # df['time_zone'] = 'US/'+timeZone
                 df.to_csv(outfile, encoding='utf_8_sig')
 
-    # 处理时差问题 最理想的状态应该是写进上方爬虫里 这里图方便爬完之后再进行时差修正
+    # 处理时差问题
     # 提取需要的列
     time_list = regions['delay'].tolist()
     place_list = regions['id'].tolist()
@@ -102,7 +102,7 @@ def craw_raw():
     # file_name = af.search_file(os.path.join(in_path, 'time_line'))
     # df = pd.concat(pd.read_csv(f) for f in file_name).sort_values(by='datetime')
     df_result = df_result.groupby(['datetime']).sum().reset_index()
-    col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
+    col_list = ['datetime', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']
     df_result.columns = col_list
     df_result.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
 
