@@ -86,13 +86,25 @@ def craw_raw():
                 # df['time_zone'] = 'US/'+timeZone
                 df.to_csv(outfile, encoding='utf_8_sig')
 
-    # data_process
+    # 处理时差问题 最理想的状态应该是写进上方爬虫里 这里图方便爬完之后再进行时差修正
+    # 提取需要的列
+    time_list = regions['delay'].tolist()
+    place_list = regions['id'].tolist()
+    # 修改时差到北京时间
     file_name = af.search_file(os.path.join(in_path, 'time_line'))
-    df = pd.concat(pd.read_csv(f) for f in file_name).sort_values(by='datetime')
-    df = df.groupby(['datetime']).sum().reset_index()
+    df_result = pd.DataFrame()
+    for u, t in zip(place_list, time_list):
+        time_name = [file_name[i] for i, x in enumerate(file_name) if x.find(u) != -1]  # 按照地区不同分别处理
+        df_temp = pd.concat([pd.read_csv(f) for f in time_name]).reset_index(drop=True)
+        df_temp['datetime'] = pd.to_datetime(df_temp['datetime']) + timedelta(hours=t)  # 不同时区转换为北京时间
+        df_result = pd.concat([df_temp, df_result]).reset_index(drop=True)
+    # data_process
+    # file_name = af.search_file(os.path.join(in_path, 'time_line'))
+    # df = pd.concat(pd.read_csv(f) for f in file_name).sort_values(by='datetime')
+    df_result = df_result.groupby(['datetime']).sum().reset_index()
     col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
-    df.columns = col_list
-    df.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
+    df_result.columns = col_list
+    df_result.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
 
 
 if __name__ == '__main__':

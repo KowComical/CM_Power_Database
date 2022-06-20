@@ -1,14 +1,14 @@
-﻿id,name,type,time_zone
-CENT,Central,ER,Central
-MIDW,Midwest,ER,Eastern
-CAL,California,ER,Pacific
-FLA,Florida,ER,Eastern
-NW,Northwest,ER,Mountain
-SW,Southwest,ER,Arizona
-MIDA,Mid-Atlantic,ER,Eastern
-CAR,Carolinas,ER,Eastern
-SE,Southeast,ER,Central
-NE,New England,ER,Eastern
-NY,New York,ER,Eastern
-TEN,Tennessee,ER,Central
-TEX,Texas,ER,Central
+﻿id,name,type,time_zone,UTC,delay
+CENT,Central,ER,Central,UTC - 6,14
+MIDW,Midwest,ER,Eastern,UTC - 5,13
+CAL,California,ER,Pacific,UTC - 8,16
+FLA,Florida,ER,Eastern,UTC - 5,13
+NW,Northwest,ER,Mountain,UTC - 7,15
+SW,Southwest,ER,Arizona,UTC - 7,15
+MIDA,Mid-Atlantic,ER,Eastern,UTC - 5,13
+CAR,Carolinas,ER,Eastern,UTC - 5,13
+SE,Southeast,ER,Central,UTC - 6,14
+NE,New England,ER,Eastern,UTC - 5,13
+NY,New York,ER,Eastern,UTC - 5,13
+TEN,Tennessee,ER,Central,UTC - 6,14
+TEX,Texas,ER,Central,UTC - 6,14
