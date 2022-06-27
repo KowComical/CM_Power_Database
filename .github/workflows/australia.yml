@@ -1,4 +1,4 @@
-name: all_workflow
+name: australia
 'on':
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
