@@ -21,6 +21,9 @@ sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
 
+in_path = './data/n_america/us/craw/'
+out_path = './data/n_america/us/raw/'
+
 
 def main():
     # 爬虫+数据预处理
@@ -32,8 +35,6 @@ def main():
 
 
 def craw_raw():
-    in_path = './data/n_america/us/craw/'
-    out_path = './data/n_america/us/raw/'
     startDate = (datetime.today().replace(day=1) - timedelta(days=1)).strftime("%Y%m") + '01'  # 上月第一天 间隔起码一个月
     endDate = datetime.now().strftime('%Y%m%d')
     interval = 'hourly'
