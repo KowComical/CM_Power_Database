@@ -19,7 +19,6 @@ jobs:
           pip install pandas
           pip install requests
           pip install requests_toolbelt
-          pip install jsonpath
       - name: process data
         run: python ./code/oceania/australia/australia_craw.py
       - name: commit and push if it changed
