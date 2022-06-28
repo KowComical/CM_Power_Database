@@ -47,7 +47,7 @@ def craw():
     # 合并新旧数据并删除重复部分
     df_result = pd.concat([df_old, df]).reset_index(drop=True)
     df_result['datetime'] = pd.to_datetime(df_result['datetime'])
-    df_result = df_result[~df_result.duplicated(['datetime'])]  # 删除重复的部分
+    df_result = df_result[~df_result.duplicated(['datetime', 'type', 'network', 'region'])]  # 删除重复的部分
     df_result.to_csv(in_path_file, index=False, encoding='utf_8_sig')
 
 
