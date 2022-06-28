@@ -766,3 +766,78 @@ def south_africa():
         df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
         af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
                name='South_Africa_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
+
+
+def australia():
+    # 路径
+    file_path = os.path.join(global_path, 'oceania', 'australia')
+    in_path = os.path.join(file_path, 'raw')
+    out_path_simulated = af.create_folder(file_path, 'simulated')
+    in_path_file = os.path.join(in_path, 'raw_data.csv')
+
+    df = pd.read_csv(in_path_file)
+    # 将能源类型分类并重新命名
+    # coal
+    coal_list = ['coal_brown', 'coal_black']
+    # gas
+    gas_list = ['gas_ccgt', 'gas_ocgt', 'gas_wcmg', 'gas_recip', 'gas_steam']
+    # oil
+    oil_list = ['distillate']
+    # nuclear 暂无
+    # wind
+    wind_list = ['wind']
+    # solar
+    solar_list = ['solar_rooftop', 'solar_utility']
+    # hydro
+    hydro_list = ['hydro']
+    # other #存疑
+    other_list = ['battery_charging', 'battery_discharging', 'bioenergy_biomass', 'pumps', 'bioenergy_biogas']
+
+    for c in coal_list:
+        df['type'] = df['type'].replace(c, 'coal')
+    for c in gas_list:
+        df['type'] = df['type'].replace(c, 'gas')
+    for c in oil_list:
+        df['type'] = df['type'].replace(c, 'oil')
+    for c in wind_list:
+        df['type'] = df['type'].replace(c, 'wind')
+    for c in solar_list:
+        df['type'] = df['type'].replace(c, 'solar')
+    for c in hydro_list:
+        df['type'] = df['type'].replace(c, 'hydro')
+    for c in other_list:
+        df['type'] = df['type'].replace(c, 'other')
+    df = df.groupby(['datetime', 'type']).sum().reset_index()  # 汇总
+
+    df['datetime'] = pd.to_datetime(df['datetime'])
+    # 列转行
+    df = pd.pivot_table(df, index='datetime', values='data', columns='type').reset_index().drop(
+        columns=['exports', 'imports'])
+    df = df.set_index('datetime').resample('h').mean().reset_index()  # 按小时集合
+    df['nuclear'] = 0
+
+    af.time_info(df, 'datetime')  # 日期
+    # 将所有小于0的值变为0
+    for c in df.columns:
+        if df[c].dtypes == float:
+            df.loc[df[df[c] < 0].index, [c]] = 0
+    # 输出
+    for y in df['year'].drop_duplicates().tolist():
+        df_hourly = df[df['year'] == y].reset_index(drop=True).fillna(0)
+        df_daily = df_hourly.copy()
+        df_monthly = df_hourly.copy()
+        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+        # hourly
+        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+               name='Australia_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
+        # daily
+        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+               name='Australia_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
+        # #############################################monthly###############################################
+        # monthly
+        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+               name='Australia_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
+
+        requests.get()

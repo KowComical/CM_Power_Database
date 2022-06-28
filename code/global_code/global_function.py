@@ -612,3 +612,5 @@ def forcasting():
         df_monthly = df_monthly.set_index('date').resample('m').sum().reset_index()
         agg(df_monthly, 'date', out_path_simulated_yearly, 'monthly',
             name='China_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
+
+

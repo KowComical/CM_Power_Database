@@ -3,8 +3,8 @@ import pandas as pd
 import os
 
 # 路径
-in_path = './data/oceania/australia/craw/'
-in_path_file = os.path.join(in_path, 'craw_data.csv')
+in_path = './data/oceania/australia/raw/'
+in_path_file = os.path.join(in_path, 'raw_data.csv')
 
 
 def main():

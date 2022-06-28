@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import re
 import os
 
@@ -8,6 +9,10 @@ sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
 import global_function as af
 
+data_path = './data/'
+global_path = os.path.join(data_path, 'global')
+cm_path = os.path.join(data_path, '#global_rf')
+
 
 def main():
     cal_ef()
@@ -15,9 +20,6 @@ def main():
 
 
 def sum_country():
-    data_path = './data/'
-    global_path = os.path.join(data_path, 'global')
-
     file_name = af.search_file(data_path)
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
@@ -45,22 +47,8 @@ def sum_country():
         df_temp['country'] = c.capitalize()
         df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
-    # 处理
     df_emission = df_all.copy()
-    for x in df_all.columns.tolist():
-        # noinspection PyBroadException
-        try:
-            df_all[x] = df_all[x].astype(float)
-        except:
-            pass
-    af.time_info(df_all, 'date')
-
-    df_all = df_all.set_index(
-        ['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country']).stack().reset_index().rename(
-        columns={'level_7': 'type', 0: 'value'})
-    df_all = df_all[
-        df_all['type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other'])].reset_index(
-        drop=True)
+    df_all = df_all[['date', 'coal', 'gas', 'oil', 'country']]
     df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'United Kingdom')
     df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
     df_all['country'] = df_all['country'].str.replace('Us', 'United States')
@@ -74,22 +62,18 @@ def sum_country():
     df_eu27['country'] = 'EU27&UK'
     df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 
-    df_all = df_all.groupby(['country', 'year', 'type']).sum().reset_index().drop(columns=['month'])
-
-    # 只要主要国家
-    country_list = ['Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
-                    'United Kingdom', 'United States']
-    df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
-    # 只要火电
-    type_list = ['coal', 'gas', 'oil']
-    df_all = df_all[df_all['type'].isin(type_list)].reset_index(drop=True)
-    #  只要19年到22年3月的数据
+    #  只要19年的数据
+    df_all['date'] = pd.to_datetime(df_all['date'])
+    df_all['year'] = df_all['date'].dt.year
     df_all = df_all[df_all['year'] == 2019].reset_index(drop=True)
+    df_all = df_all.groupby(['year', 'country']).sum().reset_index()
+    # 行转列
+    df_all = df_all.set_index(['year', 'country']).stack().reset_index().rename(columns={'level_2': 'type', 0: 'value'})
+    df_all['value'] = df_all['value'].astype(float)
     return df_all, df_emission, eu27_list
 
 
 def cal_ef():
-    data_path = './data/'
     ef_path = os.path.join(data_path, 'ef')
     df_all = sum_country()[0]
     # 读取IPCC排放因子
@@ -106,6 +90,11 @@ def cal_ef():
 
     # 读取zd数据
     df_zd = pd.read_csv(os.path.join(ef_path, 'Power-ZD.csv'))
+    # 统一国家
+    country_list = df_zd['country'].tolist()
+    df_power = df_power[df_power['country'].isin(country_list)].reset_index(drop=True)
+    df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
+
     df_all = pd.merge(df_all, df_zd)
     df_all['thermal_factor'] = df_all['Power-ZD'] / df_all['thermal-emission']
 
@@ -124,10 +113,6 @@ def cal_ef():
 
 
 def cal_emission():
-    data_path = './data/'
-    cm_path = os.path.join(data_path, '#global_rf')
-    global_path = os.path.join(data_path, 'global')
-
     df_emission = sum_country()[1]
     eu27_list = sum_country()[2]
     df_ef = cal_ef()
