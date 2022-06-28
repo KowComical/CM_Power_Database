@@ -29,7 +29,7 @@ def craw():
         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
             os.mkdir(out_path)
         for d in data_range:
-            params_data = {'month': pd.to_datetime(d).strftime('%Y-%m')}
+            params_data = {'month': pd.to_datetime(d).strftime('%Y-%m-%d')}
             # 如果已爬取则略过
             d_name = pd.to_datetime(d).strftime('%Y-%m')
             exist_name = os.path.join(file_path, r, '%s.csv' % d_name)
