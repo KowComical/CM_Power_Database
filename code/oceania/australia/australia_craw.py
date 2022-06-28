@@ -36,33 +36,33 @@ def craw():
             if exist_name not in all_file:
                 try:
                     r = requests.get(url, params=params_data, timeout=30)
+                    result = pd.json_normalize(r.json(), record_path='data')
+                    result = result[result['type'] == 'power'].reset_index(drop=True)
+
+                    type_list = result['fuel_tech'].tolist()
+                    df = pd.DataFrame()
+                    for t in type_list:
+                        temp = result[result['fuel_tech'] == t].reset_index(drop=True)
+                        if temp['history.interval'][0] == '5m':  # 时间区间分为5分钟和30分钟不等 solar是30分钟
+                            freq = '5min'
+                        else:
+                            freq = '30min'
+                        start_time = pd.to_datetime(temp['history.start'][0]).strftime('%Y-%m-%d %H:%M:%S')
+                        end_time = pd.to_datetime(temp['history.last'][0]).strftime('%Y-%m-%d %H:%M:%S')
+                        date_range = pd.date_range(start=start_time, end=end_time, freq=freq)
+                        data = temp['history.data'][0]  # 数据
+                        df_temp = pd.DataFrame(data, date_range, columns=['data'])
+                        df_temp['type'] = t  # 能源类型
+                        df_temp['unit'] = temp['units'][0]  # 单位
+                        df_temp['network'] = temp['network'][0]  # 地区
+                        df_temp['region'] = temp['region'][0]  # 州
+                        df = pd.concat([df, df_temp])
+                    df = df.reset_index().rename(columns={'index': 'datetime'})
+                    # 输出
+                    df.to_csv(os.path.join(out_path, '%s.csv' % d_name), index=False, encoding='utf_8_sig')
+                    time.sleep(5)
                 except Exception as e:
                     print(e)
-                result = pd.json_normalize(r.json(), record_path='data')
-                result = result[result['type'] == 'power'].reset_index(drop=True)
-
-                type_list = result['fuel_tech'].tolist()
-                df = pd.DataFrame()
-                for t in type_list:
-                    temp = result[result['fuel_tech'] == t].reset_index(drop=True)
-                    if temp['history.interval'][0] == '5m':  # 时间区间分为5分钟和30分钟不等 solar是30分钟
-                        freq = '5min'
-                    else:
-                        freq = '30min'
-                    start_time = pd.to_datetime(temp['history.start'][0]).strftime('%Y-%m-%d %H:%M:%S')
-                    end_time = pd.to_datetime(temp['history.last'][0]).strftime('%Y-%m-%d %H:%M:%S')
-                    date_range = pd.date_range(start=start_time, end=end_time, freq=freq)
-                    data = temp['history.data'][0]  # 数据
-                    df_temp = pd.DataFrame(data, date_range, columns=['data'])
-                    df_temp['type'] = t  # 能源类型
-                    df_temp['unit'] = temp['units'][0]  # 单位
-                    df_temp['network'] = temp['network'][0]  # 地区
-                    df_temp['region'] = temp['region'][0]  # 州
-                    df = pd.concat([df, df_temp])
-                df = df.reset_index().rename(columns={'index': 'datetime'})
-                # 输出
-                df.to_csv(os.path.join(out_path, '%s.csv' % d_name), index=False, encoding='utf_8_sig')
-                time.sleep(5)
 
 
 if __name__ == '__main__':
