@@ -37,7 +37,7 @@ def craw():
             d_name = pd.to_datetime(d).strftime('%Y-%m')
             exist_name = os.path.join(file_path, r, '%s.csv' % d_name)
             if exist_name not in all_file:
-                r_t = requests.get(url, params=params_data, timeout=30)
+                r_t = requests.get(url, params=params_data, timeout=120)
                 result = pd.json_normalize(r_t.json(), record_path='data')
                 result = result[result['type'] == 'power'].reset_index(drop=True)
 
