@@ -35,7 +35,7 @@ def craw():
             exist_name = os.path.join(file_path, r, '%s.csv' % d_name)
             if exist_name not in all_file:
                 try:
-                    r = requests.get(url, params=params_data, timeout=10)
+                    r = requests.get(url, params=params_data, timeout=30)
                 except Exception as e:
                     print(e)
                 result = pd.json_normalize(r.json(), record_path='data')
