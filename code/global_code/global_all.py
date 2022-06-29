@@ -663,8 +663,17 @@ def china():
     out_path_simulated = af.create_folder(file_path, 'simulated')
 
     # 获取daily数据
-    url = 'http://emres.cn/api/carbonmonitor/getChinaCoalConsumption.php'
+    url = 'https://emres.cn/api/carbonmonitor/getChinaCoalConsumption.php'
     df_daily = pd.DataFrame(requests.get(url).json()['data']).reset_index(drop=True)
+    # 读取旧数据
+    df_old = pd.read_csv(os.path.join(in_path, 'daily.csv'))
+    # 合并新旧数据
+    df_daily = pd.concat([df_daily, df_old]).reset_index(drop=True)
+    # 去除重复的日期
+    df_daily = df_daily[~df_daily.duplicated(['Date'])]
+    # 输出备用
+    df_daily.to_csv(os.path.join(in_path, 'daily.csv'), index=False, encoding='utf_8_sig')
+    # 处理数据
     df_daily['Date'] = pd.to_datetime(df_daily['Date'])
     df_daily['year'] = df_daily['Date'].dt.year
     df_daily['month'] = df_daily['Date'].dt.month
