@@ -682,6 +682,7 @@ def china():
 
     # 获取raw数据
     file_name = af.search_file(in_path)
+    file_name = [file_name[i] for i, x in enumerate(file_name) if not x.find('daily') != -1]
     df = pd.concat([pd.read_csv(f) for f in file_name])
 
     df['fossil_other'] = df[['fossil', 'other']].sum(axis=1)
