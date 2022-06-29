@@ -1,7 +1,7 @@
 name: australia_craw
 'on':
   schedule:
-    - cron: '*/15 * * *'
+    - cron: '*/15 * * 0/0'
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
   craw_process_bot:
