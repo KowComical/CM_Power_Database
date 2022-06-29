@@ -57,8 +57,7 @@ def sum_country():
     df_c = pd.read_csv(os.path.join(global_path, 'EU_country_list.csv'))
 
     eu27_list = df_c['country'].tolist() + ['United Kingdom']
-    df_eu27 = df_all[df_all['country'].isin(eu27_list)].groupby(
-        ['date', 'type']).sum().reset_index()
+    df_eu27 = df_all[df_all['country'].isin(eu27_list)].groupby(['date']).sum().reset_index()
     df_eu27['country'] = 'EU27&UK'
     df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 

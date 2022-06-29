@@ -101,9 +101,11 @@ try:
 except Exception as e:
     print(e)
 
-import cal_ef_emission as cal
-
-cal.main()
+try:
+    import cal_ef_emission as cal
+    cal.main()
+except Exception as e:
+    print(e)
 
 # 输出图
 print('#######################')

@@ -30,30 +30,13 @@ def main():
 
 
 def craw():
-    url = 'https://cec.org.cn/ms-mcms/mcms/content/search'
+    url = 'https://cec.org.cn/ms-mcms/mcms/content/list?id=303&pageNumber=1&pageSize=10'  # 新月份新闻地址 年份的照旧
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) ''AppleWebKit/605.1.15 (KHTML, like Gecko) ''Version/12.0 Safari/605.1.15'}
-    keyvalue = {'keyword': '月份电力工业运行简况', 'pageNumber': 1, 'pageSize': 200}
 
-    s = requests.session()
-    r = s.get(url, params=keyvalue, headers=headers, verify=False)
+    r = requests.get(url, headers=headers)
     result = pd.json_normalize(r.json()['data']['list'])  # 将结果保留到df
-    # 数据预处理
-    result['basicTitle'] = result['basicTitle'].str.replace('</span>', '').str.replace('<span>', '').str.replace(
-        '\u3000',
-        '').str.replace(
-        '中电联发布', '').str.replace('图表', '').str.replace('中电联公布', '').str.replace('[(]', '', regex=True).str.replace(
-        '[)]', '', regex=True)
-    result['url'] = 'https://cec.org.cn/ms-mcms/mcms/content/detail?id=' + result['articleID'].astype(str)
-    result['source'] = 'https://cec.org.cn/detail/index.html?' + result['newType'].astype(str) + '-' + result[
-        'articleID'].astype(str)
-    result = result[['basicTitle', 'url', 'source']]  # 只保留需要的列
-    result = result[~result.duplicated(['basicTitle'])].reset_index(drop=True)  # 删除重复的新闻
-    # 筛选有用的新闻数据
-    result_list = result['basicTitle'].tolist()
-    result_list = [result_list[i] for i, x in enumerate(result_list) if x.find('月份电力工业运行简况') != -1]
-    result = result[result['basicTitle'].isin(result_list)].reset_index(drop=True)
 
     date = []
     year = re.compile(r'\d{4}', re.S)  # 只保留四位数字 也就是年份
@@ -79,7 +62,7 @@ def craw():
 
     # 抓取数据
     title_list = result['date'].tolist()
-    url_list = result['url'].tolist()
+    url_list = result['articleID'].tolist()
     source_list = result['source'].tolist()
 
     sector_list = ['水电', '火电', '燃煤发电', '燃气发电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
@@ -90,7 +73,9 @@ def craw():
 
     # 开始爬取
     for t, u, s in zip(title_list, url_list, source_list):
-        r = requests.get(u, headers=headers, verify=False)
+        child_url = 'https://cec.org.cn/ms-mcms/mcms/content/detail?id=%s' % u
+        source = 'https://cec.org.cn/detail/index.html?%s-%s' % (s, u)
+        r = requests.get(child_url, headers=headers, verify=False)
         text = r.json()['data']['articleContent']
 
         # 发电
@@ -112,7 +97,7 @@ def craw():
                 sector.append(se)
         df_power = pd.concat([pd.DataFrame(data, columns=['power']), pd.DataFrame(sector, columns=['sector'])],
                              axis=1)
-        df_power['source'] = s
+        df_power['source'] = source
         df_power['date'] = t
         df_power.to_csv(os.path.join(out_path, 'power', '%s.csv' % t), encoding='utf_8_sig', index=False)
         df_power_all = pd.concat([df_power_all, df_power]).reset_index(drop=True)
@@ -132,7 +117,7 @@ def craw():
                 pass
         df_hour = pd.concat([pd.DataFrame(data, columns=['hour']), pd.DataFrame(sector, columns=['sector'])],
                             axis=1)
-        df_hour['source'] = s
+        df_hour['source'] = source
         df_hour['date'] = t
         df_hour.to_csv(os.path.join(out_path, 'hour', '%s.csv' % t), encoding='utf_8_sig', index=False)
         df_hour_all = pd.concat([df_hour_all, df_hour]).reset_index(drop=True)
