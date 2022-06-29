@@ -839,5 +839,3 @@ def australia():
         df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
         af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
                name='Australia_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
-
-        requests.get()
