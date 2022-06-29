@@ -670,7 +670,7 @@ def china():
     # 合并新旧数据
     df_daily = pd.concat([df_daily, df_old]).reset_index(drop=True)
     # 去除重复的日期
-    df_daily = df_daily[~df_daily.duplicated(['Date'])]
+    df_daily = df_daily[~df_daily.duplicated(['Date'])].reset_index(drop=True)
     # 输出备用
     df_daily.to_csv(os.path.join(in_path, 'daily.csv'), index=False, encoding='utf_8_sig')
     # 处理数据
