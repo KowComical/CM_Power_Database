@@ -96,14 +96,16 @@ def cal_ef():
 
     df_all = pd.merge(df_all, df_zd)
     df_all['thermal_factor'] = df_all['Power-ZD'] / df_all['thermal-emission']
+    # 为inf的全改为0
+    df_all['thermal_factor'] = df_all['thermal_factor'].replace(np.inf, 1)
 
     df_all['coal_new'] = df_all['coal'] * df_all['thermal_factor']
     df_all['gas_new'] = df_all['gas'] * df_all['thermal_factor']
     df_all['oil_new'] = df_all['oil'] * df_all['thermal_factor']
 
-    df_all['coal'] = df_all['coal_new'] / df_power['coal'] * 1000000
-    df_all['gas'] = df_all['gas_new'] / df_power['gas'] * 1000000
-    df_all['oil'] = df_all['oil_new'] / df_power['oil'] * 1000000
+    df_all['coal'] = (df_all['coal_new'] / df_power['coal'] * 1000000).replace(np.inf, 0).replace(np.nan, 0)
+    df_all['gas'] = (df_all['gas_new'] / df_power['gas'] * 1000000).replace(np.inf, 0).replace(np.nan, 0)
+    df_all['oil'] = (df_all['oil_new'] / df_power['oil'] * 1000000).replace(np.inf, 0).replace(np.nan, 0)
 
     df_ef = df_all[['country', 'coal', 'gas', 'oil']]
     df_ef = df_ef.set_index(['country']).stack().reset_index().rename(columns={'level_1': 'type', 0: 'ef'})

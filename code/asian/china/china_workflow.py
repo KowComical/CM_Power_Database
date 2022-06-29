@@ -63,7 +63,7 @@ def craw():
     # 抓取数据
     title_list = result['date'].tolist()
     url_list = result['articleID'].tolist()
-    source_list = result['source'].tolist()
+    source_list = result['newType'].tolist()
 
     sector_list = ['水电', '火电', '燃煤发电', '燃气发电', '核电', '风电', '太阳能发电', '生物质发电', '地热发电']
 
