@@ -670,6 +670,7 @@ def china():
     # 合并新旧数据
     df_daily = pd.concat([df_daily, df_old]).reset_index(drop=True)
     # 去除重复的日期
+    df_daily['Date'] = pd.to_datetime(df_daily['Date'])
     df_daily = df_daily[~df_daily.duplicated(['Date'])].reset_index(drop=True)
     # 输出备用
     df_daily.to_csv(os.path.join(in_path, 'daily.csv'), index=False, encoding='utf_8_sig')
@@ -709,7 +710,7 @@ def china():
     df_new = df_new.sort_values(by='Date').reset_index(drop=True).rename(columns={'Date': 'date'})
 
     for y in df_new['year'].drop_duplicates().tolist():
-        df_temp = df_new[df_new['year'] == y]
+        df_temp = df_new[df_new['year'] == y].reset_index(drop=True)
         df_monthly = df_temp.copy()
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
         # daily

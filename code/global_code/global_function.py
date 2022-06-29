@@ -445,7 +445,7 @@ def forcasting():
     file_name = search_file(file_path)
     # file_name = [file_name[i] for i, x in enumerate(file_name) if x.find(country) != -1]  # 选到所要的国家
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]  # 选到所要的分辨率
-    # file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
+    file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
 
     df = pd.concat([pd.read_csv(f) for f in file_name]).reset_index(drop=True)
     # 先暂时只用daily 后面如果有需要再改
@@ -602,7 +602,7 @@ def forcasting():
 
     # 输出
     for y in df_result['year'].drop_duplicates().tolist():
-        df_temp = df_result[df_result['year'] == y]
+        df_temp = df_result[df_result['year'] == y].reset_index(drop=True)
         df_monthly = df_temp.copy()
         out_path_simulated_yearly = create_folder(out_path_simulated, str(y))
         # daily
