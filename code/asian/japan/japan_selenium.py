@@ -81,7 +81,6 @@ def japan_selenium():
               'C:\\1.csv')
 
     df = pd.read_csv('C:\\1.csv', encoding='shift-jis')
-    print(df)
     df.to_csv(os.path.join(out_path, '%s' % '202204_10.csv'), encoding='shift-jis')
 
     wd.quit()
