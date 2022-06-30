@@ -30,6 +30,7 @@ jobs:
           pip install selenium
           pip install webdriver-manager
           pip install seaborn
+          pip install pyautogui
       - name: process data
         run: python ./code/global_code/auto_upload.py
       - name: commit and push if it changed
