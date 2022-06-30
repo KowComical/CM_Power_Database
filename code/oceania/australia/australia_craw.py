@@ -12,6 +12,7 @@ file_path = './data/oceania/australia/craw/'
 
 region_list = ['NEM/NSW1', 'NEM/QLD1', 'NEM/SA1', 'NEM/TAS1', 'NEM/VIC1', 'WEM']
 data_range = pd.date_range(start='1999-01', end='2022-07', freq='1M')
+headers = {'Connection': 'close'}
 
 # 所有已爬取的
 all_file = af.search_file(file_path)
@@ -37,7 +38,7 @@ def craw():
             d_name = pd.to_datetime(d).strftime('%Y-%m')
             exist_name = os.path.join(file_path, r, '%s.csv' % d_name)
             if exist_name not in all_file:
-                r_t = requests.get(url, params=params_data, timeout=60)
+                r_t = requests.get(url, params=params_data, timeout=60, verify=False, headers=headers)
                 result = pd.json_normalize(r_t.json(), record_path='data')
                 result = result[result['type'] == 'power'].reset_index(drop=True)
 
