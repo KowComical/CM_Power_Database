@@ -27,7 +27,7 @@ def main():
 def craw():
     for r in region_list:
         url = 'https://api.opennem.org.au/stats/power/network/fueltech/%s' % r
-        r = r.replace('/', '_')
+        r = r.replace('/', '_')  # windows文件名不能有斜杠 所以要转为下划线
         out_path = os.path.join(file_path, r)
         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
             os.mkdir(out_path)
