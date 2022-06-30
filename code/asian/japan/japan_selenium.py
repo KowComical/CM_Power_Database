@@ -7,8 +7,8 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 import sys
+sys.getdefaultencoding()
 sys.dont_write_bytecode = True
-sys.setdefaultencoding('UTF8')
 import time
 # import re
 import os
