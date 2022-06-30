@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 import time
 import sys
-import re
+# import re
 import os
 import pandas as pd
 
@@ -29,13 +29,13 @@ def japan_selenium():
     prefs = {'download.default_directory': download_path}
     c_options.add_experimental_option('prefs', prefs)
 
-    # 判断是否更新了新的文件需要下载
-    file_name = af.search_file(out_path)
-
-    name = re.compile(r'month/(?P<name>.*?)_', re.S)  # 从路径找出国家
-    date = [name.findall(f)[0] for f in file_name]
-    date = max(date)
-    max_date = '%s年%s月' % (date[:4], int(date[-2:]))
+    # # 判断是否更新了新的文件需要下载
+    # file_name = af.search_file(out_path)
+    #
+    # name = re.compile(r'month/(?P<name>.*?)_', re.S)  # 从路径找出国家
+    # date = [name.findall(f)[0] for f in file_name]
+    # date = max(date)
+    # max_date = '%s年%s月' % (date[:4], int(date[-2:]))
     # 设置下个月的文件名
     # next_date = pd.to_datetime(date, format='%Y%m') + relativedelta(months=1)
     # next_date = next_date.strftime('%Y%m')
@@ -63,7 +63,7 @@ def japan_selenium():
     wd.find_element(By.ID, 'searchBtn').click()
 
     # 如果要下载的月份文件已经存在了 则pass
-    test = wd.find_element(By.ID, 'table3_rows_0__infNm')
+    # test = wd.find_element(By.ID, 'table3_rows_0__infNm')
     # if max_date in test.text:
     #     print('还未更新')
     # else:
