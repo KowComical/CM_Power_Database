@@ -4,16 +4,16 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-import time
 import sys
+sys.dont_write_bytecode = True
+
+import time
 # import re
 import os
 import pandas as pd
 
-sys.dont_write_bytecode = True
-
-sys.path.append('./code/')
-from global_code import global_function as af
+import logging
+logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
 
 
 def main():
@@ -25,7 +25,6 @@ def japan_selenium():
     c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
     download_path = 'C:\\'
-    download_path = af.create_folder(download_path, 'kow')
     prefs = {'download.default_directory': download_path}
     c_options.add_experimental_option('prefs', prefs)
 
@@ -76,10 +75,12 @@ def japan_selenium():
     time.sleep(30)
 
     # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
-    file = '202204_10エリア計.csv'
-    file = file.encode().decode()
+    # file = '202204_10エリア計.csv'
+    # file = file.encode().decode()
+    os.rename('C:\\202204_10エリア計.csv',
+              'C:\\1.csv')
 
-    df = pd.read_csv(download_path+file, encoding='shift-jis')
+    df = pd.read_csv('C:\\1.csv', encoding='shift-jis')
     print(df)
     df.to_csv(os.path.join(out_path, '%s' % '202204_10.csv'), encoding='shift-jis')
 
