@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -6,7 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 import sys
 sys.dont_write_bytecode = True
-
+sys.setdefaultencoding('UTF8')
 import time
 # import re
 import os
@@ -75,12 +77,9 @@ def japan_selenium():
     time.sleep(30)
 
     # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
-    # file = '202204_10エリア計.csv'
-    # file = file.encode().decode()
-    os.rename('C:\\202204_10エリア計.csv',
-              'C:\\1.csv')
+    file = '202204_10エリア計.csv'
 
-    df = pd.read_csv('C:\\1.csv', encoding='shift-jis')
+    df = pd.read_csv(download_path+file, encoding='shift-jis')
     df.to_csv(os.path.join(out_path, '%s' % '202204_10.csv'), encoding='shift-jis')
 
     wd.quit()
