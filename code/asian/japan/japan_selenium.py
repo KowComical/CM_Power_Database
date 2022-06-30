@@ -9,7 +9,6 @@ import sys
 import re
 import os
 import pandas as pd
-# from dateutil.relativedelta import relativedelta
 
 sys.dont_write_bytecode = True
 
@@ -65,21 +64,20 @@ def japan_selenium():
 
     # 如果要下载的月份文件已经存在了 则pass
     test = wd.find_element(By.ID, 'table3_rows_0__infNm')
-    if max_date in test.text:
-        print('还未更新')
-    else:
-        print('start download...')
-        wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
-        time.sleep(10)
-        # 找到确认下载并点击确认
-        confirm_text = 'ui-button-text'
-        wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
-        time.sleep(30)
+    # if max_date in test.text:
+    #     print('还未更新')
+    # else:
+    print('start download...')
+    wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
+    time.sleep(10)
+    # 找到确认下载并点击确认
+    confirm_text = 'ui-button-text'
+    wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
+    time.sleep(30)
 
-        # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
-        csv_name = af.search_file(download_path)[0]
-        df = pd.read_csv(os.path.join(download_path, '%s' % csv_name), encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, '%s' % csv_name), encoding='shift-jis')
+    # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
+    df = pd.read_csv('C:\\202204_10エリア計.csv', encoding='shift-jis')
+    df.to_csv(os.path.join(out_path, '%s' % '202204_10.csv'), encoding='shift-jis')
 
     wd.quit()
 
