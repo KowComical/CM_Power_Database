@@ -23,7 +23,7 @@ def main():
 def download():
     url = 'https://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html'
     r = requests.get(url)
-    path = re.compile(r'<a class="nr-linkcta__link-list-anchor" target="_blank" href="(?P<in_path>.*?)">', re.S)
+    path = re.compile(r'<a class="nr-linkcta__dropdown-anchor" target="_blank" href="(?P<in_path>.*?)">', re.S)
 
     file_name = path.findall(r.text)
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('xlsx') != -1][0]  # 筛选需要的下载地址
