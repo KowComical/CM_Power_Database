@@ -62,7 +62,7 @@ def craw():
                 df = df.reset_index().rename(columns={'index': 'datetime'})
                 # 输出
                 df.to_csv(os.path.join(out_path, '%s.csv' % d_name), index=False, encoding='utf_8_sig')
-                time.sleep(5)
+                time.sleep(15)
 
 
 if __name__ == '__main__':
