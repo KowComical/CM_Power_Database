@@ -3,7 +3,7 @@ name: auto_upload
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
   craw_process_bot:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: check_code
         uses: actions/checkout@master

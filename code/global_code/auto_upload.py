@@ -6,8 +6,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import sys
 
-import os
-os.environ['DISPLAY'] = ':0'
 import pyautogui
 
 sys.dont_write_bytecode = True
