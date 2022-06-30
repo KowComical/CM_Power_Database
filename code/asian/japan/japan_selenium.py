@@ -77,6 +77,7 @@ def japan_selenium():
 
     # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
     df = pd.read_csv('C:\\202204_10エリア計.csv', encoding='shift-jis')
+    print(df)
     df.to_csv(os.path.join(out_path, '%s' % '202204_10.csv'), encoding='shift-jis')
 
     wd.quit()
