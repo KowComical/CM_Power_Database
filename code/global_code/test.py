@@ -32,7 +32,7 @@ driver.find_element(By.XPATH, "//a[@data-source='energy_global']").click()  # ç‚
 time.sleep(5)
 driver.find_element(By.XPATH, "//a[@class='row_downloadbt']").click()
 
-#
+time.sleep(5)
 file_name = af.search_file(download_path)
 file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('energy_global_datas') != -1]
 file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
