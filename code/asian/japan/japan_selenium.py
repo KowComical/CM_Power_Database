@@ -81,13 +81,14 @@ def japan_selenium():
         confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         print('start download...')
-        time.sleep(30)
+        time.sleep(60)
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
         # file = af.search_file(download_path)
         # file = [file[i] for i, x in enumerate(file) if x.find(next_date) != -1]
         # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
         for filename in os.listdir(download_path):
+            print(filename)
             if filename.startswith(next_date):
                 try:
                     print('1')
@@ -107,8 +108,6 @@ def japan_selenium():
                                   os.path.join(download_path, '%s.csv' % next_date))
                         df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
                         df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
-            else:
-                print(filename)
 
         # path = 'C:\202204_10.csv'
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
