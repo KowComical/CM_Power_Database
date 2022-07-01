@@ -46,7 +46,7 @@ def japan_selenium():
     next_date = (pd.to_datetime(date, format='%Y%m') + relativedelta(months=1)).strftime('%Y%m')
 
     # 开始模拟
-    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=c_options)  # 打开浏览器
+    wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()))  # 打开浏览器
     wd.get('https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#')  # 打开要爬的网址
     # 不知道为啥每次都会自动弹出另外一个不需要的窗口 所以先把不需要的关掉
     # noinspection PyBroadException
@@ -80,7 +80,7 @@ def japan_selenium():
         print('start download...')
         time.sleep(60)
         # 另存为地址及命名
-        pyautogui.write('C:\Japan_202204.csv')  # 输入文件
+        pyautogui.write('C://Japan_202204.csv')  # 输入文件
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
