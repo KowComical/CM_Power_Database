@@ -90,20 +90,25 @@ def japan_selenium():
         for filename in os.listdir(download_path):
             if filename.startswith(next_date):
                 try:
+                    print('1')
                     df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
                     df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
                 except:
                     try:
+                        print('2')
                         os.rename(os.path.join(download_path, filename),
                                   os.path.join(download_path, '%s.csv' % next_date))
                         df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
                         df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
                     except:
+                        print('3')
                         filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
                         os.rename(os.path.join(download_path, filename),
                                   os.path.join(download_path, '%s.csv' % next_date))
                         df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
                         df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+            else:
+                print('error')
 
         # path = 'C:\202204_10.csv'
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
