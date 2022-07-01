@@ -83,12 +83,14 @@ def japan_selenium():
         print('start download...')
         time.sleep(60)
         # 另存为地址及命名
-        pyautogui.write('C:\%s.csv' % next_date)  # 输入文件
+        pyautogui.write('C:\Japan_202204.csv')  # 输入文件
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
-        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+        for filename in os.listdir(download_path):
+            print(filename)
+        df = pd.read_csv(os.path.join(download_path, 'Japan_202204.csv'), encoding='shift-jis')
+        df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis')
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
         # file = af.search_file(download_path)
