@@ -75,12 +75,12 @@ def japan_selenium():
     if max_date in test.text:
         print('还未更新')
     else:
-        print('start download...')
         wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
         time.sleep(10)
         # 找到确认下载并点击确认
         confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
+        print('start download...')
         time.sleep(30)
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
@@ -108,7 +108,7 @@ def japan_selenium():
                         df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
                         df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
             else:
-                print('error')
+                print(filename)
 
         # path = 'C:\202204_10.csv'
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
