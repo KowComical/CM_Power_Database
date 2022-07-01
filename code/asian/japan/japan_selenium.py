@@ -86,8 +86,10 @@ def japan_selenium():
         file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
         # file = next_date+'_10エリア計.csv'
         file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
-
-        df = pd.read_csv(file, encoding='shift-jis')
+        # 不知道为什么 能找到文件路径 但是read时说找不到 离谱
+        name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
+        file = name.findall(file)[0]+'.csv'
+        df = pd.read_csv('C:\%s' % file, encoding='shift-jis')
         df.to_csv(os.path.join(out_path, file), encoding='shift-jis')
 
         wd.quit()
