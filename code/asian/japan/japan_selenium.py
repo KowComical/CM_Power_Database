@@ -90,8 +90,8 @@ def japan_selenium():
         # 不知道为什么 能找到文件路径 但是read时说找不到 离谱
         # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
         # file = name.findall(file)[0]+'.csv'
-        path = pathlib.Path(download_path, file)
-        df = pd.read_csv(path, encoding='shift-jis')
+        # path = pathlib.Path(download_path, file)
+        df = pd.read_csv('C:/'+file, encoding='shift-jis')
         df.to_csv(os.path.join(out_path, file), encoding='shift-jis')
 
         wd.quit()
