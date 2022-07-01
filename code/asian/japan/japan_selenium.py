@@ -19,7 +19,7 @@ import os
 import pandas as pd
 import locale
 from dateutil.relativedelta import relativedelta
-import pathlib
+import pyautogui
 
 import logging
 
@@ -79,43 +79,41 @@ def japan_selenium():
         time.sleep(10)
         # 找到确认下载并点击确认
         confirm_text = 'ui-button-text'
-        wd.find_elements(By.CLASS_NAME, confirm_text)[1].click()
-        print('start download...')
-        time.sleep(60)
-        # 这个网站取消和确认下载的位置总是会变 也是奇了
-        wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
-        time.sleep(10)
-        # 找到确认下载并点击确认
-        confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
-        # driver.find_element(By.XPATH, "//label[@class='custom-file-upload']").click()  # 点击上传
         print('start download...')
         time.sleep(60)
+        # 另存为地址及命名
+        pyautogui.write('C:\%s.csv' % next_date)  # 输入文件
+        time.sleep(1)
+        pyautogui.press('enter')  # 点击确定
+        time.sleep(10)
+        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
         # file = af.search_file(download_path)
         # file = [file[i] for i, x in enumerate(file) if x.find(next_date) != -1]
         # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
-        for filename in os.listdir(download_path):
-            if filename.startswith(next_date):
-                try:
-                    print('1')
-                    df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-                    df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
-                except:
-                    try:
-                        print('2')
-                        os.rename(os.path.join(download_path, filename),
-                                  os.path.join(download_path, '%s.csv' % next_date))
-                        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-                        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
-                    except:
-                        print('3')
-                        filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
-                        os.rename(os.path.join(download_path, filename),
-                                  os.path.join(download_path, '%s.csv' % next_date))
-                        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-                        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+        # for filename in os.listdir(download_path):
+        #     if filename.startswith(next_date):
+        #         try:
+        #             print('1')
+        #             df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+        #             df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+        #         except:
+        #             try:
+        #                 print('2')
+        #                 os.rename(os.path.join(download_path, filename),
+        #                           os.path.join(download_path, '%s.csv' % next_date))
+        #                 df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+        #                 df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+        #             except:
+        #                 print('3')
+        #                 filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
+        #                 os.rename(os.path.join(download_path, filename),
+        #                           os.path.join(download_path, '%s.csv' % next_date))
+        #                 df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+        #                 df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
 
         # path = 'C:\202204_10.csv'
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
