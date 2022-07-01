@@ -86,8 +86,7 @@ def japan_selenium():
         # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
         for filename in os.listdir(download_path):
             if filename.startswith(next_date):
-                filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
-                print(filename)
+                # filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
                 os.rename(os.path.join(download_path, filename), os.path.join(download_path, '%s.csv' % next_date))
         for filename in os.listdir(download_path):
             if filename.startswith(next_date):
