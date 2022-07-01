@@ -81,10 +81,13 @@ def japan_selenium():
         time.sleep(30)
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
-        file = next_date+'_10エリア計.csv'
+        file = af.search_file(download_path)
+        file = [file[i] for i, x in enumerate(file) if x.find(str(next_date)) != -1]
+        file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
+        # file = next_date+'_10エリア計.csv'
         file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
 
-        df = pd.read_csv(os.path.join(download_path, file), encoding='shift-jis')
+        df = pd.read_csv(file, encoding='shift-jis')
         df.to_csv(os.path.join(out_path, file), encoding='shift-jis')
 
         wd.quit()
