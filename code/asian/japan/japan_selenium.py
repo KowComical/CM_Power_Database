@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 from selenium import webdriver
@@ -7,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 import sys
+
 sys.getdefaultencoding()
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
@@ -20,6 +22,7 @@ from dateutil.relativedelta import relativedelta
 import pathlib
 
 import logging
+
 logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
 
 
@@ -86,19 +89,28 @@ def japan_selenium():
         # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
         for filename in os.listdir(download_path):
             if filename.startswith(next_date):
-                # filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
-                os.rename(os.path.join(download_path, filename), os.path.join(download_path, '%s.csv' % next_date))
-        for filename in os.listdir(download_path):
-            if filename.startswith(next_date):
-                print(filename)
+                try:
+                    df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+                    df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+                except:
+                    try:
+                        os.rename(os.path.join(download_path, filename),
+                                  os.path.join(download_path, '%s.csv' % next_date))
+                        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+                        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+                    except:
+                        filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
+                        os.rename(os.path.join(download_path, filename),
+                                  os.path.join(download_path, '%s.csv' % next_date))
+                        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+                        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+
         # path = 'C:\202204_10.csv'
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
         # # 不知道为什么 能找到文件路径 但是read时说找不到 离谱
         # # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
         # # file = name.findall(file)[0]+'.csv'
         # # path = pathlib.Path(download_path, file)
-        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
         wd.quit()
 
 
