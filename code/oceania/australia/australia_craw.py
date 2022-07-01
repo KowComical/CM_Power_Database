@@ -2,16 +2,18 @@ import requests
 import pandas as pd
 import os
 import time
-import sys
+from datetime import datetime
 
+import sys
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
 
 file_path = './data/oceania/australia/craw/'
 
-region_list = ['NEM/NSW1', 'NEM/QLD1', 'NEM/SA1', 'NEM/TAS1', 'NEM/VIC1', 'WEM']
-data_range = pd.date_range(start='1999-01', end='2022-07', freq='1M')
+end_date = datetime.now().strftime('%Y-%m')
+region_list = ['NEM/NSW1', 'NEM/QLD1', 'NEM/SA1', 'NEM/TAS1', 'NEM/VIC1', 'WEM/WEM']
+
 
 # 所有已爬取的
 all_file = af.search_file(file_path)
@@ -26,11 +28,17 @@ def main():
 
 def craw():
     for r in region_list:
+        # NEM/TAS1 这个区域并不是从1999年就有数据的
+        if r == 'NEM/TAS1':
+            data_range = pd.date_range(start='2006-01', end=end_date, freq='1M')
+        else:
+            data_range = pd.date_range(start='1999-01', end=end_date, freq='1M')
         url = 'https://api.opennem.org.au/stats/power/network/fueltech/%s' % r
         r = r.replace('/', '_')  # windows文件名不能有斜杠 所以要转为下划线
         out_path = os.path.join(file_path, r)
         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
             os.mkdir(out_path)
+
         for d in data_range:
             params_data = {'month': pd.to_datetime(d).strftime('%Y-%m-%d')}
             # 如果已爬取则略过
