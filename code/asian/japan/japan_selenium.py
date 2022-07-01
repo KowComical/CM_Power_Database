@@ -83,8 +83,11 @@ def japan_selenium():
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
         # file = af.search_file(download_path)
-        # file = [file[i] for i, x in enumerate(file) if x.find(str(next_date)) != -1]
+        # file = [file[i] for i, x in enumerate(file) if x.find(next_date) != -1]
         # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
+        for filename in os.listdir(download_path):
+            if filename.startswith(next_date):
+                os.rename(os.path.join(download_path, filename), os.path.join(download_path, '%s.csv' % next_date))
         # path = 'C:\202204_10.csv'
         #
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
@@ -92,10 +95,9 @@ def japan_selenium():
         # # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
         # # file = name.findall(file)[0]+'.csv'
         # # path = pathlib.Path(download_path, file)
-        # df = pd.read_csv('C:\'+file, encoding='shift-jis')
-        # df.to_csv(os.path.join(out_path, file), encoding='shift-jis')
-        #
-        # wd.quit()
+        df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
+        df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
+        wd.quit()
 
 
 if __name__ == '__main__':
