@@ -87,7 +87,11 @@ def japan_selenium():
         for filename in os.listdir(download_path):
             if filename.startswith(next_date):
                 filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
+                print(filename)
                 os.rename(os.path.join(download_path, filename), os.path.join(download_path, '%s.csv' % next_date))
+        for filename in os.listdir(download_path):
+            if filename.startswith(next_date):
+                print(filename)
         # path = 'C:\202204_10.csv'
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
         # # 不知道为什么 能找到文件路径 但是read时说找不到 离谱
