@@ -91,7 +91,7 @@ def japan_selenium():
         # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
         # file = name.findall(file)[0]+'.csv'
         # path = pathlib.Path(download_path, file)
-        df = pd.read_csv('C:/'+file, encoding='shift-jis')
+        df = pd.read_csv('C:\202204_10エリア計.csv', encoding='shift-jis')
         df.to_csv(os.path.join(out_path, file), encoding='shift-jis')
 
         wd.quit()
