@@ -17,6 +17,7 @@ import os
 import pandas as pd
 import locale
 from dateutil.relativedelta import relativedelta
+import pathlib
 
 import logging
 logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
@@ -89,7 +90,8 @@ def japan_selenium():
         # 不知道为什么 能找到文件路径 但是read时说找不到 离谱
         # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
         # file = name.findall(file)[0]+'.csv'
-        df = pd.read_csv('C:\%s' % file, encoding='shift-jis')
+        path = pathlib.Path(download_path, file)
+        df = pd.read_csv(path, encoding='shift-jis')
         df.to_csv(os.path.join(out_path, file), encoding='shift-jis')
 
         wd.quit()
