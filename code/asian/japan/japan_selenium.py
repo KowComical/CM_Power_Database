@@ -43,8 +43,7 @@ def japan_selenium():
     date = max(date)
     max_date = '%s年%s月' % (date[:4], int(date[-2:]))
     # 设置下个月的文件名
-    next_date = pd.to_datetime(date, format='%Y%m') + relativedelta(months=1)
-    next_date = next_date.strftime('%Y%m')
+    next_date = (pd.to_datetime(date, format='%Y%m') + relativedelta(months=1)).strftime('%Y%m')
 
     # 开始模拟
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=c_options)  # 打开浏览器
@@ -87,7 +86,11 @@ def japan_selenium():
         # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
         for filename in os.listdir(download_path):
             if filename.startswith(next_date):
+                print(filename)
                 os.rename(os.path.join(download_path, filename), os.path.join(download_path, '%s.csv' % next_date))
+        for filename in os.listdir(download_path):
+            if filename.startswith(next_date):
+                print(filename)
         # path = 'C:\202204_10.csv'
         #
         # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
