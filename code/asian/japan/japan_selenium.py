@@ -79,7 +79,16 @@ def japan_selenium():
         time.sleep(10)
         # 找到确认下载并点击确认
         confirm_text = 'ui-button-text'
+        wd.find_elements(By.CLASS_NAME, confirm_text)[1].click()
+        print('start download...')
+        time.sleep(60)
+        # 这个网站取消和确认下载的位置总是会变 也是奇了
+        wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
+        time.sleep(10)
+        # 找到确认下载并点击确认
+        confirm_text = 'ui-button-text'
         wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
+        # driver.find_element(By.XPATH, "//label[@class='custom-file-upload']").click()  # 点击上传
         print('start download...')
         time.sleep(60)
 
@@ -88,7 +97,6 @@ def japan_selenium():
         # file = [file[i] for i, x in enumerate(file) if x.find(next_date) != -1]
         # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
         for filename in os.listdir(download_path):
-            print(filename)
             if filename.startswith(next_date):
                 try:
                     print('1')
