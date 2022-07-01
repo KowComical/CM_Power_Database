@@ -9,10 +9,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 import sys
 sys.getdefaultencoding()
 sys.dont_write_bytecode = True
+sys.path.append('./code/')
+from global_code import global_function as af
 import time
 # import re
 import os
 import pandas as pd
+import locale
 
 import logging
 logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
@@ -77,7 +80,10 @@ def japan_selenium():
     time.sleep(30)
 
     # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
-    file = '202204_10エリア計.csv'
+    file = af.search_file(download_path)
+    file = [file[i] for i, x in enumerate(file) if x.find('202204') != -1]
+    file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
+    file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
 
     df = pd.read_csv(download_path+file, encoding='shift-jis')
     df.to_csv(os.path.join(out_path, '%s' % '202204_10.csv'), encoding='shift-jis')
