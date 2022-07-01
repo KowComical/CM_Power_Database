@@ -87,8 +87,7 @@ def japan_selenium():
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
-        for filename in os.listdir(download_path):
-            print(filename)
+
         df = pd.read_csv(os.path.join(download_path, 'Japan_202204.csv'), encoding='shift-jis')
         df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis')
 
