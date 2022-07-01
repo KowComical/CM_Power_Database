@@ -27,15 +27,17 @@ def main():
 
 
 def craw():
-    for r in region_list:
-        # NEM/TAS1 这个区域并不是从1999年就有数据的
-        if r == 'NEM/TAS1':
-            data_range = pd.date_range(start='2006-01', end=end_date, freq='1M')
+    for re in region_list:
+        if re == 'NEM/TAS1':
+            start_date = '2006-01'
+        elif re == 'WEM/WEM':
+            start_date = '2015-01'
         else:
-            data_range = pd.date_range(start='1999-01', end=end_date, freq='1M')
-        url = 'https://api.opennem.org.au/stats/power/network/fueltech/%s' % r
-        r = r.replace('/', '_')  # windows文件名不能有斜杠 所以要转为下划线
-        out_path = os.path.join(file_path, r)
+            start_date = '1999-01'
+        data_range = pd.date_range(start=start_date, end=end_date, freq='1M')
+        url = 'https://api.opennem.org.au/stats/power/network/fueltech/%s' % re
+        re = re.replace('/', '_')  # windows文件名不能有斜杠 所以要转为下划线
+        out_path = os.path.join(file_path, re)
         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
             os.mkdir(out_path)
 
@@ -43,7 +45,7 @@ def craw():
             params_data = {'month': pd.to_datetime(d).strftime('%Y-%m-%d')}
             # 如果已爬取则略过
             d_name = pd.to_datetime(d).strftime('%Y-%m')
-            exist_name = os.path.join(file_path, r, '%s.csv' % d_name)
+            exist_name = os.path.join(file_path, re, '%s.csv' % d_name)
             if exist_name not in all_file:
                 r_t = requests.get(url, params=params_data, timeout=60)
                 result = pd.json_normalize(r_t.json(), record_path='data')
