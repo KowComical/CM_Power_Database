@@ -31,7 +31,7 @@ def japan_selenium():
     # 修改默认下载路径
     c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
-    download_path = 'C:\\'
+    download_path = 'D:\\'
     prefs = {'download.default_directory': download_path}
     c_options.add_experimental_option('prefs', prefs)
 
@@ -80,7 +80,7 @@ def japan_selenium():
         print('start download...')
         time.sleep(60)
         # 另存为地址及命名
-        pyautogui.write('C:\Japan.csv')  # 输入文件
+        pyautogui.write('D:\Japan.csv')  # 输入文件
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
