@@ -78,10 +78,6 @@ def japan_selenium():
         print('start download...')
         time.sleep(5)
         # 另存为地址及命名
-        # 建立新文件夹
-        out_path = os.path.join('C:', 'kow')
-        if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
-            os.mkdir(out_path)
         pyautogui.write('Japan_202204.csv')  # 输入文件
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
@@ -90,9 +86,12 @@ def japan_selenium():
         file_name = af.search_file('C:\\')
         file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('202204') != -1]
         if file_name:
+            print(file_name)
             file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
         df = pd.read_csv(file_name, encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis')
+        print(df)
+        df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis', index=False)
+        print('finished')
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
         # file = af.search_file(download_path)
@@ -125,8 +124,6 @@ def japan_selenium():
         # # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
         # # file = name.findall(file)[0]+'.csv'
         # # path = pathlib.Path(download_path, file)
-        wd.quit()
-
 
 if __name__ == '__main__':
     main()
