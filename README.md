@@ -52,7 +52,7 @@
 ### Oceania
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[Austrlia](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/12)**||||还未更新||
+|**[Austrlia](./data/oceania/australia)**|**[Opennem](https://opennem.org.au/energy/nem/?range=7d&interval=30m)**|![](./image/updated/Australia.png)|`Hourly`|已更新完|**[`Biqing`](https://github.com/cadagno)**<br>**[`Kow`](https://github.com/KowComical)**|
 
 ### ROW
 |Name|Source|Lastest_Date|Resolution|Description|Author|
