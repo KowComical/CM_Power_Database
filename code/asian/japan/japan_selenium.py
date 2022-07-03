@@ -86,7 +86,6 @@ def japan_selenium():
         file_name = af.search_file('C:\\')
         file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('202204') != -1]
         if file_name:
-            print(file_name)
             file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
         df = pd.read_csv(file_name, encoding='shift-jis')
         print(df)
