@@ -28,7 +28,6 @@ def main():
 
 def japan_selenium():
     out_path = './data/asia/japan/raw/month/'
-    windows_path = af.create_folder('C:/', 'kow')
 
     # 判断是否更新了新的文件需要下载
     file_name = af.search_file(out_path)
@@ -76,12 +75,21 @@ def japan_selenium():
         print('start download...')
         time.sleep(5)
         # 另存为地址及命名
+        # 建立新文件夹
+        out_path = os.path.join('C:', 'kow')
+        if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
+            os.mkdir(out_path)
         pyautogui.write('C:\kow\Japan.csv')  # 输入文件
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
-
-        df = pd.read_csv('C:\\kow\\Japan.csv', encoding='shift-jis')
+        try:
+            df = pd.read_csv('C:\\kow\\Japan.csv', encoding='shift-jis')
+        except:
+            try:
+                df = pd.read_csv('C:/kow/Japan.csv', encoding='shift-jis')
+            except:
+                df = pd.read_csv('C:\kow\Japan.csv', encoding='shift-jis')
         df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis')
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
