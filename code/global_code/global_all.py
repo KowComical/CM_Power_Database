@@ -783,7 +783,7 @@ def australia():
     # 路径
     file_path = os.path.join(global_path, 'oceania', 'australia')
     out_path_simulated = af.create_folder(file_path, 'simulated')
-    in_path_history = os.path.join(file_path, 'raw', 'raw_history')
+    in_path_history = os.path.join(file_path, 'raw', 'raw_history.csv')
     in_path_file = os.path.join(file_path, 'raw', 'raw_data.csv')
 
     df = pd.read_csv(in_path_file)
