@@ -79,50 +79,18 @@ def japan_selenium():
         print('start download...')
         time.sleep(5)
         # 另存为地址及命名
-        pyautogui.write('Japan_202204.csv')  # 输入文件
+        pyautogui.write('Japan_%s.csv' % next_date)  # 输入文件 # 不想再测试了 但目测这一步未成功 文件名并未改动
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
         # 找到存着的文件在哪里
         file_name = af.search_file('C:\\')
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('202204') != -1]
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find(next_date) != -1]
         if file_name:
             file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
         df = pd.read_csv(file_name, encoding='shift-jis')
-        df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis', index=False)
+        df.to_csv(os.path.join(out_path, '%s_10エリア計.csv'), encoding='shift-jis', index=False)
         print('finished')
-
-        # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
-        # file = af.search_file(download_path)
-        # file = [file[i] for i, x in enumerate(file) if x.find(next_date) != -1]
-        # file = [file[i] for i, x in enumerate(file) if x.find('csv') != -1][0]
-        # for filename in os.listdir(download_path):
-        #     if filename.startswith(next_date):
-        #         try:
-        #             print('1')
-        #             df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-        #             df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
-        #         except:
-        #             try:
-        #                 print('2')
-        #                 os.rename(os.path.join(download_path, filename),
-        #                           os.path.join(download_path, '%s.csv' % next_date))
-        #                 df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-        #                 df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
-        #             except:
-        #                 print('3')
-        #                 filename = filename.encode('utf-8').decode(locale.getpreferredencoding(False))
-        #                 os.rename(os.path.join(download_path, filename),
-        #                           os.path.join(download_path, '%s.csv' % next_date))
-        #                 df = pd.read_csv(os.path.join(download_path, '%s.csv' % next_date), encoding='shift-jis')
-        #                 df.to_csv(os.path.join(out_path, '%s.csv' % next_date), encoding='shift-jis')
-
-        # path = 'C:\202204_10.csv'
-        # file = file.encode('utf-8').decode(locale.getpreferredencoding(False))
-        # # 不知道为什么 能找到文件路径 但是read时说找不到 离谱
-        # # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
-        # # file = name.findall(file)[0]+'.csv'
-        # # path = pathlib.Path(download_path, file)
 
 
 if __name__ == '__main__':
