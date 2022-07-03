@@ -6,9 +6,21 @@ import os
 in_path = './data/oceania/australia/raw/'
 in_path_file = os.path.join(in_path, 'raw_data.csv')
 
+import sys
+
+sys.dont_write_bytecode = True
+sys.path.append('./code/')
+from global_code import global_function as af
+from global_code import global_all as g
+
 
 def main():
-    craw()  # 爬取数据
+    # 爬取数据
+    craw()
+    # 处理数据
+    g.australia()
+    # 提取最新日期
+    af.updated_date('Australia')
 
 
 def craw():
