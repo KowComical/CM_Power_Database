@@ -10,6 +10,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 import logging
+
 logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
 
 import re
@@ -248,7 +249,7 @@ def japan_selenium():
     wd.find_element(By.ID, 'searchBtn').click()
 
     # 如果要下载的月份文件已经存在了 则pass
-    test = wd.find_element(By.ID, 'table3_rows_0__infNm')
+    test = wd.find_element(By.ID, 'table3_rows_0__infNm')  # 这里之后可能需要修改
     if max_date in test.text:
         print('还未更新')
     else:

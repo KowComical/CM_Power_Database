@@ -782,56 +782,23 @@ def south_africa():
 def australia():
     # 路径
     file_path = os.path.join(global_path, 'oceania', 'australia')
-    in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
-    in_path_file = os.path.join(in_path, 'raw_data.csv')
+    in_path_history = os.path.join(file_path, 'raw', 'raw_history')
+    in_path_file = os.path.join(file_path, 'raw', 'raw_data.csv')
 
     df = pd.read_csv(in_path_file)
-    # 将能源类型分类并重新命名
-    # coal
-    coal_list = ['coal_brown', 'coal_black']
-    # gas
-    gas_list = ['gas_ccgt', 'gas_ocgt', 'gas_wcmg', 'gas_recip', 'gas_steam']
-    # oil
-    oil_list = ['distillate']
-    # nuclear 暂无
-    # wind
-    wind_list = ['wind']
-    # solar
-    solar_list = ['solar_rooftop', 'solar_utility']
-    # hydro
-    hydro_list = ['hydro']
-    # other #存疑
-    other_list = ['battery_charging', 'battery_discharging', 'bioenergy_biomass', 'pumps', 'bioenergy_biogas']
-
-    for c in coal_list:
-        df['type'] = df['type'].replace(c, 'coal')
-    for c in gas_list:
-        df['type'] = df['type'].replace(c, 'gas')
-    for c in oil_list:
-        df['type'] = df['type'].replace(c, 'oil')
-    for c in wind_list:
-        df['type'] = df['type'].replace(c, 'wind')
-    for c in solar_list:
-        df['type'] = df['type'].replace(c, 'solar')
-    for c in hydro_list:
-        df['type'] = df['type'].replace(c, 'hydro')
-    for c in other_list:
-        df['type'] = df['type'].replace(c, 'other')
-    df = df.groupby(['datetime', 'type']).sum().reset_index()  # 汇总
-
+    # 和历史数据合并
+    df_old = pd.read_csv(in_path_history)
+    df = pd.concat([df_old, df]).reset_index(drop=True)
     df['datetime'] = pd.to_datetime(df['datetime'])
+    # 去掉重复部分
+    df = df[~df.duplicated(['datetime', 'type'])]  # 删除重复的部分
     # 列转行
-    df = pd.pivot_table(df, index='datetime', values='data', columns='type').reset_index().drop(
-        columns=['exports', 'imports'])
-    df = df.set_index('datetime').resample('h').mean().reset_index()  # 按小时集合
-    df['nuclear'] = 0
+    df = pd.pivot_table(df, index='datetime', values='data', columns='type').reset_index().fillna(0)
+    if 'nuclear' not in df.columns:
+        df['nuclear'] = 0
 
     af.time_info(df, 'datetime')  # 日期
-    # 将所有小于0的值变为0
-    for c in df.columns:
-        if df[c].dtypes == float:
-            df.loc[df[df[c] < 0].index, [c]] = 0
     # 输出
     for y in df['year'].drop_duplicates().tolist():
         df_hourly = df[df['year'] == y].reset_index(drop=True).fillna(0)

@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 import os
 import time
-import re
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -34,18 +33,13 @@ def craw():
         out_path = os.path.join(file_path, re_windows)
         if not os.path.exists(out_path):  # 如果有了文件夹的话就直接pass掉
             os.mkdir(out_path)
-        # 找出起始日期
-        file_name = af.search_file(out_path)
-        date_name = re.compile(r'%s/(?P<name>.*?).csv', re.S)  # 从路径找出日期
-        date = [date_name.findall(f)[0] for f in file_name]
-        start_date = max(date)
-        if not start_date:  # 如果还未爬取过
-            if RE == 'NEM/TAS1':
-                start_date = '2006-01'
-            elif RE == 'WEM/WEM':
-                start_date = '2015-01'
-            else:
-                start_date = '1999-01'
+
+        if RE == 'NEM/TAS1':
+            start_date = '2006-01'
+        elif RE == 'WEM/WEM':
+            start_date = '2015-01'
+        else:
+            start_date = '1999-01'
 
         data_range = pd.date_range(start=start_date, end=end_date, freq='1M')
         url = 'https://api.opennem.org.au/stats/power/network/fueltech/%s' % RE

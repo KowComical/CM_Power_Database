@@ -44,10 +44,56 @@ def craw():
             df_temp['region'] = temp['region'][0]  # 州
             df = pd.concat([df, df_temp])
     df = df.reset_index().rename(columns={'index': 'datetime'})
+    # 将能源类型分类并重新命名
+    # coal
+    coal_list = ['coal_brown', 'coal_black']
+    # gas
+    gas_list = ['gas_ccgt', 'gas_ocgt', 'gas_wcmg', 'gas_recip', 'gas_steam']
+    # oil
+    oil_list = ['distillate']
+    # nuclear 暂无
+    # wind
+    wind_list = ['wind']
+    # solar
+    solar_list = ['solar_rooftop', 'solar_utility']
+    # hydro
+    hydro_list = ['hydro']
+    # other #存疑
+    other_list = ['bioenergy_biomass', 'pumps', 'bioenergy_biogas']
+
+    for c in coal_list:
+        df['type'] = df['type'].replace(c, 'coal')
+    for c in gas_list:
+        df['type'] = df['type'].replace(c, 'gas')
+    for c in oil_list:
+        df['type'] = df['type'].replace(c, 'oil')
+    for c in wind_list:
+        df['type'] = df['type'].replace(c, 'wind')
+    for c in solar_list:
+        df['type'] = df['type'].replace(c, 'solar')
+    for c in hydro_list:
+        df['type'] = df['type'].replace(c, 'hydro')
+    for c in other_list:
+        df['type'] = df['type'].replace(c, 'other')
+    # 去掉不要的能源类型
+    type_list = ['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']
+    df = df[df['type'].isin(type_list)].reset_index(drop=True)
+    # 按小时汇总
+    df['datetime'] = pd.to_datetime(df['datetime'])
+    df['year'] = df['datetime'].dt.year
+    df['month'] = df['datetime'].dt.month
+    df['day'] = df['datetime'].dt.day
+    df['hour'] = df['datetime'].dt.hour
+
+    df['datetime'] = pd.to_datetime(df[['year', 'month', 'day', 'hour']].assign(), errors='coerce')
+    df = df[['datetime', 'type', 'data']]
+    df = df.groupby(['datetime', 'type']).mean().reset_index()
+    # 将所有小于0的值变为0
+    df.loc[df[df['data'] < 0].index, ['data']] = 0
     # 合并新旧数据并删除重复部分
     df_result = pd.concat([df_old, df]).reset_index(drop=True)
     df_result['datetime'] = pd.to_datetime(df_result['datetime'])
-    df_result = df_result[~df_result.duplicated(['datetime', 'type', 'network', 'region'])]  # 删除重复的部分
+    df_result = df_result[~df_result.duplicated(['datetime', 'type'])]  # 删除重复的部分
     df_result.to_csv(in_path_file, index=False, encoding='utf_8_sig')
 
 
