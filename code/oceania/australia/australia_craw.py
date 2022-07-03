@@ -36,7 +36,7 @@ def craw():
             os.mkdir(out_path)
         # 找出起始日期
         file_name = af.search_file(out_path)
-        date_name = re.compile(r'month/(?P<name>.*?)_', re.S)  # 从路径找出日期
+        date_name = re.compile(r'%s/(?P<name>.*?).csv', re.S)  # 从路径找出日期
         date = [date_name.findall(f)[0] for f in file_name]
         start_date = max(date)
         if not start_date:  # 如果还未爬取过
