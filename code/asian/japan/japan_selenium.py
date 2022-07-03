@@ -81,7 +81,7 @@ def japan_selenium():
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
 
-        df = pd.read_csv(os.path.join(windows_path, 'Japan.csv'), encoding='shift-jis')
+        df = pd.read_csv('C:\\kow\\Japan.csv', encoding='shift-jis')
         df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis')
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
