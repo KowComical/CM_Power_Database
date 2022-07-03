@@ -14,7 +14,6 @@ import time
 import re
 import os
 import pandas as pd
-import locale
 from dateutil.relativedelta import relativedelta
 import pyautogui
 
@@ -28,12 +27,8 @@ def main():
 
 
 def japan_selenium():
-    # 修改默认下载路径
-    c_options = webdriver.ChromeOptions()
     out_path = './data/asia/japan/raw/month/'
-    download_path = 'D:\\'
-    prefs = {'download.default_directory': download_path}
-    c_options.add_experimental_option('prefs', prefs)
+    windows_path = af.create_folder('C:\\', 'kow')
 
     # 判断是否更新了新的文件需要下载
     file_name = af.search_file(out_path)
@@ -73,19 +68,20 @@ def japan_selenium():
         print('还未更新')
     else:
         wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
-        time.sleep(10)
+        time.sleep(5)
         # 找到确认下载并点击确认
-        confirm_text = 'ui-button-text'
-        wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
+        # confirm_text = 'ui-button-text'
+        # wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
+        wd.find_elements(By.XPATH, "//*[contains(text(), 'OK')]")[0].click()
         print('start download...')
-        time.sleep(60)
+        time.sleep(5)
         # 另存为地址及命名
-        pyautogui.write('D:\Japan.csv')  # 输入文件
+        pyautogui.write('C:\kow\Japan.csv')  # 输入文件
         time.sleep(1)
         pyautogui.press('enter')  # 点击确定
         time.sleep(10)
 
-        df = pd.read_csv(os.path.join(download_path, 'Japan.csv'), encoding='shift-jis')
+        df = pd.read_csv(os.path.join(windows_path, 'Japan.csv'), encoding='shift-jis')
         df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis')
 
         # 找到下载的文件 # 目前问题是找不到 是否是因为action里面无法下载文件？
