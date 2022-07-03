@@ -61,6 +61,11 @@ def brazil():
     in_path_file = os.path.join(in_path, 'Brazil_ONS_Hourly.csv')
     # #############################################################Raw-Cleaned########################################################
     df = pd.read_csv(in_path_file).rename(columns={'Date': 'datetime'})
+    # 小时数据从GWH变为MWH
+    df = df.set_index(['datetime']).stack().reset_index().rename(columns={'level_1': 'type', 0: 'power'})
+    df['power'] = df['power'] * 1000
+    df = pd.pivot_table(df, index='datetime', values='power', columns='type').reset_index()
+
     df = af.check_date(df, 'datetime', 'h')  # 判断是否有缺失日期
     af.time_info(df, 'datetime')  # 填充时间列
 
@@ -99,12 +104,12 @@ def brazil():
         # daily
         df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
         af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
-               name='Brazil_daily_generation-' + str(y) + '.csv', folder=False, unit=False)
+               name='Brazil_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
         # #############################################monthly###############################################
         # monthly
         df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
         af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
-               name='Brazil_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
+               name='Brazil_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
 
 
 def china():
