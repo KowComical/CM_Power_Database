@@ -28,7 +28,7 @@ def main():
 
 def japan_selenium():
     out_path = './data/asia/japan/raw/month/'
-    windows_path = af.create_folder('C:\\', 'kow')
+    windows_path = af.create_folder('C:/', 'kow')
 
     # 判断是否更新了新的文件需要下载
     file_name = af.search_file(out_path)
