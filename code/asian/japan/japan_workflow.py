@@ -256,8 +256,6 @@ def japan_selenium():
         wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
         time.sleep(5)
         # 找到确认下载并点击确认
-        # confirm_text = 'ui-button-text'
-        # wd.find_elements(By.CLASS_NAME, confirm_text)[2].click()
         wd.find_elements(By.XPATH, "//*[contains(text(), 'OK')]")[0].click()
         print('start download...')
         time.sleep(5)
