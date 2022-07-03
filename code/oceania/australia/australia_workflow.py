@@ -69,9 +69,9 @@ def craw():
     # solar
     solar_list = ['solar_rooftop', 'solar_utility']
     # hydro
-    hydro_list = ['hydro']
+    hydro_list = ['hydro', 'pumps']
     # other #存疑
-    other_list = ['bioenergy_biomass', 'pumps', 'bioenergy_biogas']
+    other_list = ['bioenergy_biomass', 'bioenergy_biogas']
 
     for c in coal_list:
         df['type'] = df['type'].replace(c, 'coal')
@@ -90,6 +90,8 @@ def craw():
     # 去掉不要的能源类型
     type_list = ['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']
     df = df[df['type'].isin(type_list)].reset_index(drop=True)
+    # 按能源汇总
+    df = df.groupby(['datetime', 'type']).sum().reset_index()
     # 按小时汇总
     df['datetime'] = pd.to_datetime(df['datetime'])
     df['year'] = df['datetime'].dt.year
