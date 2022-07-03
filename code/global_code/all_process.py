@@ -4,6 +4,16 @@ import sys
 sys.dont_write_bytecode = True
 
 try:
+    sys.path.append('./code/oceania/')
+    print('#######################')
+    print('Begin process Australia...')
+    import australia.australia_workflow as aa
+    aa.main()
+    print('Finish process Australia...')
+except Exception as e:
+    print(e)
+
+try:
     sys.path.append('./code/africa/')
     print('#######################')
     print('Begin process South Africa...')
