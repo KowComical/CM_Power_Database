@@ -13,6 +13,7 @@ sys.getdefaultencoding()
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
+
 import time
 import re
 import os
@@ -122,6 +123,7 @@ def japan_selenium():
         # # name = re.compile(r'C:\\(?P<name>.*?).csv', re.S)  # 从路径找出日期
         # # file = name.findall(file)[0]+'.csv'
         # # path = pathlib.Path(download_path, file)
+
 
 if __name__ == '__main__':
     main()
