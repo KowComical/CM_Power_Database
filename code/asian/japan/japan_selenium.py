@@ -88,12 +88,9 @@ def japan_selenium():
         time.sleep(10)
         # 找到存着的文件在哪里
         file_name = af.search_file('C:\\')
-        if not file_name:
-            file_name = af.search_file('C:/')
-        else:
-            print(file_name)
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('Japan_202204') != -1]
-        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
+        file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('202204') != -1]
+        if file_name:
+            file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('csv') != -1][0]
         df = pd.read_csv(file_name, encoding='shift-jis')
         df.to_csv(os.path.join(out_path, 'Japan_202204.csv'), encoding='shift-jis')
 
