@@ -78,6 +78,7 @@ def sum_country(country_list, category):
     df_all['country'] = df_all['country'].str.replace('South_africa', 'South Africa')
 
     # 前一天的数据基本都不准确
+    df_all['date'] = pd.to_datetime(df_all['date'])
     yesterday = af.get_yesterday().strftime('%Y-%m-%d')
     df_all = df_all[df_all['date'] < yesterday].reset_index(drop=True)
 

@@ -43,15 +43,15 @@ except Exception as e:
 # except Exception as e:
 #     print(e)
 
-try:
-    sys.path.append('./code/asian/')
-    print('#######################')
-    print('Begin process Japan...')
-    import japan.japan_workflow as j
-    j.main()
-    print('Finish process Japan...')
-except Exception as e:
-    print(e)
+# try:
+#     sys.path.append('./code/asian/')
+#     print('#######################')
+#     print('Begin process Japan...')
+#     import japan.japan_workflow as j
+#     j.main()
+#     print('Finish process Japan...')
+# except Exception as e:
+#     print(e)
 
 # try:
 #     sys.path.append('./code/europe/')
