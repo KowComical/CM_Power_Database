@@ -33,7 +33,9 @@ time.sleep(1)
 pyautogui.press('enter')  # 点击确定
 
 driver.find_element(By.XPATH, "//button[@class='enabled']").click()  # 点击确认上传
-time.sleep(5)
+time.sleep(10)
+# 点击active之前有时会卡住 所以需要刷新一下网页
+driver.refresh()
 driver.find_element(By.XPATH, "//div[@class='active_radiobt']").click()  # 点击active
 time.sleep(5)
 driver.close()  # 关闭

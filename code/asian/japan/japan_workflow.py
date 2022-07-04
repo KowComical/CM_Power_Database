@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
 # 数据及10公司爬虫代码源：Zhu Deng
 
 
