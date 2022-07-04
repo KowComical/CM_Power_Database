@@ -64,6 +64,7 @@ def process():
     df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'UK')
     df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
     df_all['country'] = df_all['country'].str.replace('Us', 'US')
+    df_all['country'] = df_all['country'].str.replace('South_africa', 'South Africa')
 
     df_all = pd.pivot_table(df_all, index=['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country'],
                             values='Value', columns='Type').reset_index()
@@ -82,10 +83,13 @@ def process():
     df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 
     # 只需要重要国家
-    country_list = ['Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
-                    'UK', 'US']
+    country_list = ['Brazil', 'China', 'Russia', 'EU27 & UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
+                    'UK', 'US', 'South Africa']
     df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
-    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-05-31')].reset_index(drop=True)
+    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-06-16')].reset_index(drop=True)
+    # # 不要最后一天的数据
+    # yesterday = af.get_yesterday().strftime('%Y-%m-%d')
+    # df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= yesterday)].reset_index(drop=True)
 
     time_stamp = []  # 将当地时间转换为时间戳
     for d in df_all['date'].tolist():
