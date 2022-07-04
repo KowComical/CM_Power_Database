@@ -2,8 +2,8 @@ name: japan
 'on':
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
-  japan_test_bot:
-    runs-on: ubuntu-latest
+  japan_selenium_bot:
+    runs-on: windows-latest
     steps:
       - name: check_code
         uses: actions/checkout@master
@@ -38,6 +38,5 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git add -A
-          timestamp=$(date -u)
-          git commit -m "Last updated on: ${timestamp}" || exit 0
+          git commit -m "updated"
           git push
