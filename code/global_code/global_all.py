@@ -19,17 +19,64 @@ def australia():
     in_path_history = os.path.join(file_path, 'raw', 'raw_history.csv')
     in_path_file = os.path.join(file_path, 'raw', 'raw_data.csv')
 
-    df = pd.read_csv(in_path_file)
-    # 和历史数据合并
     df_old = pd.read_csv(in_path_history)
-    df = pd.concat([df_old, df]).reset_index(drop=True)
+
+    df = pd.read_csv(in_path_file)
+    # 汇总新数据
+    region_list = df['region'].drop_duplicates().tolist()
+    df_new = pd.DataFrame()
+    for r in region_list:
+        temp = df[df['region'] == r].reset_index(drop=True)
+        temp['datetime'] = pd.to_datetime(temp['datetime'])
+        # 列转行
+        temp = pd.pivot_table(temp, index='datetime', values='data', columns='type').reset_index()
+        temp = temp.set_index('datetime').resample('H').mean()
+        temp = temp.stack().reset_index().rename(columns={'level_1': 'type', 0: 'data'})
+        df_new = pd.concat([df_new, temp]).reset_index(drop=True)
+    # 分能源类型
+    # coal
+    coal_list = ['coal_brown', 'coal_black']
+    # gas
+    gas_list = ['gas_ccgt', 'gas_ocgt', 'gas_wcmg', 'gas_recip', 'gas_steam']
+    # oil
+    oil_list = ['distillate']
+    # nuclear 暂无
+    # wind
+    wind_list = ['wind']
+    # solar
+    solar_list = ['solar_rooftop', 'solar_utility']
+    # hydro
+    hydro_list = ['hydro', 'pumps']
+    # other #存疑
+    other_list = ['bioenergy_biomass', 'bioenergy_biogas']
+
+    for c in coal_list:
+        df_new['type'] = df_new['type'].replace(c, 'coal')
+    for c in gas_list:
+        df_new['type'] = df_new['type'].replace(c, 'gas')
+    for c in oil_list:
+        df_new['type'] = df_new['type'].replace(c, 'oil')
+    for c in wind_list:
+        df_new['type'] = df_new['type'].replace(c, 'wind')
+    for c in solar_list:
+        df_new['type'] = df_new['type'].replace(c, 'solar')
+    for c in hydro_list:
+        df_new['type'] = df_new['type'].replace(c, 'hydro')
+    for c in other_list:
+        df_new['type'] = df_new['type'].replace(c, 'other')
+
+    df_new = df_new.groupby(['datetime', 'type']).sum().reset_index()
+    df_new = pd.pivot_table(df_new, index='datetime', values='data', columns='type').reset_index().fillna(0)
+    if 'nuclear' not in df.columns:
+        df_new['nuclear'] = 0
+
+    df = pd.concat([df_old, df_new]).reset_index(drop=True)
     df['datetime'] = pd.to_datetime(df['datetime'])
     # 去掉重复部分
-    df = df[~df.duplicated(['datetime', 'type'])]  # 删除重复的部分
-    # 列转行
-    df = pd.pivot_table(df, index='datetime', values='data', columns='type').reset_index().fillna(0)
-    if 'nuclear' not in df.columns:
-        df['nuclear'] = 0
+    df = df[~df.duplicated(['datetime'])]  # 删除重复的部分
+    # 将所有小于0的值变为0
+    for d in df.columns[1:]:
+        df.loc[df[df[d] < 0].index, [d]] = 0
 
     af.time_info(df, 'datetime')  # 日期
     # 输出
