@@ -1,7 +1,5 @@
-name: australia_craw
+name: australia
 'on':
-#   schedule:
-#     - cron: '*/15 * * * *'
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
   craw_process_bot:
@@ -18,9 +16,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas
           pip install requests
+          pip install matplotlib
+          pip install jsonpath
           pip install requests_toolbelt
+          pip install bs4
+          pip install pdfplumber
+          pip install lxml
+          pip install pillow
+          pip install Image
+          pip install openpyxl
+          pip install sklearn
+          pip install skforecast
+          pip install selenium
+          pip install webdriver-manager
+          pip install seaborn
       - name: process data
-        run: python ./code/oceania/australia/australia_craw.py
+        run: python ./code/asian/japan/japan_workflow.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
