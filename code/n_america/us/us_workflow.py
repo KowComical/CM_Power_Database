@@ -101,8 +101,9 @@ def craw_raw():
         df_result = pd.concat([df_temp, df_result]).reset_index(drop=True)
     # data_process
     df_result = df_result.groupby(['datetime']).sum().reset_index()
-    col_list = ['datetime', 'coal', 'wind', 'hydro', 'solar', 'other', 'oil', 'nuclear', 'gas']
-    df_result.columns = col_list
+    # 能源类型改名
+    df_result.columns = df_result.columns.str.lower()  # 全小写
+    df_result = df_result.rename(columns={'natural gas': 'gas', 'petroleum': 'oil'})
     df_result.to_csv(os.path.join(out_path, 'raw.csv'), index=False)
 
 
