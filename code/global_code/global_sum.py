@@ -87,9 +87,17 @@ def process():
                     'UK', 'US', 'South Africa']
     df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
     df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-06-16')].reset_index(drop=True)
-    # # 不要最后一天的数据
-    # yesterday = af.get_yesterday().strftime('%Y-%m-%d')
-    # df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= yesterday)].reset_index(drop=True)
+    # 不要最后一天的数据
+    yesterday = af.get_yesterday().strftime('%Y-%m-%d')
+    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < yesterday)].reset_index(drop=True)
+    # # 取所有国家的日期公约最大值 # 目前Russia和US有问题 所以都不取 未来修好之后这个可以直接用
+    # max_date = max(df_all['date'])
+    # for c in country_list:
+    #     temp = df_all[df_all['country'] == c].reset_index()
+    #     temp_date = max(temp['date'])
+    #     if temp_date < max_date:  # 如果当前国家小于之前国家的日期最大值 则替换
+    #         max_date = temp_date
+    # df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < max_date)].reset_index(drop=True)
 
     time_stamp = []  # 将当地时间转换为时间戳
     for d in df_all['date'].tolist():
