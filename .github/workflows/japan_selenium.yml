@@ -1,7 +1,7 @@
 name: japan
 'on':
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '0 21 1-10 * *'
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
   japan_selenium_bot:
