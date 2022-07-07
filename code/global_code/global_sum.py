@@ -84,7 +84,7 @@ def process():
 
     # 只需要重要国家
     country_list = ['Brazil', 'China', 'Russia', 'EU27 & UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
-                    'UK', 'US', 'South Africa']
+                    'UK', 'US', 'South Africa', 'Australia']
     df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
     df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-06-16')].reset_index(drop=True)
     # 不要最后一天的数据
