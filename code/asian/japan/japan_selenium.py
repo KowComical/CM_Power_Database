@@ -63,7 +63,7 @@ def japan_selenium():
     # 如果要下载的月份文件已经存在了 则pass
     test = wd.find_element(By.ID, 'table3_rows_0__infNm')  # 这里之后可能需要修改
     if max_date in test.text:
-        print('还未更新')
+        print('not update yet')
     else:
         wd.find_element(By.ID, 'table3_rows_0__pdfCsvBtn').click()
         time.sleep(5)
