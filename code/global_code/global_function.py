@@ -465,10 +465,9 @@ def forcasting():
     # end_train = data.iloc[:int(len(data)*perc)] # train/test 0.6比例 这里以后要完善
     # end_train = '2020-08-05'
 
-    # print(
-    #     f"Train dates      : {data.index.min()} --- {data.loc[:end_train].index.max()}  (n={len(data.loc[:end_train])})")
-    # print(
-    #     f"Validation dates : {data.loc[end_train:].index.min()} --- {data.index.max()}  (n={len(data.loc[end_train:])})")
+    # print( f"Train dates      : {data.index.min()} --- {data.loc[:end_train].index.max()}  (n={len(data.loc[
+    # :end_train])})") print( f"Validation dates : {data.loc[end_train:].index.min()} --- {data.index.max()}  (n={
+    # len(data.loc[end_train:])})")
     #
     # # Plot
     # # ==============================================================================
