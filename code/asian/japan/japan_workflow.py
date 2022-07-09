@@ -1,10 +1,5 @@
 # 数据及10公司爬虫代码源：Zhu Deng
 
-
-import logging
-
-logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
-
 import re
 import urllib.request
 from datetime import datetime

@@ -2,6 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+import logging
+
+logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打印内容
 
 import time
 import pandas as pd

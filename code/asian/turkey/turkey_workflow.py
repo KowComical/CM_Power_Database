@@ -18,8 +18,11 @@ import time
 url = 'https://ytbsbilgi.teias.gov.tr/ytbsbilgi/frm_istatistikler.jsf'
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50',
-    'Cookie': 'JSESSIONID=D3148B880363156DBC78CB65ECA3E112; TS0152acb3=019183421958fbdbf3b08a25bdbeddc7b8bad81b71b55c80c547fd3db4125c665fe2a1b1ce28a4f4ef83efd988beb4513ce263198334dae7a7c0e08efde459b58a42b121a6; TS01ef6dd3=0191834219fbe03b30ef539d1e9d8492fbff7ad2b4b55c80c547fd3db4125c665fe2a1b1ce4f6c806bdebe738bb9f04e7566f6953d; TS01ef6dd3031=0188b55a20a65ea743b2cba56c1827dad3c63ef4bc5876a79a0323ec8783b38e4ae5f6be5c2a25ceae28c8f78308161b637b80295264901042de20063391e59de7c1a311f7',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) '
+                  'Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50',
+    'Cookie': 'JSESSIONID=D3148B880363156DBC78CB65ECA3E112; '
+              'TS0152acb3'
+              '=019183421958fbdbf3b08a25bdbeddc7b8bad81b71b55c80c547fd3db4125c665fe2a1b1ce28a4f4ef83efd988beb4513ce263198334dae7a7c0e08efde459b58a42b121a6; TS01ef6dd3=0191834219fbe03b30ef539d1e9d8492fbff7ad2b4b55c80c547fd3db4125c665fe2a1b1ce4f6c806bdebe738bb9f04e7566f6953d; TS01ef6dd3031=0188b55a20a65ea743b2cba56c1827dad3c63ef4bc5876a79a0323ec8783b38e4ae5f6be5c2a25ceae28c8f78308161b637b80295264901042de20063391e59de7c1a311f7',
 }
 Data = {
     'javax.faces.partial.ajax': 'true',
