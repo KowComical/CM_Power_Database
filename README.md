@@ -23,7 +23,7 @@
 |**[China](./data/asia/china)**|**[中国电力企业联合会](https://cec.org.cn/menu/index.html?170)**|![](./image/updated/China.png)|`Daily`|未来会继续完善爬虫|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[India](./data/asia/india)**|**[POSOCO](https://posoco.in/reports/daily-reports/)**|![](./image/updated/India.png)|`Daily`|1天延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[Japan](./data/asia/japan)**|**[OCCTO](https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login#)**|![](./image/updated/Japan.png)|`Hourly`|10号更新<br>2月前数据<br>用公司新数据拆分的火电|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
-|**[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**||||已有源数据<br>还未更新||
+|**[Turkey](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/27)**||||历史数据已更新完<br>在想办法处理即时数据||
 
 ### Africa
 |Name|Source|Lastest_Date|Resolution|Description|Author|
@@ -35,13 +35,13 @@
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |**[EU27&UK](./data/europe/eu27_uk)**|**[Entsoe](https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show)**<br>**[BMRS](https://www.bmreports.com/bmrs)**|![](./image/updated/Germany.png)|`Hourly`|UK用的是BMRS数据<br>9小时延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
-|**[Russia](./data/europe/russia)**|**[EMRES](https://emres.cn)**|![](./image/updated/Russia.png)|`Hourly`|后续还要再修正拆分火电<br>Hourly 并不能正确反映太阳能数据|**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[Russia](./data/europe/russia)**|**[EMRES](https://emres.cn)**|![](./image/updated/Russia.png)|`Hourly`|数据源出问题了|**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 |**[Ukraine](https://github.com/KowComical/GlobalPowerUpdate-Kow/issues/23)** ||||还未更新||
 
 ### North_America
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|**[United States](./data/n_america/us)**|**[EIA](https://www.eia.gov/electricity/)**|![](./image/updated/US.png)|`Hourly`|24小时左右延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[United States](./data/n_america/us)**|**[EIA](https://www.eia.gov/electricity/)**|![](./image/updated/US.png)|`Hourly`|数据源出问题了 但不是大问题|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
 
 
 ### Sorth_America
