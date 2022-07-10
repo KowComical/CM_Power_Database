@@ -1,97 +1,64 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2021/11/7 15:43
-# @Author  : Zhu Deng
-# @Site    : https://github.com/zhudeng94
-# @File    : Turkey_TEIAS.py
-# @Software: PyCharm
-import datetime
-
-import pandas as pd
-import requests
-import json
-import re
-from tqdm import tqdm
-import os
+# 数据来源 Zhu Deng
 import time
+import re
+import pandas as pd
+from datetime import datetime
 
-url = 'https://ytbsbilgi.teias.gov.tr/ytbsbilgi/frm_istatistikler.jsf'
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import sys
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) '
-                  'Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50',
-    'Cookie': 'JSESSIONID=D3148B880363156DBC78CB65ECA3E112; '
-              'TS0152acb3'
-              '=019183421958fbdbf3b08a25bdbeddc7b8bad81b71b55c80c547fd3db4125c665fe2a1b1ce28a4f4ef83efd988beb4513ce263198334dae7a7c0e08efde459b58a42b121a6; TS01ef6dd3=0191834219fbe03b30ef539d1e9d8492fbff7ad2b4b55c80c547fd3db4125c665fe2a1b1ce4f6c806bdebe738bb9f04e7566f6953d; TS01ef6dd3031=0188b55a20a65ea743b2cba56c1827dad3c63ef4bc5876a79a0323ec8783b38e4ae5f6be5c2a25ceae28c8f78308161b637b80295264901042de20063391e59de7c1a311f7',
-}
-Data = {
-    'javax.faces.partial.ajax': 'true',
-    'javax.faces.source': 'formdash:rapor',
-    'javax.faces.partial.execute': '@all',
-    'javax.faces.partial.render': 'formdash',
-    'formdash:rapor': 'formdash:rapor',
-    'formdash': 'formdash',
-    'hidden1': '13',
-    'formdash:bitisTarihi2_input': '2021-11-05',
-    'javax.faces.ViewState': '2866292535702225257:-4806324036425322669'
-}
-COLUMNS_MAP = {
-    'saat': 'Hour',
-    'linyit': 'Lignite',
-    'taskomur': 'Hard Coal',
-    'asfaltitkomur': 'Asphaltite Coal',
-    'ithalkomur': 'Imported Coal',
-    'fueloil': 'Fuel Oil',
-    'motorin': 'Dıesel Oil',
-    'nafta': 'Naphtha',
-    'lpg': 'LPG',
-    'dogalgaz': 'Natural Gas',
-    'lng': 'LNG',
-    'atikisi': 'Waste',
-    'biyokutle': 'Biomass',
-    'jeotermal': 'Geothermal',
-    'barajli': 'Hydro Storage',
-    'akarsu': 'Run Of River',
-    'ruzgar': 'Wind',
-    'gunes': 'Solar',
-}
-COLS = ['Date'] + list(COLUMNS_MAP.values())
-START_YEAR = 2014
+sys.dont_write_bytecode = True
+sys.path.append('K:\\Github\\CM_Power_Database\\code\\')
+from global_code import global_function as af
 
-path = './data/asia/turkey/'
-raw_path = os.path.join(path, 'raw')
-if not os.path.exists(path):
-    os.mkdir(path)
+# 路径
+file_path = 'K:\\Github\\CM_Power_Database\\data\\asia\\turkey\\craw\\'
+file_name = af.search_file(file_path)
+name = re.compile(r'NETICESI_(?P<name>.*?).xlsx', re.S)
+# 筛选已下载的文件
+existing_date = []
+for f in file_name:
+    existing_date.append(name.findall(f)[0])
+# 日期区间
+start_date = '2017-01-01'
+end_date = datetime.now().strftime('%Y-%m-%d')
+date_range = pd.date_range(start_date, end_date, freq='d').strftime('%Y-%m-%d')[:-1]  # 不要最后一天
+date_range = [i for i in date_range if i not in existing_date]  # 筛掉已下载的
 
-p = re.compile(r'var gunlukUretimEgrisiData = (?P<data>.*);')
+# 设置备注
+options = webdriver.ChromeOptions()
+options.add_experimental_option("excludeSwitches", ["enable-logging"])
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+prefs = {"download.default_directory": file_path}
+options.add_experimental_option("prefs", prefs)
+# 打开网页
+wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)  # 打开浏览器
+wd.get('https://ytbsbilgi.teias.gov.tr/ytbsbilgi/frm_istatistikler.jsf')  # 打开要爬的网址
+wd.implicitly_wait(60)
+time.sleep(1)
+# 进入网址点一下确认按钮
+wd.find_elements(By.XPATH, "//*[contains(text(), 'Kabul Et ve Devam Et')]")[0].click()
+time.sleep(5)
 
-
-def main():
-    # start from 2016.1.1
-    end_year = datetime.datetime.now().year + 1
-    for year in range(START_YEAR, end_year):
-        dateRange = pd.date_range(str(year) + '-01-01', '%d-12-31' % year, freq='D')
-        outfile = os.path.join(raw_path, 'Turkey_TEIAS_Hourly_%d.csv' % year)
-        df = pd.DataFrame()
-        for date in tqdm(dateRange):
-            Data['formdash:bitisTarihi2_input'] = date.strftime('%Y-%m-%d')
-            while True:
-                # noinspection PyBroadException
-                try:
-                    r = requests.get(url, data=json.dumps(Data), headers=headers)
-                    match = p.findall(r.text)[0]
-                    if match[0] != '[':
-                        match = '[' + match + ']'
-                    temp = pd.DataFrame(json.loads(match))
-                    temp['Date'] = date.strftime('%Y-%m-%d')
-                    df = pd.concat([df, temp])
-                    break
-                except:
-                    time.sleep(5)
-                    pass
-        df.rename(columns=COLUMNS_MAP, inplace=True)
-        df.to_csv(outfile, index=False)
-
-
-if __name__ == '__main__':
-    main()
+for d in date_range:
+    try:
+        # 输入所需日期
+        inputElement = wd.find_element(By.ID, 'formdash:bitisTarihi2_input')
+        time.sleep(1)
+        wd.execute_script("arguments[0].value = ''", inputElement)
+        time.sleep(1)
+        inputElement.send_keys(d)
+        time.sleep(1)
+        wd.find_element(By.LINK_TEXT, str(int(d[-2:]))).click()  # 确认日期
+        time.sleep(1)
+        # 下载文件
+        wd.find_element(By.XPATH, "//*[@name='formdash:j_idt42']").click()
+        time.sleep(20)
+    except:  # 有时会莫名其妙让你再点一下确认
+        wd.find_elements(By.XPATH, "//*[contains(text(), 'Kabul Et ve Devam Et')]")[0].click()
+        print('%s - 未下载' % d)
+        time.sleep(5)
