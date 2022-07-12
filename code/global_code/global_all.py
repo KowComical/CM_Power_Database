@@ -554,7 +554,7 @@ def japan():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
         # hourly
         af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
-               name='Japan_hourly_generation-' + str(y) + '.csv', folder=False, unit=True)
+               name='Japan_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
         # daily
         df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
         af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
