@@ -42,4 +42,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Last updated on: ${timestamp}" || exit 0
-          git push
+          git commit -m "second commit"
+          git remote add origin https://github.com/KowComical/CM_Power_Data.git
+          git push -u origin master
