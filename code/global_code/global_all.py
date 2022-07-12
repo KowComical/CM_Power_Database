@@ -634,11 +634,11 @@ def japan():
         # daily
         df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
         af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
-               name='Japan_daily_generation-' + str(y) + '.csv', folder=False, unit=False)
+               name='Japan_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
         # monthly
         df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
         af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
-               name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
+               name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
 
 
 def russia():
