@@ -65,7 +65,7 @@ def craw_to_raw():
 
     df_data = df_data.set_index(['datetime']).stack().reset_index().rename(columns={'level_1': 'company', 0: 'mwh'})
     df_data = df_data.groupby(['datetime']).sum().reset_index()
-    df_data['mwh'] = df_data['mwh'] / 100  # 单位统一为Mwh
+    df_data['mwh'] = df_data['mwh']*10  # 单位统一为Mwh
     df_data['datetime'] = pd.to_datetime(df_data['datetime'])
     df_data = df_data[df_data['datetime'] < current_date].reset_index(drop=True)
     df_data.to_csv(os.path.join(file_path, 'raw', '%s.csv' % 'craw_data'), index=False, encoding='utf_8_sig')
