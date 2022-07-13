@@ -42,5 +42,5 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Last updated on: ${timestamp}" || exit 0
-          git remote add public https://github.com/KowComical/CM_Power_Data.git
+          git remote set-url origin ssh://git@github.com/KowComical/CM_Power_Data.git
           git push -u public master
