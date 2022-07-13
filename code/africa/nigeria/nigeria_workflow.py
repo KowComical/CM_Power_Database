@@ -58,7 +58,7 @@ for f in file_name:
     date_range = date_range[~(
             (date_range['year'] == year) & (date_range['month'] == month) & (date_range['day'] == day) & (
             date_range['hour'] == hour))].reset_index(drop=True)
-date_range = date_range[5000:]  # 分批次下载
+date_range = date_range[8000:]  # 分批次下载
 
 year_list = date_range['year'].tolist()
 month_list = date_range['month'].tolist()
