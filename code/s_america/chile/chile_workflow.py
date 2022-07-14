@@ -91,8 +91,8 @@ def craw():
 def craw_to_raw():
     # 清理craw
     df = pd.concat([pd.read_excel(f, header=3, sheet_name='Sheet') for f in file_name]).reset_index(drop=True)
-    df = df.drop(columns=['Total', 'Hora 25', 'Coordinado', 'Tipo', 'Grupo reporte', 'Llave', 'Central'])
     df = df[df['Central'] != 'Total'].reset_index(drop=True)
+    df = df.drop(columns=['Total', 'Hora 25', 'Coordinado', 'Tipo', 'Grupo reporte', 'Llave', 'Central'])
     df = df.groupby(['Subtipo', 'Fecha']).sum().reset_index()
     # 行转列
     df = df.set_index(['Subtipo', 'Fecha']).stack().reset_index().rename(columns={'level_2': 'hour', 0: 'mwh'})

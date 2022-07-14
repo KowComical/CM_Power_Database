@@ -21,7 +21,6 @@ def main(category):
 
     plt.style.use('seaborn-poster')  # 图表风格
     plt.figure(figsize=(100, 50), dpi=200)  # 设置图表大小
-    # plt.figure(figsize=(18, 24),dpi=200)  # 设置图表大小
 
     sub_plot(df_all, country_list)  # 开始画图
 
