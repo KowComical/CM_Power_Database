@@ -17,7 +17,7 @@ jobs:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
         source_file: 'data/global/Global_PM_corT.csv'
-        destination_repo: 'https://github.com/KowComical/CM_Power_Data.git'
+        destination_repo: 'KowComical/CM_Power_Data'
         user_email: '${GITHUB_ACTOR}@users.noreply.github.com'
         user_name: '${GITHUB_ACTOR}'
         commit_message: 'A custom message for the commit'
