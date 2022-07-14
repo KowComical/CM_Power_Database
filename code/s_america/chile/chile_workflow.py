@@ -14,6 +14,7 @@ import sys
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
+from global_code import global_all as g
 
 end_year = int(datetime.now().strftime('%Y'))  # 当前年
 end_date = (pd.to_datetime(datetime.now().strftime('%Y%m%d')) + relativedelta(months=1)).strftime('%Y-%m')  # 当前月加一个月
@@ -35,8 +36,14 @@ for y in range(2012, end_year + 1):
 
 
 def main():
+    # 爬取数据
     craw()
+    # 数据预清理
     craw_to_raw()
+    # 数据清理及输出
+    g.chile()
+    # 提取最新日期
+    af.updated_date('Chile')
 
 
 def craw():

@@ -224,6 +224,46 @@ def china():
                name='China_monthly_generation-' + str(y) + '.csv', folder=False, unit=False)
 
 
+def chile():
+    file_path = os.path.join(global_path, 's_america', 'chile')
+    in_path = os.path.join(file_path, 'raw')
+    out_path_simulated = af.create_folder(file_path, 'simulated')
+
+    # 数据清理
+    df = pd.read_csv(os.path.join(in_path, 'raw_data.csv'))
+    # 能源类型汇总
+    df['coal'] = df['coal'] + df['PetCoke']
+    df['gas'] = df['BioGas'] + df['Gas Natural']
+    df['oil'] = df['diesel'] + df['Fuel Oil']
+    df['nuclear'] = 0  # 存疑
+    df['hydro'] = df['pass'] + df['reservoir']
+    df['wind'] = df['wind']
+    df['solar'] = df['Solar']
+    df['other'] = df['geothermal'] + df['biomass'] + df['cogeneration']
+
+    # 输出
+    df['datetime'] = pd.to_datetime(df['datetime'])
+    df['year'] = df['datetime'].dt.year
+    for y in df['year'].drop_duplicates().tolist():
+        df_hourly = df[df['year'] == y].reset_index(drop=True)
+        df_daily = df_hourly.copy()
+        df_monthly = df_hourly.copy()
+        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+        # hourly
+        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+               name='Chile_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
+        # #############################################################daily#########################################
+        # daily
+        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+               name='Chile_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
+        # #############################################monthly###############################################
+        # monthly
+        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+               name='Chile_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
+
+
 def eu():
     file_path = os.path.join(global_path, 'europe', 'eu27_uk')
     in_path_entsoe = os.path.join(file_path, 'raw', 'entsoe')

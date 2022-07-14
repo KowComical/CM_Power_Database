@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 
 import sys
+
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
 import global_function as af
@@ -15,7 +16,7 @@ def main(category):
     out_path = './image/'
     country_list = ['Australia', 'Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan',
                     'Spain',
-                    'United Kingdom', 'United States', 'South Africa']  # 这里以后要修改
+                    'United Kingdom', 'United States', 'South Africa', 'Chile']  # 这里以后要修改
     df_all = sum_country(country_list, category)  # 合并数据
 
     plt.style.use('seaborn-poster')  # 图表风格
