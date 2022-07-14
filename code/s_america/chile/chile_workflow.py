@@ -36,6 +36,7 @@ for y in range(2012, end_year + 1):
 
 def main():
     craw()
+    craw_to_raw()
 
 
 def craw():
@@ -85,8 +86,15 @@ def craw_to_raw():
     # 删掉最后一天的数据 不准确
     now = datetime.now().strftime('%Y-%m-%d')
     df = df[df['datetime'] < now].reset_index(drop=True)
+    # 改名
+    df = df.rename(columns={'Biomasa': 'biomass', 'Carbón': 'coal',
+                            'Cogeneracion': 'cogeneration', 'Diésel': 'diesel',
+                            'Embalse': 'reservoir', 'Eólica': 'wind', 'Geotérmica': 'geothermal',
+                            'Pasada': 'pass'})
     # 输出
     df.to_csv(os.path.join(out_path, 'raw_data.csv'), index=False, encoding='utf_8_sig')
+    # 删除最后一个月的数据
+    os.remove(max(file_name))
 
 
 if __name__ == '__main__':

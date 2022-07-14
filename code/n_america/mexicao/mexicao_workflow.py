@@ -48,4 +48,12 @@ df_new['datetime'] = pd.to_datetime(df_new['Dia']) + pd.to_timedelta((df_new['Ho
 df_new = df_new.drop(columns=['Dia', 'Hora'])
 # 删除
 df_new = df_new.groupby(['datetime', 'Sistema']).mean().reset_index()  # 数值我看各版本没有差异 这里暂取平均值
-df_new.to_csv(os.path.join(file_path, 'out_path.csv'), index=False, encoding='utf_8_sig')
+# 能源类型改名
+df = df.rename(columns={'Eolica': 'wind', 'Fotovoltaica': 'solar',
+                        'Biomasa': 'biomass', 'Carboelectrica': 'coal',
+                        'Geotermoelectrica': 'geothermal', 'Hidroelectrica': 'hydro', 'Nucleoelectrica': 'nuclear',
+                        'Termica Convencional': 'conventional thermal', 'Sistema': 'system',
+                        'Turbo Gas': 'gas', 'Ciclo Combinado': 'combined cycle',
+                        'Combustion Interna': 'internal combustion'})
+
+df_new.to_csv(os.path.join(out_path, 'raw_data.csv'), index=False, encoding='utf_8_sig')
