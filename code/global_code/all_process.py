@@ -94,6 +94,16 @@ except Exception as e:
     print(e)
 
 try:
+    sys.path.append('./code/s_america/')
+    print('#######################')
+    print('Begin process Chile...')
+    import chile.chile_workflow as ch
+    ch.main()
+    print('Finish process Chile...')
+except Exception as e:
+    print(e)
+
+try:
     import iea_workflow as iea
     print('#######################')
     print('Begin process iea...')
