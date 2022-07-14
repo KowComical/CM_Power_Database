@@ -264,7 +264,6 @@ def eu():
     # bmrs
     df_bmrs = pd.read_csv(in_path_bmrs_file)
     af.time_info(df_bmrs, 'datetime')
-    # df_bmrs = df_bmrs[df_bmrs['date'] < now].reset_index(drop=True)
     for y in df_bmrs['year'].drop_duplicates().tolist():
         df_bmrs_cleaned_yearly = df_bmrs[df_bmrs['year'] == y].reset_index(drop=True)
         out_path_cleaned_yearly = af.create_folder(out_path_cleaned, str(y))
