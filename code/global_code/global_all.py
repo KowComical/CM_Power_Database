@@ -230,7 +230,7 @@ def chile():
     out_path_simulated = af.create_folder(file_path, 'simulated')
 
     # 数据清理
-    df = pd.read_csv(os.path.join(in_path, 'raw_data.csv'))
+    df = pd.read_csv(os.path.join(in_path, 'raw_data.csv')).fillna(0)
     # 能源类型汇总
     df['coal'] = df['coal'] + df['PetCoke']
     df['gas'] = df['BioGas'] + df['Gas Natural']
@@ -678,6 +678,34 @@ def japan():
         df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
         af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
                name='Japan_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
+
+
+def mexico():
+    file_path = os.path.join(global_path, 'n_america', 'mexico')
+    in_path = os.path.join(file_path, 'raw')
+    out_path_simulated = af.create_folder(file_path, 'simulated')
+    # 读取raw数据
+    df = pd.read_csv(os.path.join(in_path, 'raw_data.csv'))
+    df['datetime'] = pd.to_datetime(df['datetime'])
+    df['year'] = df['datetime'].dt.year
+    for y in df['year'].drop_duplicates().tolist():
+        df_hourly = df[df['year'] == y].reset_index(drop=True)
+        df_daily = df_hourly.copy()
+        df_monthly = df_hourly.copy()
+        out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
+        # hourly
+        af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
+               name='Mexico_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
+        # #############################################################daily#########################################
+        # daily
+        df_daily = df_daily.set_index('datetime').resample('d').sum().reset_index()
+        af.agg(df_daily, 'datetime', out_path_simulated_yearly, 'daily',
+               name='Mexico_daily_generation-' + str(y) + '.csv', folder=False, unit=True)
+        # #############################################monthly###############################################
+        # monthly
+        df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
+        af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
+               name='Mexico_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
 
 
 def russia():
