@@ -54,7 +54,7 @@ def craw():
     options.add_argument('--disable-gpu')
     options.add_argument('--ignore-ssl-errors=yes')  # 这两条会解决页面显示不安全问题
     options.add_argument('--ignore-certificate-errors')
-    prefs = {"download.default_directory": file_path}
+    prefs = {"download.default_directory": 'C:\\'}
     options.add_experimental_option("prefs", prefs)
     # 打开网页
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)  # 打开浏览器
@@ -75,11 +75,22 @@ def craw():
             wd.find_element(By.XPATH,
                             "//*[@class='cen_btn cen_btn-primary cen_reset-margin download-file-marginal']").click()  # 点击下载
             time.sleep(5)
+    # 找到下载的文件
+    windows_name = af.search_file('C:\\')
+    # 匹配月份 # 这里有个bug 目前只能一个月一个月的找 如果以后有断档月 这里要修改
+    windows_date = datetime.now().strftime('%Y-%m')
+    windows_date = windows_date.replace(windows_date[-2:], str(int(windows_date[-2:])))
+
+    windows_name = [windows_name[i] for i, x in enumerate(windows_name) if x.find(windows_date) != -1]
+    if windows_name:
+        windows_name = [windows_name[i] for i, x in enumerate(windows_name) if x.find('xlsx') != -1][0]
+    df = pd.read_excel(windows_name, sheet_name='Sheet')
+    df.to_excel(os.path.join(file_path, '%s.xlsx' % windows_date), sheet_name='Sheet', index=False)
 
 
 def craw_to_raw():
     # 清理craw
-    df = pd.concat([pd.read_excel(f, header=3) for f in file_name]).reset_index(drop=True)
+    df = pd.concat([pd.read_excel(f, header=3, sheet_name='Sheet') for f in file_name]).reset_index(drop=True)
     df = df.drop(columns=['Total', 'Hora 25', 'Coordinado', 'Tipo', 'Grupo reporte', 'Llave', 'Central'])
     df = df[df['Central'] != 'Total'].reset_index(drop=True)
     df = df.groupby(['Subtipo', 'Fecha']).sum().reset_index()
