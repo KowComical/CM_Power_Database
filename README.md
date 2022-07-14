@@ -48,6 +48,7 @@
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |**[Brazil](./data/s_america/brazil)**|**[ONS](http://www.ons.org.br/Paginas/resultados-da-operacao/historico-da-operacao)**|![](./image/updated/Brazil.png)|`Hourly`|72小时左右延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[Chile](./data/s_america/chile)**|**[Coordinador Eléctrico Nacional](https://www.coordinador.cl/operacion/graficos/operacion-real/generacion-real/)**|![](./image/updated/Chile.png)|`Hourly`|24小时左右延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Taochun_Sun`](https://github.com/suntaochun)**<br>**[`Kow`](https://github.com/KowComical)**|
 
 ### Oceania
 |Name|Source|Lastest_Date|Resolution|Description|Author|
