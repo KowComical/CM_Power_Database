@@ -14,7 +14,7 @@ sys.path.append('./code/')
 from global_code import global_function as af
 
 # 路径
-global_path = './data/n_america/mexicao/'
+global_path = './data/n_america/mexico/'
 file_path = os.path.join(global_path, 'craw')
 out_path = os.path.join(global_path, 'raw')
 

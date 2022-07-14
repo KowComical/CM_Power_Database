@@ -23,8 +23,13 @@ end_date = (pd.to_datetime(datetime.now().strftime('%Y%m%d')) + relativedelta(mo
 global_path = './data/s_america/chile/'
 file_path = os.path.join(global_path, 'craw')
 out_path = os.path.join(global_path, 'raw')
+
+# 删除最后一个月的数据
+file_name = af.search_file(file_path)
+os.remove(max(file_name))
 # 读取已下载的
 file_name = af.search_file(file_path)
+
 year_list = []
 month_list = []
 for y in range(2012, end_year + 1):
@@ -54,7 +59,7 @@ def craw():
     options.add_argument('--disable-gpu')
     options.add_argument('--ignore-ssl-errors=yes')  # 这两条会解决页面显示不安全问题
     options.add_argument('--ignore-certificate-errors')
-    prefs = {"download.default_directory": 'C:\\'}
+    prefs = {"download.default_directory": file_path}
     options.add_experimental_option("prefs", prefs)
     # 打开网页
     wd = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)  # 打开浏览器
@@ -75,17 +80,17 @@ def craw():
             wd.find_element(By.XPATH,
                             "//*[@class='cen_btn cen_btn-primary cen_reset-margin download-file-marginal']").click()  # 点击下载
             time.sleep(5)
-    # 找到下载的文件
-    windows_name = af.search_file('C:\\')
-    # 匹配月份 # 这里有个bug 目前只能一个月一个月的找 如果以后有断档月 这里要修改
-    windows_date = datetime.now().strftime('%Y-%m')
-    windows_date = windows_date.replace(windows_date[-2:], str(int(windows_date[-2:])))
-
-    windows_name = [windows_name[i] for i, x in enumerate(windows_name) if x.find(windows_date) != -1]
-    if windows_name:
-        windows_name = [windows_name[i] for i, x in enumerate(windows_name) if x.find('xlsx') != -1][0]
-    df = pd.read_excel(windows_name, sheet_name='Sheet')
-    df.to_excel(os.path.join(file_path, '%s.xlsx' % windows_date), sheet_name='Sheet', index=False)
+    # # 找到下载的文件
+    # windows_name = af.search_file('C:\\')
+    # # 匹配月份 # 这里有个bug 目前只能一个月一个月的找 如果以后有断档月 这里要修改
+    # windows_date = datetime.now().strftime('%Y-%m')
+    # windows_date = windows_date.replace(windows_date[-2:], str(int(windows_date[-2:])))
+    #
+    # windows_name = [windows_name[i] for i, x in enumerate(windows_name) if x.find(windows_date) != -1]
+    # if windows_name:
+    #     windows_name = [windows_name[i] for i, x in enumerate(windows_name) if x.find('xlsx') != -1][0]
+    # df = pd.read_excel(windows_name, sheet_name='Sheet')
+    # df.to_excel(os.path.join(file_path, '%s.xlsx' % windows_date), sheet_name='Sheet', index=False)
 
 
 def craw_to_raw():
@@ -111,8 +116,6 @@ def craw_to_raw():
                             'Pasada': 'pass'})
     # 输出
     df.to_csv(os.path.join(out_path, 'raw_data.csv'), index=False, encoding='utf_8_sig')
-    # 删除最后一个月的数据
-    os.remove(max(file_name))
 
 
 if __name__ == '__main__':
