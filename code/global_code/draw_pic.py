@@ -144,7 +144,7 @@ def draw_pic(df_all, c, i):
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
     plt.legend(loc='best', prop={'size': 50})
     plt.yticks(size=40)
-    if i <= 7:  # 这里以后要修改
+    if i <= 11:  # 这里以后要修改 以后要修改成最后4个 也就是最后一行显示x坐标
         plt.xticks(())
     else:
         plt.xticks(size=60)
