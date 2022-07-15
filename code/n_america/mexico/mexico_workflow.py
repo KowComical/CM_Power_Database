@@ -1,6 +1,5 @@
 # 数据来源 Taochun Sun
 import time
-import re
 import os
 import pandas as pd
 
@@ -62,7 +61,7 @@ def craw():
     df_new['datetime'] = pd.to_datetime(df_new['Dia']) + pd.to_timedelta((df_new['Hora'] - 1), unit='h')  # 小时时间要往前推一个小时
     df_new = df_new.drop(columns=['Dia', 'Hora'])
 
-    df_old = pd.read_csv(file_path + 'history_data.csv')  # 读取历史数据
+    df_old = pd.read_csv(os.path.join(file_path, 'history_data.csv'))  # 读取历史数据
     df_new = pd.concat([df_old, df_new]).reset_index(drop=True)  # 合并结果
     df_new['datetime'] = pd.to_datetime(df_new['datetime'])
     df_new = df_new.groupby(['datetime', 'Sistema']).mean().reset_index()  # 数值我看各版本没有差异 这里暂取平均值
