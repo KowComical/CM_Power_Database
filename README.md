@@ -42,6 +42,7 @@
 |Name|Source|Lastest_Date|Resolution|Description|Author|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |**[United States](./data/n_america/us)**|**[EIA](https://www.eia.gov/electricity/)**|![](./image/updated/US.png)|`Hourly`|数据源出问题了 但不是大问题|**[`Biqing`](https://github.com/cadagno)**<br>**[`Zhu_Deng`](https://github.com/thuzhu)**<br>**[`Kow`](https://github.com/KowComical)**|
+|**[Mexico](./data/n_america/mexico)**|**[Gobierno de Mexico](https://www.cenace.gob.mx/Paginas/SIM/Reportes/EnergiaGeneradaTipoTec.aspx)**|![](./image/updated/Mexico.png)|`Hourly`|目前来看是一个月延迟|**[`Biqing`](https://github.com/cadagno)**<br>**[`Taochun_Sun`](https://github.com/suntaochun)**<br>**[`Kow`](https://github.com/KowComical)**|
 
 
 ### Sorth_America
