@@ -58,7 +58,7 @@ for f in file_name:
     date_range = date_range[~(
             (date_range['year'] == year) & (date_range['month'] == month) & (date_range['day'] == day) & (
             date_range['hour'] == hour))].reset_index(drop=True)
-date_range = date_range[1000:]  # 分批次下载
+date_range = date_range[500:]  # 分批次下载
 
 year_list = date_range['year'].tolist()
 month_list = date_range['month'].tolist()
@@ -70,7 +70,7 @@ for y, m, d, h in zip(year_list, month_list, day_list, hour_list):
     df = pd.DataFrame()
     wd.find_element(By.XPATH, "//*[@name='ctl00$MainContent$txtReadingDate']").click()  # 点击选日期
     time.sleep(1)
-    wd.find_element(By.XPATH, "//*[@value=%s]" % y).click()  # 点击选年份
+    wd.find_element(By.XPATH, "//option[@value=%s]" % y).click()  # 点击选年份
     time.sleep(1)
     try:
         wd.find_elements(By.XPATH, "//*[contains(text(), '%s')]" % m)[0].click()  # 点击选月份
@@ -78,7 +78,7 @@ for y, m, d, h in zip(year_list, month_list, day_list, hour_list):
         print(e)
         wd.find_element(By.XPATH, "//*[@name='ctl00$MainContent$txtReadingDate']").click()  # 点击选日期
         time.sleep(1)
-        wd.find_element(By.XPATH, "//*[@value=%s]" % y).click()  # 点击选年份
+        wd.find_element(By.XPATH, "//option[@value=%s]" % y).click()  # 点击选年份
         time.sleep(1)
         wd.find_elements(By.XPATH, "//*[contains(text(), %s)]" % m)[0].click()  # 点击选月份
     time.sleep(1)

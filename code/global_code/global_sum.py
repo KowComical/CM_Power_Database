@@ -51,8 +51,8 @@ def process():
         # noinspection PyBroadException
         try:
             df_all[x] = df_all[x].astype(float)
-        except:
-            pass
+        except Exception as e:
+            print(e)
     af.time_info(df_all, 'date')
 
     df_all = df_all.set_index(
