@@ -86,10 +86,10 @@ def process():
     country_list = ['Brazil', 'China', 'Russia', 'EU27 & UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
                     'UK', 'US', 'South Africa', 'Australia']
     df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
-    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-06-16')].reset_index(drop=True)
-    # 不要最后一天的数据
-    yesterday = af.get_yesterday().strftime('%Y-%m-%d')
-    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < yesterday)].reset_index(drop=True)
+    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-05-31')].reset_index(drop=True)
+    # # 不要最后一天的数据
+    # yesterday = af.get_yesterday().strftime('%Y-%m-%d')
+    # df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < yesterday)].reset_index(drop=True)
     # # 取所有国家的日期公约最大值 # 目前Russia和US有问题 所以都不取 未来修好之后这个可以直接用
     # max_date = max(df_all['date'])
     # for c in country_list:
