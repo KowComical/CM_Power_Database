@@ -1,36 +1,34 @@
-from matplotlib.dates import MonthLocator, DateFormatter
 import matplotlib.pyplot as plt
 import pandas as pd
 import re
 import os
+import calendar
 from datetime import datetime
-
 import sys
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
 import global_function as af
 
+out_path = './image/'
+country_list = ['Australia', 'Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan',
+                'Spain',
+                'United Kingdom', 'United States', 'South Africa', 'Chile', 'Mexico']  # 这里以后要修改
+
+file_path = './data/'
+global_path = os.path.join(file_path, 'global')
+
+plt.style.use('seaborn-poster')  # 图表风格
+fig = plt.figure(figsize=(100, 50), dpi=200)  # 设置图表大小
+
 
 def main(category):
-    out_path = './image/'
-    country_list = ['Australia', 'Brazil', 'China', 'Russia', 'EU27&UK', 'France', 'Germany', 'India', 'Italy', 'Japan',
-                    'Spain',
-                    'United Kingdom', 'United States', 'South Africa', 'Chile', 'Mexico']  # 这里以后要修改
-    df_all = sum_country(country_list, category)  # 合并数据
-
-    plt.style.use('seaborn-poster')  # 图表风格
-    plt.figure(figsize=(100, 50), dpi=200)  # 设置图表大小
-
-    sub_plot(df_all, country_list)  # 开始画图
-
-    out_put(out_path, category)  # 输出图
+    df_all = data_process(category)
+    draw_plt(df_all, category)
+    out_put(category)
 
 
-def sum_country(country_list, category):
-    file_path = './data/'
-    global_path = os.path.join(file_path, 'global')
-
+def data_process(category):
     file_name = af.search_file(file_path)
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('simulated') != -1]
     file_name = [file_name[i] for i, x in enumerate(file_name) if x.find('daily') != -1]
@@ -57,107 +55,89 @@ def sum_country(country_list, category):
         df_temp = pd.read_csv(f)
         df_temp['country'] = c.capitalize()
         df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
+    # 只保留需要的列
+    col_list = ['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'wind', 'solar', 'other']
+    df_all = df_all[col_list]
 
-    for x in df_all.columns.tolist():
-        # noinspection PyBroadException
-        try:
-            df_all[x] = df_all[x].astype(float)
-        except:
-            pass
-    af.time_info(df_all, 'date')
-
-    df_all = df_all.set_index(
-        ['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country']).stack().reset_index().rename(
-        columns={'level_7': 'Type', 0: 'Value'})
-    df_all = df_all[
-        df_all['Type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other'])].reset_index(
-        drop=True)
+    # 统一命名
     df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'United Kingdom')
     df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
     df_all['country'] = df_all['country'].str.replace('Us', 'United States')
     df_all['country'] = df_all['country'].str.replace('South_africa', 'South Africa')
 
-    # 前一天的数据基本都不准确
-    df_all['date'] = pd.to_datetime(df_all['date'])
-    yesterday = af.get_yesterday().strftime('%Y-%m-%d')
-    df_all = df_all[df_all['date'] < yesterday].reset_index(drop=True)
-
-    df_all = df_all[['date', 'country', 'Type', 'Value']]
-
-    if not category:
-        df_all = df_all.groupby(['date', 'country']).sum().reset_index()
-        df_all['Type'] = 'All'
-    else:
-        df_all = df_all[df_all['Type'] == category].reset_index(drop=True)
-    df_all = df_all.rename(columns={'country': 'country/region', 'Type': 'energy_source', 'Value': 'value'})
-
     # 添加欧盟
     df_c = pd.read_csv(os.path.join(global_path, 'EU_country_list.csv'))
 
     eu27_list = df_c['country'].tolist() + ['United Kingdom']
-    df_eu27 = df_all[df_all['country/region'].isin(eu27_list)].groupby(
-        ['date', 'energy_source']).sum().reset_index()
-    df_eu27['country/region'] = 'EU27&UK'
+    df_eu27 = df_all[df_all['country'].isin(eu27_list)].groupby(['date']).sum().reset_index()
+    df_eu27['country'] = 'EU27&UK'
     df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
+    # 只保留需要的国家
+    df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
+    # 从19年开始统计
+    df_all['date'] = pd.to_datetime(df_all['date'])
+    yesterday = af.get_yesterday().strftime('%Y-%m-%d')
+    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < yesterday)].reset_index(drop=True)
 
-    df_all = df_all.groupby(['country/region', 'date']).sum().reset_index()
-    df_all = pd.pivot_table(df_all, index='date', values='value', columns='country/region').reset_index()
-
-    df_all = df_all[['date'] + country_list]
-    df_all = df_all[df_all['date'] >= '2019-01-01'].reset_index(drop=True)
-    df_all['year'] = df_all['date'].dt.year
-    df_all['month'] = df_all['date'].dt.month
+    if category:  # 设置能源类型
+        df_all = df_all[['country', 'date', category]]
     return df_all
 
 
-def draw_pic(df_all, c, i):
-    # 开始画图
-    year_list = df_all['year'].drop_duplicates().tolist()
-    n = 0.3
-    color_pool = []
-    for z in range(len(year_list)):  # 设置渐变颜色
-        color_pool.append(n)
-        n += 0.4
-    # plt.style.use('seaborn')
-
-    plt.title(c, size=70)
-    if i % 4 == 0:  # 如果能被4整除 也就是最左边一列
-        plt.ylabel('Power generated (Gwh)', size=70)
+def draw_plt(df_all, category):
+    if category:
+        category_name = category
     else:
-        plt.ylabel('')
+        category_name = 'power'
+    num = [i for i in range(len(country_list))]
+    for co, i in zip(country_list, num):
+        pic = plt.subplot(4, 4, i + 1)
+        pic.text(0, 0.9, '%s_%s' % (co, category_name.capitalize()), horizontalalignment='left',
+                 transform=pic.transAxes, size=80,
+                 color='red')
+        if i % 4 == 0:  # 如果能被4整除 也就是最左边一列
+            plt.ylabel('Power generated (Gwh)', size=70)
+        else:
+            plt.ylabel('')
+        test = df_all[df_all['country'] == co].reset_index(drop=True)
+        test['year'] = test['date'].dt.year
+        test['month_date'] = test['date'].dt.strftime('%m-%d')
+        # 行转列
+        test = test.drop(columns=['country', 'date']).set_index(['year', 'month_date']).stack().reset_index().rename(
+            columns={'level_2': 'type', 0: 'gwh'})
+        test = test.groupby(['year', 'month_date']).sum().reset_index()
 
-    for d, p in zip(range(len(year_list)), color_pool):
-        x = df_all[df_all['year'] == year_list[0]]['date'].tolist()
-        y = df_all[df_all['year'] == year_list[d]][c].tolist()[0:len(x)]
-        if 'frica' in c:  # 有的时候南非最后一天数据不完全
-            x = x[:-1]
-            y = y[:-1]
-        # noinspection PyBroadException
-        try:
-            plt.plot(x, y, color=af.lighten_color('orange', p), linewidth=8, label=year_list[d])
-        except:  # 如果长度不一致
-            len_num = len(x) - len(y)
-            y = y + [None] * len_num
-            plt.plot(x, y, color=af.lighten_color('grey', p), linewidth=8, label=year_list[d])
-    ax = plt.gca()  # 表明设置图片的各个轴，plt.gcf()表示图片本身
-    ax.xaxis.set_major_locator(MonthLocator())
-    ax.xaxis.set_major_formatter(DateFormatter('%b'))
-    plt.legend(loc='best', prop={'size': 50})
-    plt.yticks(size=40)
-    if i <= 11:  # 这里以后要修改 以后要修改成最后4个 也就是最后一行显示x坐标
-        plt.xticks(())
-    else:
-        plt.xticks(size=60)
+        year_list = test['year'].drop_duplicates().tolist()
+        n = 0.3
+        color_pool = []
+        for z in range(len(year_list)):  # 设置渐变颜色
+            color_pool.append(n)
+            n += 0.4
+
+        month_list = []
+        for t in test['month_date'].tolist():
+            month_list.append(calendar.month_abbr[int(t[:2])])
+        test['month'] = month_list
+        test = pd.pivot_table(test, index=['month_date', 'month'], values='gwh', columns='year').reset_index()
+
+        for y, c in zip(year_list, color_pool):
+            if y == year_list[-1]:  # 最后一年改为黑色显示
+                pass
+                test.set_index('month')[y].plot(color='black', linewidth=8)
+            else:
+                test.set_index('month')[y].plot(color=af.lighten_color('orange', c), linewidth=8)
+            # plt.set_title('South Africa',size = 80)
+            plt.yticks(size=50)
+            plt.xticks(size=60)
+            plt.xlabel('')  # 不要x轴标签
+
+        for axis in ['top', 'bottom', 'left', 'right']:
+            pic.spines[axis].set_linewidth(4)  # change width
+            pic.spines[axis].set_color('red')  # change color
+    fig.tight_layout()
 
 
-def sub_plot(df_all, country_list):
-    for i in range(len(country_list)):
-        plt.subplot(4, 4, i + 1)  # 第一个是列 第二个是行
-        draw_pic(df_all, country_list[i], i)
-    plt.tight_layout()
-
-
-def out_put(out_path, category):
+def out_put(category):
     current_date = datetime.now().strftime('%Y%m%d')
     if not category:  # 全部的情况
         out_path_energy = af.create_folder(out_path, 'all')
@@ -177,4 +157,5 @@ def out_put(out_path, category):
 
         plt.savefig(os.path.join(out_path_monthly, 'Power_generation_for_all_country_%s.svg' % current_date),
                     format='svg')
-        plt.savefig(os.path.join(out_path, '%s_generation_for_all_country.svg' % category.capitalize()), format='svg')
+        plt.savefig(os.path.join(out_path, '%s_generation_for_all_country.svg' % category.capitalize()),
+                    format='svg')
