@@ -18,9 +18,6 @@ country_list = ['Australia', 'Brazil', 'China', 'Russia', 'EU27&UK', 'France', '
 file_path = './data/'
 global_path = os.path.join(file_path, 'global')
 
-plt.style.use('seaborn-poster')  # 图表风格
-fig = plt.figure(figsize=(100, 50), dpi=200)  # 设置图表大小
-
 
 def main(category):
     df_all = data_process(category)
@@ -85,6 +82,8 @@ def data_process(category):
 
 
 def draw_plt(df_all, category):
+    plt.style.use('seaborn-poster')  # 图表风格
+    fig = plt.figure(figsize=(100, 50), dpi=200)  # 设置图表大小
     if category:
         category_name = category
     else:
