@@ -133,7 +133,6 @@ def draw_plt(df_all, category):
             plt.legend(loc='best', prop={'size': 50})
         else:
             plt.legend('')
-
         for axis in ['top', 'bottom', 'left', 'right']:
             pic.spines[axis].set_linewidth(4)  # change width
             pic.spines[axis].set_color('red')  # change color
