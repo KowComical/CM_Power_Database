@@ -126,10 +126,10 @@ def draw_plt(df_all, category):
                 test.set_index('month')[y].plot(color='black', linewidth=8)
             else:
                 test.set_index('month')[y].plot(color=af.lighten_color('orange', c), linewidth=8)
-            plt.legend(loc='best', prop={'size': 50})
-            plt.yticks(size=50)
-            plt.xticks(size=60)
-            plt.xlabel('')  # 不要x轴标签
+        # plt.legend(loc='best', prop={'size': 50})
+        plt.yticks(size=50)
+        plt.xticks(size=60)
+        plt.xlabel('')  # 不要x轴标签
 
         for axis in ['top', 'bottom', 'left', 'right']:
             pic.spines[axis].set_linewidth(4)  # change width
