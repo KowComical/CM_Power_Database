@@ -1,6 +1,8 @@
 import warnings
+
 warnings.filterwarnings('ignore')
 import sys
+
 sys.dont_write_bytecode = True
 
 try:
@@ -8,6 +10,7 @@ try:
     print('#######################')
     print('Begin process Australia...')
     import australia.australia_workflow as aa
+
     aa.main()
     print('Finish process Australia...')
 except Exception as e:
@@ -18,6 +21,7 @@ try:
     print('#######################')
     print('Begin process South Africa...')
     import south_africa.south_africa_workflow as sa
+
     sa.main()
     print('Finish process South Africa...')
 except Exception as e:
@@ -28,6 +32,7 @@ try:
     print('#######################')
     print('Begin process China...')
     import china.china_workflow as c
+
     c.main()
     print('Finish process China...')
 except Exception as e:
@@ -38,6 +43,7 @@ try:
     print('#######################')
     print('Begin process India...')
     import india.india_workflow as i
+
     i.main()
     print('Finish process India...')
 except Exception as e:
@@ -48,6 +54,7 @@ try:
     print('#######################')
     print('Begin process Japan...')
     import japan.japan_workflow as j
+
     j.main()
     print('Finish process Japan...')
 except Exception as e:
@@ -58,6 +65,7 @@ try:
     print('#######################')
     print('Begin process EU...')
     import eu27_uk.eu_workflow as eu
+
     eu.main()
     print('Finish process EU...')
 except Exception as e:
@@ -68,6 +76,7 @@ try:
     print('#######################')
     print('Begin process Russia...')
     import russia.russia_workflow as r
+
     r.main()
     print('Finish process Russia...')
 except Exception as e:
@@ -78,6 +87,7 @@ try:
     print('#######################')
     print('Begin process US...')
     import us.us_workflow as us
+
     us.main()
     print('Finish process US...')
 except Exception as e:
@@ -88,6 +98,7 @@ try:
     print('#######################')
     print('Begin process Mexico...')
     import mexico.mexico_workflow as me
+
     me.main()
     print('Finish process Mexico...')
 except Exception as e:
@@ -98,6 +109,7 @@ try:
     print('#######################')
     print('Begin process Brazil...')
     import brazil.brazil_workflow as b
+
     b.main()
     print('Finish process Brazil...')
 except Exception as e:
@@ -108,6 +120,7 @@ try:
     print('#######################')
     print('Begin process Chile...')
     import chile.chile_workflow as ch
+
     ch.main()
     print('Finish process Chile...')
 except Exception as e:
@@ -115,6 +128,7 @@ except Exception as e:
 
 try:
     import iea_workflow as iea
+
     print('#######################')
     print('Begin process iea...')
     iea.main()
@@ -124,6 +138,7 @@ except Exception as e:
 
 try:
     import bp_workflow as bp
+
     print('#######################')
     print('Begin process bp...')
     bp.main()
@@ -133,6 +148,7 @@ except Exception as e:
 
 try:
     import cal_ef_emission as cal
+
     cal.main()
 except Exception as e:
     print(e)
@@ -141,6 +157,7 @@ except Exception as e:
 print('#######################')
 print('Begin process draw_pic...')
 import draw_pic as d
+
 energy_list = ['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']
 for e in energy_list:
     d.main(category=e)
@@ -149,4 +166,5 @@ print('Finish process draw_pic...')
 
 # 输出网页要求的数据格式的发电数据
 import global_sum as gs
+
 gs.main()

@@ -1,3 +1,4 @@
+from jupyterthemes import jtplot
 import matplotlib.pyplot as plt
 import pandas as pd
 import re
@@ -5,6 +6,7 @@ import os
 import calendar
 from datetime import datetime
 import sys
+
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/global_code/')
@@ -82,7 +84,8 @@ def data_process(category):
 
 
 def draw_plt(df_all, category):
-    plt.style.use('seaborn-poster')  # 图表风格
+    # plt.style.use('seaborn-poster')  # 图表风格
+    jtplot.style(theme='onedork')
     fig = plt.figure(figsize=(100, 50), dpi=200)  # 设置图表大小
     if category:
         category_name = category
@@ -91,9 +94,9 @@ def draw_plt(df_all, category):
     num = [i for i in range(len(country_list))]
     for co, i in zip(country_list, num):
         pic = plt.subplot(4, 4, i + 1)
-        pic.text(0, 0.9, '%s_%s' % (co, category_name.capitalize()), horizontalalignment='left',
-                 transform=pic.transAxes, size=80,
-                 color='red')
+        # pic.text(0, 0.9, '%s_%s' % (co, category_name.capitalize()), horizontalalignment='left',
+        #          transform=pic.transAxes, size=80,
+        #          color='black')
         if i % 4 == 0:  # 如果能被4整除 也就是最左边一列
             plt.ylabel('Power generated (Gwh)', size=70)
         else:
@@ -121,20 +124,20 @@ def draw_plt(df_all, category):
 
         for y, c in zip(year_list, color_pool):
             if y == year_list[-1]:  # 最后一年改为黑色显示
-                pass
-                test.set_index('month')[y].plot(color='black', linewidth=8)
+                test.set_index('month_date')[y].plot(color='black', linewidth=8)
             else:
-                test.set_index('month')[y].plot(color=af.lighten_color('orange', c), linewidth=8)
+                test.set_index('month_date')[y].plot(color=af.lighten_color('orange', c), linewidth=8)
         plt.yticks(size=50)
         plt.xticks(size=60)
         plt.xlabel('')  # 不要x轴标签
+        plt.title('%s_%s' % (co, category_name.capitalize()), size=80)
         if i == 0:
             plt.legend(loc='best', prop={'size': 50})
         else:
             plt.legend('')
-        for axis in ['top', 'bottom', 'left', 'right']:
-            pic.spines[axis].set_linewidth(4)  # change width
-            pic.spines[axis].set_color('red')  # change color
+        # for axis in ['top', 'bottom', 'left', 'right']:
+        #     pic.spines[axis].set_linewidth(4)  # change width
+        #     pic.spines[axis].set_color('red')  # change color
     fig.tight_layout()
 
 
