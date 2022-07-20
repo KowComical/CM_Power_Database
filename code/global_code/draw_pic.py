@@ -85,7 +85,7 @@ def data_process(category):
 
 def draw_plt(df_all, category):
     # plt.style.use('seaborn-poster')  # 图表风格
-    jtplot.style(theme='onedork')
+    jtplot.style(theme='solarizedl')
     fig = plt.figure(figsize=(100, 50), dpi=200)  # 设置图表大小
     if category:
         category_name = category
