@@ -879,42 +879,28 @@ def south_africa():
     file_path = os.path.join(global_path, 'africa', 'south_africa')
     in_path = os.path.join(file_path, 'raw')
     out_path_simulated = af.create_folder(file_path, 'simulated')
-    bp_path = os.path.join(global_path, '#global_rf', 'bp')
 
     df = pd.read_csv(os.path.join(in_path, 'raw.csv'))
 
-    df = df.rename(columns={'Nuclear Generation': 'nuclear', 'Hydro Water Generation': 'hydro', 'Wind': 'wind',
-                            'Other RE': 'other', 'Thermal Generation': 'thermal_raw',
+    df = df.rename(columns={'Nuclear Generation': 'nuclear', 'Wind': 'wind',
+                            'Other RE': 'other',
                             'Date Time Hour Beginning': 'datetime'})
     df['datetime'] = pd.to_datetime(df['datetime'])
     # solar
     df['solar'] = df[['PV', 'CSP']].sum(axis=1)
-    # gas 目前用南非国家电力公司的值 暂不用thermal去分
-    df['gas'] = df[['Eskom Gas Generation', 'Eskom OCGT Generation']].sum(axis=1)
+    # coal 根据描述里写的 南非的coal就是thermal generation
+    df['coal'] = df['Thermal Generation']
+    # gas 只是gas generation 不包含OCGT
+    df['gas'] = df['Eskom Gas Generation']
+    # oil
+    df['oil'] = df['Eskom OCGT Generation']
+    # hydro
+    df['hydro'] = df[['Pumped Water Generation', 'Hydro Water Generation']].sum(axis=1)
 
-    # 备注一下 原始数据单位是Mwh
-    df = df[['datetime', 'thermal_raw', 'gas', 'nuclear', 'hydro', 'solar', 'wind', 'other']]
-
-    # 用bp数据来分火电
-    df_bp = pd.read_csv(os.path.join(bp_path, 'bp_cleaned.csv'))
-    df_bp = df_bp[df_bp['country'] == 'South Africa'].reset_index(drop=True)
-
-    # 先在thermal里去除gas 再按比例分coal和oil
-    df_bp['thermal_bp'] = df_bp[['coal', 'oil']].sum(axis=1)
-    df_bp['coal_ratio'] = df_bp['coal'] / df_bp['thermal_bp']
-    df_bp['oil_ratio'] = df_bp['oil'] / df_bp['thermal_bp']
-    ratio_1 = df_bp[['date', 'coal_ratio', 'oil_ratio']].rename(columns={'date': 'year'})
-    # 去除gas
-    df['thermal_raw'] = df['thermal_raw'] - df['gas']
+    # 输出
     df['year'] = df['datetime'].dt.year
-    df = pd.merge(df, ratio_1, how='left')
-    # 没有的年份暂用linear去推一下
-    df = df.set_index('datetime').interpolate(method='linear').reset_index()
-
-    df['coal'] = df['thermal_raw'] * df['coal_ratio']
-    df['oil'] = df['thermal_raw'] * df['oil_ratio']
-
-    for y in df['year'].drop_duplicates().tolist():
+    year_list = df['year'].drop_duplicates().tolist()
+    for y in year_list:
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
         # hourly
         df_hourly = df[df['year'] == y].reset_index(drop=True)
