@@ -60,10 +60,9 @@ def uk_bmrs():
 def uk_solar():
     df_temp = uk_bmrs()
     s_d = pd.to_datetime(min(df_temp['datetime'])).strftime('%Y-%m-%d')  # 读取bmrs的起始日期
-    url = 'https://api0.solar.sheffield.ac.uk/pvlive/v3/ggd/0?&start=%sT00:00:00&end=%sT23:59:59&data_format=csv' % (
+    url = 'https://api0.solar.sheffield.ac.uk/pvlive/api/v4/gsp/0?&start=%sT00:00:00&end=%sT23:59:59&data_format=csv' % (
         s_d, end_date)
-    df_new = pd.read_csv(url).rename(columns={'generation_mw': 'solar', 'datetime_gmt': 'datetime'}).drop(
-        columns=['n_ggds', 'ggd_id'])  # 单位为mw
+    df_new = pd.read_csv(url).rename(columns={'generation_mw': 'solar', 'datetime_gmt': 'datetime'}).drop(columns=['gsp_id'])  # 单位为mw
     df_new['datetime'] = pd.to_datetime(df_new['datetime']).dt.tz_localize(None)
     df_new = df_new.set_index('datetime').resample('h').mean().reset_index()  # 汇总为小时数据Mwh
     df_result = pd.merge(df_temp, df_new)

@@ -21,9 +21,10 @@ import requests
 import os
 import datetime
 
-in_path = './data/global/'  # 国家参数存放的地方
-out_path = './data/europe/eu27_uk/craw/entsoe'  # 爬虫数据将要保存的地方
-raw_path = './data/europe/eu27_uk/'  # raw数据保存的地方
+global_path = './data/'
+in_path = os.path.join(global_path, 'global')  # 国家参数存放的地方
+raw_path = os.path.join(global_path, 'europe', 'eu27_uk')  # raw数据保存的地方
+out_path = os.path.join(raw_path, 'craw', 'entsoe')  # 爬虫数据将要保存的地方
 
 endYear = datetime.datetime.utcnow().year  # 数据截至年
 now = datetime.date.today().strftime("%Y-%m-%d")  # 获取当前年月日
