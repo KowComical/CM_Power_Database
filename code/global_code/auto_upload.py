@@ -21,13 +21,7 @@ logging.getLogger('WDM').setLevel(logging.NOTSET)  # 关闭运行chrome时的打
 
 file_path = './data/global/'
 
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-chrome_options.add_argument("--remote-debugging-port=9222")  # 虽然不知道为什么 但是不加这条会报错
-chrome_options.add_argument("--no-sandbox")
-
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)  # 打开浏览器
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))  # 打开浏览器
 driver.implicitly_wait(60)
 driver.get('https://lsce:lsce2021BPwd@staging.datascarbonmonitor.wedodata.dev/admin/')  # 登录网址
 
@@ -38,7 +32,7 @@ time.sleep(5)
 df = pd.read_csv(os.path.join(file_path, 'Global_PM_corT.csv'))
 df.to_csv('C:\\Global_PM_corT.csv', index=False, encoding='utf_8_sig')
 time.sleep(5)
-pyautogui.write('C:\Global_PM_corT.csv')  # 输入文件
+pyautogui.write('C:\%s.csv' % 'Global_PM_corT')  # 输入文件
 time.sleep(1)
 pyautogui.press('enter')  # 点击确定
 
