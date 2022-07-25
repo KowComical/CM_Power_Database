@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import requests
 import sys
 
@@ -178,6 +179,18 @@ def china():
     df_daily.to_csv(os.path.join(in_path, 'daily.csv'), index=False, encoding='utf_8_sig')
     # 处理数据
     df_daily['Date'] = pd.to_datetime(df_daily['Date'])
+    df_daily = df_daily.sort_values('Date').reset_index(drop=True)  # 排序一下
+    df_daily['Total'] = df_daily['Total'].astype(float)
+    # 填补缺失的日期
+    start_range = min(df_daily['Date'])
+    end_range = (max(df_daily['Date']) + relativedelta(months=1)).strftime('%Y-%m')  # 补全当前月份
+    date_range = pd.date_range(start=start_range, end=end_range, freq='d')[:-1]  # 去掉最后一天 也就是去除下个月月初
+
+    for d in date_range:
+        if not d.strftime('%Y-%m-%d') in df_daily['Date'].astype(str).tolist():
+            df_daily = af.insert_date(df_daily, 'Date', d)
+    df_daily = df_daily.set_index('Date').interpolate(method='linear', limit_direction='both').reset_index()
+
     df_daily['year'] = df_daily['Date'].dt.year
     df_daily['month'] = df_daily['Date'].dt.month
     df_daily['Total'] = df_daily['Total'].astype(float)

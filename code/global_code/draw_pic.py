@@ -162,3 +162,5 @@ def out_put(category):
                     format='svg')
         plt.savefig(os.path.join(out_path, '%s_generation_for_all_country.svg' % category.capitalize()),
                     format='svg')
+
+

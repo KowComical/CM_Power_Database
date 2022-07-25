@@ -24,7 +24,7 @@ def main():
     # 处理数据
     g.china()
     # 预测到今天的数据
-    af.forcasting()
+    # af.forcasting()
     # 提取最新日期
     af.updated_date('China')
 
