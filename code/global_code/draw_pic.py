@@ -92,7 +92,7 @@ def draw_plt(df_all, category):
         category_name = 'power'
     num = [i for i in range(len(country_list))]
     for co, i in zip(country_list, num):
-        pic = plt.subplot(4, 4, i + 1)
+        plt.subplot(4, 4, i + 1)
         # pic.text(0, 0.9, '%s_%s' % (co, category_name.capitalize()), horizontalalignment='left',
         #          transform=pic.transAxes, size=80,
         #          color='black')
@@ -162,5 +162,3 @@ def out_put(category):
                     format='svg')
         plt.savefig(os.path.join(out_path, '%s_generation_for_all_country.svg' % category.capitalize()),
                     format='svg')
-
-
