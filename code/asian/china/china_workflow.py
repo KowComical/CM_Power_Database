@@ -33,7 +33,9 @@ def craw():
     url = 'https://cec.org.cn/ms-mcms/mcms/content/list?id=303&pageNumber=1&pageSize=10'  # 新月份新闻地址 年份的照旧
 
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) ''AppleWebKit/605.1.15 (KHTML, like Gecko) ''Version/12.0 Safari/605.1.15'}
+        'User-Agent': 'Mozilla'
+                      '/5.0 (Macintosh; Intel Mac OS X 10_14) ''AppleWebKit'
+                      '/605.1.15 (KHTML, like Gecko) ''Version/12.0 Safari/605.1.15'}
 
     r = requests.get(url, headers=headers)
     result = pd.json_normalize(r.json()['data']['list'])  # 将结果保留到df
