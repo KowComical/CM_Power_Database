@@ -1,8 +1,5 @@
 name: russia
-'on':
-  schedule:
-    - cron: '0 22 * * *'
-  workflow_dispatch: # 添加一个可以手动运行的按钮
+'on': push  
 jobs:
   craw_process_bot:
     runs-on: ubuntu-latest
