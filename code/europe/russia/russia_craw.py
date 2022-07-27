@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from datetime import datetime
 import os
+import time
 import sys
 
 sys.dont_write_bytecode = True
@@ -33,16 +34,17 @@ def main():
     name = re.compile(r'<option value=(?P<num>.*?)>(?P<name>.*?)</option>', re.S)
     df_code = pd.DataFrame(name.findall(r.text)[1:], columns=['num', 'name'])
 
-    num_list = df_code['num'].unique()[-1]
-    name_list = df_code['name'].unique()[-1]
+    num_list = df_code['num'].unique()
+    name_list = df_code['name'].unique()
     # 开始爬取分地区发电能源
     for num, name in zip(num_list, name_list):
-        for d in date_range:
-            if [file_name[i] for i, x in enumerate(file_name) if x.find(name) != -1]:  # 如果有这个地区
-                if not [file_name[i] for i, x in enumerate(file_name) if x.find(d) != -1]:  # 如果有这个地区没有日期
+        if int(num) == 540000:
+            for d in date_range:
+                if [file_name[i] for i, x in enumerate(file_name) if x.find(name) != -1]:  # 如果有这个地区
+                    if not [file_name[i] for i, x in enumerate(file_name) if x.find(d) != -1]:  # 如果有这个地区没有日期
+                        craw(d, num, name)
+                else:  # 没有这个地区直接
                     craw(d, num, name)
-            else:  # 没有这个地区直接
-                craw(d, num, name)
 
 
 def craw(date_name, num_name, region_name):
@@ -71,6 +73,7 @@ def craw(date_name, num_name, region_name):
     if not os.path.exists(out_path):
         os.mkdir(out_path)
     df_data.to_csv(os.path.join(out_path, '%s.csv' % date_name), index=False, encoding='utf_8_sig')
+    time.sleep(10)
 
 
 if __name__ == '__main__':
