@@ -53,7 +53,7 @@ def craw(date_name, num_name, region_name):
                 'tx_mscdugraph_pi[viewDate]': date_name,
                 'tx_mscdugraph_pi[viewKpo]': num_name}
     temp_url = 'https://www.so-ups.ru/functioning/ees/ees-indicators/ees-gen-consump-hour/'
-    temp_r = requests.get(temp_url, params=keyvalue, headers=headers)
+    temp_r = requests.get(temp_url, params=keyvalue, headers=headers, timeout=30)
     # 提取当日数据
     df_data = pd.DataFrame()
     data = re.compile(
