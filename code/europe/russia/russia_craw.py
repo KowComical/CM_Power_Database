@@ -3,7 +3,6 @@ import pandas as pd
 import re
 from datetime import datetime
 import os
-import time
 import sys
 
 sys.dont_write_bytecode = True
@@ -30,6 +29,10 @@ url = 'https://www.so-ups.ru/functioning/ees/ees-indicators/ees-gen-consump-hour
 
 
 def main():
+    craw()
+
+
+def craw():
     r = requests.get(url)
     name = re.compile(r'<option value=(?P<num>.*?)>(?P<name>.*?)</option>', re.S)
     df_code = pd.DataFrame(name.findall(r.text)[1:], columns=['num', 'name'])
@@ -39,47 +42,38 @@ def main():
     # 开始爬取分地区发电能源
     for num, name in zip(num_list, name_list):
         for d in date_range:
-            if [file_name[i] for i, x in enumerate(file_name) if x.find(name) != -1]:  # 如果有这个地区
-                if not [file_name[i] for i, x in enumerate(file_name) if x.find(d) != -1]:  # 如果有这个地区没有日期
-                    craw(d, num, name)
-            else:  # 没有这个地区直接
-                craw(d, num, name)
+            if not os.path.exists(os.path.join(file_path, name, '%s.csv' % d)):  # 文件不存在才会开始爬
+                keyvalue = {'tx_mscdugraph_pi[controller]': 'Graph',
+                            'tx_mscdugraph_pi[action]': 'fullview',
+                            'tx_mscdugraph_pi[viewDate]': d,
+                            'tx_mscdugraph_pi[viewKpo]': int(num)}
+                temp_url = 'https://www.so-ups.ru/functioning/ees/ees-indicators/ees-gen-consump-hour/'
+                temp_r = requests.get(temp_url, params=keyvalue, headers=headers)
+                # 提取当日数据
+                df_data = pd.DataFrame()
+                data = re.compile(
+                    r'<div class="big-chart" data-type="4" data-datax="(?P<num>.*?)".*?data-datay1="(?P<name>.*?)"',
+                    re.S)
+                # 当日日期
+                try:
+                    temp = pd.DataFrame([data.findall(temp_r.text)[0][0]])
+                    date_list = temp[0].str.split(',', expand=True).iloc[0]
+                    # 当日数值
+                    temp = pd.DataFrame([data.findall(temp_r.text)[0][1]])
+                    data_list = temp[0].str.split(',', expand=True).iloc[0]
 
-
-def craw(date_name, num_name, region_name):
-    try:
-        keyvalue = {'tx_mscdugraph_pi[controller]': 'Graph',
-                    'tx_mscdugraph_pi[action]': 'fullview',
-                    'tx_mscdugraph_pi[viewDate]': date_name,
-                    'tx_mscdugraph_pi[viewKpo]': int(num_name)}
-        temp_url = 'https://www.so-ups.ru/functioning/ees/ees-indicators/ees-gen-consump-hour/'
-        temp_r = requests.get(temp_url, params=keyvalue, headers=headers, timeout=30)
-        # 提取当日数据
-        df_data = pd.DataFrame()
-        data = re.compile(
-            r'<div class="big-chart" data-type="4" data-datax="(?P<num>.*?)".*?data-datay1="(?P<name>.*?)"', re.S)
-        # 当日日期
-        temp = pd.DataFrame([data.findall(temp_r.text)[0][0]])
-        date_list = temp[0].str.split(',', expand=True).iloc[0]
-        # 当日数值
-        temp = pd.DataFrame([data.findall(temp_r.text)[0][1]])
-        data_list = temp[0].str.split(',', expand=True).iloc[0]
-
-        df_data['date'] = date_list
-        df_data['mw'] = data_list
-        df_data['region'] = region_name
-        # 输出
-        out_path = os.path.join(file_path, region_name)
-        if not os.path.exists(out_path):
-            os.mkdir(out_path)
-        df_data.to_csv(os.path.join(out_path, '%s.csv' % date_name), index=False, encoding='utf_8_sig')
-        time.sleep(10)
-    except:
-        pass
+                    df_data['date'] = date_list
+                    df_data['mw'] = data_list
+                    df_data['region'] = name
+                    # 输出
+                    out_path = os.path.join(file_path, name)
+                    if not os.path.exists(out_path):
+                        os.mkdir(out_path)
+                    df_data.to_csv(os.path.join(out_path, '%s.csv' % d), index=False, encoding='utf_8_sig')
+                except:
+                    out_path = os.path.join(file_path, name)
+                    df_data.to_csv(os.path.join(out_path, '%s.csv' % d), index=False, encoding='utf_8_sig')
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except Exception as e:
-        print(e)
+    main()
