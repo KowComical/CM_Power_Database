@@ -51,7 +51,7 @@ def craw(date_name, num_name, region_name):
     keyvalue = {'tx_mscdugraph_pi[controller]': 'Graph',
                 'tx_mscdugraph_pi[action]': 'fullview',
                 'tx_mscdugraph_pi[viewDate]': date_name,
-                'tx_mscdugraph_pi[viewKpo]': num_name}
+                'tx_mscdugraph_pi[viewKpo]': int(num_name)}
     temp_url = 'https://www.so-ups.ru/functioning/ees/ees-indicators/ees-gen-consump-hour/'
     temp_r = requests.get(temp_url, params=keyvalue, headers=headers, timeout=30)
     # 提取当日数据
