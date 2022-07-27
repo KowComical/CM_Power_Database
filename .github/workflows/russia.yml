@@ -1,5 +1,7 @@
-name: bp
+name: all_workflow
 'on':
+  schedule:
+    - cron: '0 22 * * *'
   workflow_dispatch: # 添加一个可以手动运行的按钮
 jobs:
   craw_process_bot:
@@ -30,8 +32,10 @@ jobs:
           pip install selenium
           pip install webdriver-manager
           pip install seaborn
+          pip install pyautogui
+          pip install jupyterthemes
       - name: process data
-        run: python ./code/global_code/bp_workflow.py
+        run: python ./code/europe/russia/russia_craw.py
       - name: commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
