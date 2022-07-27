@@ -46,39 +46,22 @@ def process():
         df_temp['country'] = c.capitalize()
         df_all = pd.concat([df_all, df_temp]).reset_index(drop=True)
 
-    # 处理
-    for x in df_all.columns.tolist():
-        # noinspection PyBroadException
-        try:
-            df_all[x] = df_all[x].astype(float)
-        except Exception as e:
-            print(e)
-    af.time_info(df_all, 'date')
+    # 统一日期格式
+    df_all['date'] = pd.to_datetime(df_all['date'])
 
-    df_all = df_all.set_index(
-        ['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country']).stack().reset_index().rename(
-        columns={'level_7': 'Type', 0: 'Value'})
-    df_all = df_all[
-        df_all['Type'].isin(['coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other'])].reset_index(
-        drop=True)
+    # 保留只要的列
+    df_all = df_all[['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']]
+    # 统一国家名
     df_all['country'] = df_all['country'].str.replace('United_kingdom_bmrs', 'UK')
     df_all['country'] = df_all['country'].str.replace('Bosnia and Herz', 'Bosnia & Herz')
     df_all['country'] = df_all['country'].str.replace('Us', 'US')
     df_all['country'] = df_all['country'].str.replace('South_africa', 'South Africa')
 
-    df_all = pd.pivot_table(df_all, index=['unit', 'date', 'year', 'month', 'month_date', 'weekday', 'country'],
-                            values='Value', columns='Type').reset_index()
-
-    df_all = df_all[['country', 'date', 'coal', 'gas', 'oil', 'nuclear', 'hydro', 'solar', 'wind', 'other']]
-    df_all = df_all.set_index(['country', 'date']).stack().reset_index().rename(
-        columns={'Type': 'sector', 0: 'value'})
-
     # 添加欧盟
     df_c = pd.read_csv(os.path.join(global_path, 'EU_country_list.csv'))
-
     eu27_list = df_c['country'].tolist() + ['UK']
     df_eu27 = df_all[df_all['country'].isin(eu27_list)].groupby(
-        ['date', 'sector']).sum().reset_index()
+        ['date']).sum().reset_index()
     df_eu27['country'] = 'EU27 & UK'
     df_all = pd.concat([df_all, df_eu27]).reset_index(drop=True)
 
@@ -86,18 +69,17 @@ def process():
     country_list = ['Brazil', 'China', 'Russia', 'EU27 & UK', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Spain',
                     'UK', 'US', 'South Africa', 'Australia']
     df_all = df_all[df_all['country'].isin(country_list)].reset_index(drop=True)
-    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] <= '2022-05-31')].reset_index(drop=True)
-    # # 不要最后一天的数据
-    # yesterday = af.get_yesterday().strftime('%Y-%m-%d')
-    # df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < yesterday)].reset_index(drop=True)
-    # # 取所有国家的日期公约最大值 # 目前Russia和US有问题 所以都不取 未来修好之后这个可以直接用
-    # max_date = max(df_all['date'])
-    # for c in country_list:
-    #     temp = df_all[df_all['country'] == c].reset_index()
-    #     temp_date = max(temp['date'])
-    #     if temp_date < max_date:  # 如果当前国家小于之前国家的日期最大值 则替换
-    #         max_date = temp_date
-    # df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < max_date)].reset_index(drop=True)
+
+    # 取所有国家的日期公约最大值 # 目前Russia有问题 所以都不取 未来修好之后这个可以直接用
+    df_all = df_all.set_index(['country', 'date']).stack().reset_index().rename(
+        columns={'level_2': 'sector', 0: 'value'})
+    max_date = max(df_all['date'])
+    for c in country_list:
+        temp = df_all[df_all['country'] == c].reset_index()
+        temp_date = max(temp['date'])
+        if temp_date < max_date:  # 如果当前国家小于之前国家的日期最大值 则替换
+            max_date = temp_date
+    df_all = df_all[(df_all['date'] >= '2019-01-01') & (df_all['date'] < max_date)].reset_index(drop=True)
 
     time_stamp = []  # 将当地时间转换为时间戳
     for d in df_all['date'].tolist():
