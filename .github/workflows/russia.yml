@@ -15,22 +15,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas
           pip install requests
-          pip install matplotlib
           pip install jsonpath
           pip install requests_toolbelt
           pip install bs4
-          pip install pdfplumber
-          pip install lxml
-          pip install pillow
-          pip install Image
-          pip install openpyxl
-          pip install sklearn
-          pip install skforecast
-          pip install selenium
-          pip install webdriver-manager
-          pip install seaborn
-          pip install pyautogui
-          pip install jupyterthemes
       - name: process data
         run: python ./code/europe/russia/russia_craw.py
       - name: commit and push if it changed
