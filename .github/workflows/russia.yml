@@ -1,4 +1,4 @@
-name: all_workflow
+name: russia
 'on':
   schedule:
     - cron: '0 22 * * *'
