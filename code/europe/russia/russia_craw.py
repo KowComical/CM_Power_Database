@@ -32,6 +32,7 @@ def craw():
     for num, name in zip(num_list, name_list):
         for d in date_range:
             if not os.path.exists(os.path.join(file_path, name, '%s.csv' % d)):  # 文件不存在才会开始爬
+                time.sleep(1)
                 temp_url = 'https://www.so-ups.ru/functioning/ees/ees-indicators/ees-gen-consump-hour' \
                            '/?tx_mscdugraph_pi[controller]=Graph&tx_mscdugraph_pi[action]=fullview&tx_mscdugraph_pi[' \
                            'viewDate]=%s&tx_mscdugraph_pi[viewKpo]=%s' % (d, int(num))
@@ -60,7 +61,6 @@ def craw():
                     if not os.path.exists(out_path):
                         os.mkdir(out_path)
                     df_data.to_csv(os.path.join(out_path, '%s.csv' % d), index=False, encoding='utf_8_sig')
-                    time.sleep(1)
 
 
 if __name__ == '__main__':
