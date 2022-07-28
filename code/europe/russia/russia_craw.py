@@ -60,7 +60,7 @@ def craw():
                     if not os.path.exists(out_path):
                         os.mkdir(out_path)
                     df_data.to_csv(os.path.join(out_path, '%s.csv' % d), index=False, encoding='utf_8_sig')
-                    time.sleep(5)
+                    time.sleep(1)
 
 
 if __name__ == '__main__':
