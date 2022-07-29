@@ -18,7 +18,7 @@ file_name = af.search_file(file_path)
 end_date = datetime.now().strftime('%Y-%m-%d')
 date_range = pd.date_range(start='2000-01-01', end=end_date, freq='D').strftime("%Y-%m-%d")[:-1]  # 不要最后一天
 
-df_code = pd.read_csv(os.path.join(file_path, 'code.csv')).iloc[1:2]
+df_code = pd.read_csv(os.path.join(file_path, 'code.csv')).iloc[2:3]
 num_list = df_code['num'].unique()
 name_list = df_code['name'].unique()
 
