@@ -18,7 +18,7 @@ file_name = af.search_file(file_path)
 end_date = datetime.now().strftime('%Y-%m-%d')
 date_range = pd.date_range(start='2000-01-01', end=end_date, freq='D').strftime("%Y-%m-%d")[:-1]  # 不要最后一天
 
-df_code = pd.read_csv(os.path.join(file_path, 'code.csv')).iloc[1:]
+df_code = pd.read_csv(os.path.join(file_path, 'code.csv')).iloc[1:2]
 num_list = df_code['num'].unique()
 name_list = df_code['name'].unique()
 
@@ -32,6 +32,7 @@ def craw():
     for num, name in zip(num_list, name_list):
         for d in date_range:
             if not os.path.exists(os.path.join(file_path, name, '%s.csv' % d)):  # 文件不存在才会开始爬
+                time.sleep(1)
                 temp_url = 'https://www.so-ups.ru/functioning/ees/ees-indicators/ees-gen-consump-hour' \
                            '/?tx_mscdugraph_pi[controller]=Graph&tx_mscdugraph_pi[action]=fullview&tx_mscdugraph_pi[' \
                            'viewDate]=%s&tx_mscdugraph_pi[viewKpo]=%s' % (d, int(num))
