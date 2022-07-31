@@ -58,7 +58,7 @@ def craw():
                     df_data['mw'] = data_list
                     df_data['region'] = name
                     # 输出
-                    out_path = os.path.join(file_path, name)
+                    out_path = os.path.join(file_path, name, str(d.strftime('%Y')))  # 按照地区年份分文件夹
                     if not os.path.exists(out_path):
                         os.mkdir(out_path)
                     df_data.to_csv(os.path.join(out_path, '%s.csv' % d), index=False, encoding='utf_8_sig')
