@@ -41,6 +41,7 @@ def filling_new():
     file_name = af.search_file(new_path)  # 读取新数据源数据
     df = pd.concat([pd.read_csv(f) for f in file_name]).reset_index(drop=True).drop(columns=['region'])
     df['date'] = pd.to_datetime(df['date'])
+    df_old = df.copy()
     df = df[df['date'] >= '2022-05-16'].reset_index(drop=True).rename(columns={'date': 'datetime'})  # 从旧数据源有问题的地方开始
     # 讲前一年的各能源占比填进来
     df['year'] = df['datetime'].dt.year - 1
@@ -69,15 +70,23 @@ def filling_new():
     df_temp['datetime'] = pd.to_datetime(df_temp[['year', 'month', 'day', 'hour']].assign(), errors='coerce')
     af.time_info(df_temp, 'datetime')
     df_temp = df_temp.drop(columns=['day'])
-
     # 新旧合并
     df_new = pd.concat([df_hourly, df_temp]).reset_index(drop=True)
+    df_new['datetime'] = pd.to_datetime(df_new['datetime'])
+
+    # 讲所有之前的全能源都替换为新数据源数据
+    df_old = df_old.rename(columns={'date': 'datetime'})
+    df_old['datetime'] = pd.to_datetime(df_old['datetime'])
+
+    df_result = pd.merge(df_old, df_new).drop(columns=['total.prod']).rename(columns={'mw': 'total.prod'})
+    for c in col_list:
+        df_result[c[:-5]] = df_result['total.prod'] * df_result[c]
 
     # 输出
-    for y in df_new['year'].drop_duplicates().tolist():
+    for y in df_result['year'].drop_duplicates().tolist():
         out_path_simulated_yearly = af.create_folder(out_path_simulated, str(y))
         # hourly
-        df_hourly = df_new[df_new['year'] == y].reset_index(drop=True)
+        df_hourly = df_result[df_result['year'] == y].reset_index(drop=True)
         af.agg(df_hourly, 'datetime', out_path_simulated_yearly, 'hourly',
                name='Russia_hourly_generation-' + str(y) + '.csv', folder=False, unit=False)
         df_daily = df_hourly.copy()
