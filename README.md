@@ -1,6 +1,5 @@
 [![all_workflow](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml/badge.svg?branch=master)](https://github.com/KowComical/GlobalPowerUpdate-Kow/actions/workflows/all_workflow.yml)
 <a href="https://github.com/users/KowComical/projects/2"><img src="https://img.shields.io/badge/issues-project-blue"/></a>
-
 # 数据情况
 ### 分能源
 |Fossil|Fossil|Fossil|Nuclear|Renewables|Renewables|Renewables|Renewables|
