@@ -14,6 +14,8 @@ file_path = './data/europe/russia/craw/'
 from global_code import global_function as af
 
 end_date = datetime.now().strftime('%Y-%m-%d')
+# 应该爬取的所有日期范围
+date_range = pd.date_range(start='2000-01-01', end=end_date, freq='D').strftime("%Y-%m-%d")[:-1]  # 不要最后一天
 
 df_code = pd.read_csv(os.path.join(file_path, 'code.csv'))
 num_list = df_code['num'].unique()
@@ -32,8 +34,6 @@ def craw():
         exisiting_date = []  # 提取所有已存在的文件
         for f in file_name:
             exisiting_date.append(date_name.findall(f)[0])
-        # 应该爬取的所有日期范围
-        date_range = pd.date_range(start='2000-01-01', end=end_date, freq='D').strftime("%Y-%m-%d")[:-1]  # 不要最后一天
         # 找到还未爬取的范围
         needed_range = list(set(date_range) - set(exisiting_date))
         for d in needed_range:
