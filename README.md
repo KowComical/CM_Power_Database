@@ -2,7 +2,6 @@
 <a href="https://github.com/users/KowComical/projects/2"><img src="https://img.shields.io/badge/issues-project-blue"/></a>
 
 
-
 # 数据情况
 ### 分能源
 |Fossil|Fossil|Fossil|Nuclear|Renewables|Renewables|Renewables|Renewables|
