@@ -3,12 +3,13 @@ import requests
 import sys
 import pandas as pd
 import os
-import russia_craw as rc
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
 from global_code import global_function as af
 from global_code import global_all as g
+sys.path.append('./code/europe/')
+from russia import russia_craw as rc
 
 global_path = './data/'
 file_path = os.path.join(global_path, 'europe', 'russia')
