@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import re
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import requests
@@ -929,3 +930,7 @@ def south_africa():
         df_monthly = df_monthly.set_index('datetime').resample('m').sum().reset_index()
         af.agg(df_monthly, 'datetime', out_path_simulated_yearly, 'monthly',
                name='South_Africa_monthly_generation-' + str(y) + '.csv', folder=False, unit=True)
+
+
+def turkey():
+    #
