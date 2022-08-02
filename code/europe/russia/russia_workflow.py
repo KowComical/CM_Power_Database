@@ -3,6 +3,7 @@ import requests
 import sys
 import pandas as pd
 import os
+from datetime import datetime
 
 sys.dont_write_bytecode = True
 sys.path.append('./code/')
@@ -16,6 +17,8 @@ file_path = os.path.join(global_path, 'europe', 'russia')
 out_path = os.path.join(file_path, 'raw')
 new_path = os.path.join(file_path, 'craw', 'ЕЭС РОССИИ')
 out_path_simulated = af.create_folder(file_path, 'simulated')
+
+end_year = int(datetime.now().strftime('%Y'))
 
 
 def main():
@@ -32,10 +35,14 @@ def main():
 
 
 def craw():
-    url = 'https://emres.cn/api/carbonmonitor/getRussiaPowerHourly.php'
-    r = requests.get(url)
-    df = pd.json_normalize(r.json())
-    df.to_csv(os.path.join(out_path, 'Russia_Hourly_Generation.csv'), index=False, encoding='utf_8_sig')
+    for i in range(end_year, end_year + 1):
+        url = 'https://858127-cc16935.tmweb.ru/webapi/api/CommonInfo/PowerGeneration?priceZone[' \
+              ']=0&startDate=%s.01.01&endDate=%s.12.31' % (
+        i, i)
+
+        r = requests.get(url)
+        df = pd.json_normalize(r.json()[0], record_path='m_Item2')
+        df.to_csv(os.path.join(out_path, 'yearly', '%s.csv' % i), index=False, encoding='utf_8_sig')
 
 
 def filling_new():
