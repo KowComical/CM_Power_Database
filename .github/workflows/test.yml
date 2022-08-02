@@ -44,3 +44,39 @@ jobs:
           timestamp=$(date -u)
           git commit -m "Last updated on: ${timestamp}" || exit 0
           git push
+  push_to_public: # 把清理好的数据push到公共库
+    needs: craw_process_bot
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Pushes test file
+      uses: dmnemec/copy_file_to_another_repo_action@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source_file: 'data/global/Global_PM_corT.csv'
+        destination_repo: 'KowComical/CM_Power_Data'
+        user_email: 'xuanren1992@yahoo.com'
+        user_name: 'KowComical'
+        commit_message: 'Daily Power Generation data Updated from CM_Power_Database'
+  push_to_CM:
+    needs: craw_process_bot
+    runs-on: windows-latest
+    steps:
+      - name: check_code
+        uses: actions/checkout@master
+      - name: set up Python 3.8
+        uses: actions/setup-Python@v2
+        with:
+          python-version: '3.8'
+      - name: install requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas
+          pip install selenium
+          pip install webdriver-manager
+          pip install pyautogui
+      - name: process data
+        run: python ./code/global_code/auto_upload.py
